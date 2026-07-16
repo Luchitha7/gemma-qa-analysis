@@ -58,6 +58,18 @@ python qa_report.py
 
 Runs everything and prints one report for the call in `sample_call.py`.
 
+### Web version
+
+```bash
+python web_app.py
+# then open http://localhost:8000
+```
+
+Paste any transcript (one line per turn, starting with `Agent:` or `Client:`),
+click **Analyze Call**, and get the same report as a styled web page: final
+score, agent scorecard, summary, tense moments, and suggestions. There's a
+**Load sample** button to try it quickly.
+
 ### Individual parts
 
 Each part runs on its own (built part by part to keep token usage low):
