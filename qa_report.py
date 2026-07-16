@@ -17,7 +17,7 @@ from qa_agent import (
     build_prompt, conversation_score, parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
-from qa_suggestions import SUGGESTIONS_PROMPT
+from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
 from sample_call import TRANSCRIPT
 
 
@@ -49,7 +49,7 @@ if __name__ == "__main__":
     # --- Gemma: three separate small calls ---
     summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text))
     ratings = parse_ratings(gemma(build_prompt(transcript_text, intense)))
-    suggestions = gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text))
+    suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text)))
 
     # --- Scores ---
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
