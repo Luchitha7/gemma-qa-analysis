@@ -1,0 +1,149 @@
+"""PART 1: Agent handling analysis + QA scores.
+
+How it works (and why it's built this way):
+  - RoBERTa (from qa_intensity) scores sentiment and flags the tense moments.
+    Those tense moments are handed to Gemma so it focuses on the heated parts.
+  - Gemma judges the AGENT against each QA parameter as PASS / PARTIAL / FAIL
+    with a short reason. We only ask it to judge (which it's good at), not to
+    output numbers (which it's bad at).
+  - Python turns those judgments into scores (PASS=100, PARTIAL=50, FAIL=0),
+    so the maths is reliable and repeatable.
+
+Produces three scores (0-100): agent score, conversation score, final QA score.
+
+    python qa_agent.py
+"""
+
+import re
+
+from gemma_client import gemma
+from qa_intensity import analyze          # reuses RoBERTa sentiment + intensity
+from sample_call import TRANSCRIPT
+
+# ---- The QA parameters (edit these freely) --------------------------------
+PARAMETERS = [
+    ("Compliance",
+     "Did the agent follow proper process and rules, and avoid promising "
+     "anything they cannot deliver?"),
+    ("Tone and respect",
+     "Was the agent polite and respectful throughout, with no scolding, "
+     "blaming, or dismissing the client?"),
+    ("Responsiveness",
+     "Did the agent respond promptly and directly, without dodging questions "
+     "or deflecting?"),
+    ("Ownership",
+     "Did the agent take responsibility for the company's mistake instead of "
+     "shifting blame (for example, blaming the client's bank)?"),
+    ("Resolution",
+     "Did the agent actually resolve the issue and give clear next steps?"),
+]
+
+RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
+
+# How the final QA score is weighted between the two sub-scores.
+AGENT_WEIGHT = 0.7
+CONVERSATION_WEIGHT = 0.3
+
+
+def format_transcript(transcript):
+    return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
+
+
+def build_prompt(transcript_text, intense_moments):
+    criteria = "\n".join(f"- {name}: {desc}" for name, desc in PARAMETERS)
+    moments = "\n".join(
+        f"- Turn {m['turn']} ({m['speaker']}): {m['text']}" for m in intense_moments
+    ) or "- (none flagged)"
+    example = "\n".join(
+        f"{name}: PASS - short reason here" for name, _ in PARAMETERS
+    )
+    return f"""You are a call quality analyst. Judge ONLY the agent's performance against each criterion below.
+
+Reply with EXACTLY {len(PARAMETERS)} lines, one per criterion, and NOTHING else.
+Each line MUST start with the criterion name, then a colon, then one of the
+words PASS, PARTIAL, or FAIL in capitals, then a dash and a short reason.
+
+The format must look exactly like this (but with your own rating and reason):
+{example}
+
+Criteria to judge:
+{criteria}
+
+These moments were flagged as the tense parts of the call - pay special attention to how the agent handled them:
+{moments}
+
+Transcript:
+{transcript_text}
+"""
+
+
+def parse_ratings(reply):
+    """Pull a PASS/PARTIAL/FAIL rating + reason for each parameter."""
+    results = []
+    for name, _ in PARAMETERS:
+        rating, reason = None, ""
+        # find the line that mentions this criterion
+        for line in reply.splitlines():
+            if name.lower() in line.lower():
+                found = re.search(r"\b(PASS|PARTIAL|FAIL)\b", line, re.IGNORECASE)
+                if found:
+                    rating = found.group(1).upper()
+                    after = line.split(found.group(0), 1)[-1]
+                    reason = after.lstrip(" -:").strip()
+                    break
+        results.append({"name": name, "rating": rating, "reason": reason})
+    return results
+
+
+def conversation_score(rows):
+    """0-100 from how the CLIENT sounded overall (RoBERTa sentiment)."""
+    client = [r["sentiment"] for r in rows if r["speaker"].lower() == "client"]
+    if not client:
+        return 50.0
+    avg = sum(client) / len(client)          # -1 .. +1
+    return round((avg + 1) / 2 * 100, 1)     # 0 .. 100
+
+
+if __name__ == "__main__":
+    transcript_text = format_transcript(TRANSCRIPT)
+
+    print("\nRunning RoBERTa to score sentiment and flag tense moments...")
+    rows = analyze(TRANSCRIPT)
+    intense = [r for r in rows if r["intense"]]
+
+    print("Asking Gemma to judge the agent against the QA parameters...\n")
+    reply = gemma(build_prompt(transcript_text, intense))
+    ratings = parse_ratings(reply)
+
+    print("=" * 78)
+    print("PART 1  —  AGENT HANDLING ANALYSIS")
+    print("=" * 78)
+    print(f"\nTense moments RoBERTa flagged for Gemma: {len(intense)}")
+    print("\nAgent scorecard:")
+    print("-" * 78)
+
+    rated = []
+    for r in ratings:
+        rating = r["rating"] or "UNRATED"
+        score = RATING_SCORES.get(r["rating"])
+        if score is not None:
+            rated.append(score)
+        shown = f"{score:>3}" if score is not None else "  ?"
+        print(f"  {r['name']:<18} {rating:<8} {shown}   {r['reason'][:40]}")
+
+    agent = round(sum(rated) / len(rated), 1) if rated else 0.0
+    conv = conversation_score(rows)
+    final = round(agent * AGENT_WEIGHT + conv * CONVERSATION_WEIGHT, 1)
+
+    print("-" * 78)
+    print("\nSCORES (0-100):")
+    print(f"  Agent score         {agent:>6}   (how well the agent performed)")
+    print(f"  Conversation score  {conv:>6}   (how the client sounded overall)")
+    print(f"  FINAL QA SCORE      {final:>6}   "
+          f"(agent {int(AGENT_WEIGHT*100)}% + conversation {int(CONVERSATION_WEIGHT*100)}%)")
+    print()
+
+    print("Gemma's raw reply (for reference):")
+    print("-" * 78)
+    print(reply)
+    print()
