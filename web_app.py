@@ -12,7 +12,7 @@ here, it's just a web front-end over the parts we already built.
 Requires Ollama running ('brew services start ollama') and the venv active.
 """
 
-import html
+import re
 
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -34,24 +34,64 @@ class TranscriptIn(BaseModel):
     transcript: str
 
 
+# Different transcripts name the two sides differently. Map them to a
+# consistent "Agent" / "Client" so the rest of the pipeline works the same.
+AGENT_LABELS = {"agent", "ai", "bot", "assistant", "rep", "representative",
+                "support", "operator", "advisor"}
+CLIENT_LABELS = {"client", "customer", "caller", "user", "member", "subscriber"}
+
+# Leading timestamp like "[00:15]", "[00:15:03]" or "(00:15)".
+TIMESTAMP_RE = re.compile(r"^[\[\(]\s*\d{1,2}:\d{2}(?::\d{2})?\s*[\]\)]\s*")
+# A whole line that is just a bracketed note, e.g. "[Latency: 1.8s ...]".
+NOTE_LINE_RE = re.compile(r"^[\[\(].*[\]\)]$")
+# A leading stage-direction inside the text, e.g. "[Frustrated] No!".
+STAGE_DIR_RE = re.compile(r"^[\[\(][^\]\)]*[\]\)]\s*")
+
+
+def normalize_speaker(name):
+    """Map a raw speaker label to 'Agent'/'Client', or keep it if unknown."""
+    key = name.strip().lower()
+    if key in AGENT_LABELS:
+        return "Agent"
+    if key in CLIENT_LABELS:
+        return "Client"
+    return name.strip()
+
+
 def parse_transcript(raw):
     """Turn pasted text into [(speaker, text), ...].
 
-    Accepts lines like 'Agent: hello' or 'Client: hi'. Any line without a
-    recognised speaker is attached to the previous line (so a wrapped sentence
-    still works). Unknown speakers are kept as-is.
+    Handles several common transcript styles:
+      - plain 'Agent: hello' / 'Client: hi'
+      - timestamped 'Client: hi', '[00:15] Client: hi', '(00:15) AI: hi'
+      - bot labels ('AI', 'Bot', 'Assistant') and 'Customer'/'Caller' etc.
+    It drops note-only lines like '[Latency: 1.8s ...]' and strips leading
+    stage directions like '[Frustrated]'. A line with no recognised speaker is
+    attached to the previous turn (so a wrapped sentence still works).
     """
     turns = []
     for line in raw.splitlines():
         line = line.strip()
         if not line:
             continue
+
+        # drop a leading timestamp if there is one
+        line = TIMESTAMP_RE.sub("", line).strip()
+        if not line:
+            continue
+
+        # a line that is only a bracketed note (e.g. "[Latency: ...]") is skipped
+        if NOTE_LINE_RE.match(line):
+            continue
+
         if ":" in line:
             speaker, text = line.split(":", 1)
             speaker, text = speaker.strip(), text.strip()
+            text = STAGE_DIR_RE.sub("", text).strip()  # drop "[Frustrated]" etc.
             if speaker and len(speaker) <= 20 and text:
-                turns.append((speaker, text))
+                turns.append((normalize_speaker(speaker), text))
                 continue
+
         # no clear speaker -> tack onto the previous turn
         if turns:
             prev_speaker, prev_text = turns[-1]
@@ -90,11 +130,23 @@ def run_pipeline(transcript):
     conv = conversation_score(rows)
     final = round(agent * AGENT_WEIGHT + conv * CONVERSATION_WEIGHT, 1)
 
+    # How the transcript was read (so a mis-parse can't hide behind a score).
+    agent_lines = sum(1 for s, _ in transcript if s.lower() == "agent")
+    client_lines = sum(1 for s, _ in transcript if s.lower() == "client")
+    warning = ""
+    if client_lines == 0:
+        warning = ("No client lines were detected, so the conversation score is "
+                   "a neutral default — the final score may not be reliable. "
+                   "Check the transcript uses 'Client:' (or Customer/Caller).")
+
     return {
         "final": final,
         "agent": agent,
         "conversation": conv,
         "band": band(final),
+        "parsed": {"turns": len(transcript),
+                   "agent": agent_lines, "client": client_lines},
+        "warning": warning,
         "summary": summary,
         "ratings": [
             {
@@ -215,6 +267,11 @@ def index():
         .tense .txt { font-size: 14px; color: #23252b; }
         .prose { font-size: 15px; line-height: 1.65; color: #23252b; white-space: pre-wrap; }
         .empty { color: #9a9ea8; font-size: 14px; }
+        .parsed-info { font-size: 12px; color: #9a9ea8; margin-top: 12px; }
+        .warn {
+          background: #fef6e7; border: 1px solid #f4d68a; color: #8a6100;
+          border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 14px;
+        }
         .spinner {
           width: 18px; height: 18px; border: 3px solid #d9dbe0; border-top-color: #14151a;
           border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block;
@@ -235,11 +292,12 @@ def index():
           <div class="row">
             <button class="btn" id="analyzeBtn" onclick="analyze()">Analyze Call</button>
             <button class="btn ghost" onclick="loadSample()">Load sample</button>
-            <span class="hint" id="status">One line per turn, starting with "Agent:" or "Client:".</span>
+            <span class="hint" id="status">One line per turn. Works with "Agent:"/"Client:", also "AI:"/"Customer:" and timestamps.</span>
           </div>
         </div>
 
         <div id="results">
+          <div class="warn" id="warning" style="display:none"></div>
           <div class="panel score-hero">
             <h2>Final QA Score</h2>
             <div class="score-value" id="finalScore">—</div>
@@ -248,6 +306,7 @@ def index():
               <div class="subscore"><div class="n" id="agentScore">—</div><div class="l">Agent</div></div>
               <div class="subscore"><div class="n" id="convScore">—</div><div class="l">Conversation</div></div>
             </div>
+            <div class="parsed-info" id="parsedInfo"></div>
           </div>
 
           <div class="panel">
@@ -321,6 +380,13 @@ def index():
           document.getElementById('convScore').textContent = d.conversation;
           document.getElementById('summary').textContent = d.summary;
           document.getElementById('suggestions').textContent = d.suggestions;
+
+          const info = document.getElementById('parsedInfo');
+          info.textContent = `Read ${d.parsed.turns} turns · ${d.parsed.agent} agent · ${d.parsed.client} client`;
+
+          const warn = document.getElementById('warning');
+          if (d.warning) { warn.textContent = '⚠ ' + d.warning; warn.style.display = 'block'; }
+          else { warn.style.display = 'none'; }
 
           document.getElementById('scorecard').innerHTML = d.ratings.map(r => `
             <div class="scorecard-row">
