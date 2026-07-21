@@ -12,12 +12,15 @@ OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "gemma3:1b"
 
 
-def gemma(prompt, model=MODEL, timeout=180, temperature=0.0):
+def gemma(prompt, model=MODEL, timeout=180, temperature=0.0, num_predict=320):
+    # num_predict caps how many tokens Gemma may generate, so it can't ramble
+    # on and waste tokens. Our outputs (summary, scorecard, suggestions) all fit
+    # comfortably under this. Lower it to save more; raise it if output is cut.
     payload = json.dumps({
         "model": model,
         "prompt": prompt,
         "stream": False,
-        "options": {"temperature": temperature},
+        "options": {"temperature": temperature, "num_predict": num_predict},
     }).encode("utf-8")
 
     req = urllib.request.Request(
