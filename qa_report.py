@@ -14,10 +14,13 @@ from gemma_client import gemma
 from qa_intensity import analyze
 from qa_agent import (
     AGENT_WEIGHT, CONVERSATION_WEIGHT, PARAMETERS, RATING_SCORES,
-    build_prompt, conversation_score, parse_ratings,
+    agent_harsh_lines, apply_tone_penalty, build_prompt, conversation_score,
+    parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
 from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
+from rag_accuracy import check_accuracy
+from rag_compliance import check_compliance
 from sample_call import TRANSCRIPT
 
 
@@ -47,9 +50,15 @@ if __name__ == "__main__":
     intense = [r for r in rows if r["intense"]]
 
     # --- Gemma: three separate small calls ---
+    harsh = agent_harsh_lines(rows)
     summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text))
-    ratings = parse_ratings(gemma(build_prompt(transcript_text, intense)))
+    ratings = apply_tone_penalty(
+        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh))), harsh)
     suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text)))
+
+    # --- RAG (token-free): answer accuracy + compliance ---
+    accuracy_results, accuracy_overall = check_accuracy(TRANSCRIPT)
+    compliance_results, compliance_score = check_compliance(TRANSCRIPT)
 
     # --- Scores ---
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
@@ -66,6 +75,9 @@ if __name__ == "__main__":
     print(f"\n  FINAL QA SCORE:  {final} / 100   ({band(final)})")
     print(f"    Agent score .......... {agent} / 100")
     print(f"    Conversation score ... {conv} / 100")
+    acc_txt = "n/a" if accuracy_overall is None else f"{accuracy_overall} / 100"
+    print(f"    Answer accuracy ...... {acc_txt}   (RAG, token-free)")
+    print(f"    Compliance score ..... {compliance_score} / 100   (RAG, token-free)")
 
     print("\n")
     rule("-")
@@ -80,6 +92,27 @@ if __name__ == "__main__":
     for r in ratings:
         rating = r["rating"] or "UNRATED"
         print(f"  {r['name']:<18} {rating:<8}  {r['reason'][:44]}")
+
+    print("\n")
+    rule("-")
+    print("  COMPLIANCE CHECK  (RAG, token-free)")
+    rule("-")
+    for r in compliance_results:
+        mark = "OK " if r["status"] == "OK" else "!! "
+        print(f"  {mark} {r['rule']}")
+        if r["status"] == "BROKEN":
+            print(f"        heard: \"{r['evidence'][:52]}\"")
+
+    print("\n")
+    rule("-")
+    print(f"  ANSWER ACCURACY  ({acc_txt}, RAG, token-free)")
+    rule("-")
+    if not accuracy_results:
+        print("  No client questions matched the knowledge base.")
+    for r in accuracy_results:
+        print(f"  [{round(r['accuracy']*100)}/100] {r['client_question']}")
+        if r["missed"]:
+            print(f"        missed: {', '.join(r['missed'])}")
 
     print("\n")
     rule("-")

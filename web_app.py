@@ -22,10 +22,16 @@ from gemma_client import gemma
 from qa_intensity import analyze
 from qa_agent import (
     AGENT_WEIGHT, CONVERSATION_WEIGHT, RATING_SCORES,
-    build_prompt, conversation_score, parse_ratings,
+    agent_harsh_lines, apply_tone_penalty, build_prompt, conversation_score,
+    parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
 from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
+from rag_accuracy import check_accuracy
+from rag_compliance import check_compliance
+from response_time import (
+    leading_time_seconds, response_delays, response_time_score,
+)
 
 app = FastAPI()
 
@@ -70,12 +76,14 @@ def parse_transcript(raw):
     attached to the previous turn (so a wrapped sentence still works).
     """
     turns = []
+    times = []               # seconds (or None) for each turn, kept aligned
     for line in raw.splitlines():
         line = line.strip()
         if not line:
             continue
 
-        # drop a leading timestamp if there is one
+        # read a leading timestamp (if any) BEFORE we strip it off
+        t = leading_time_seconds(line)
         line = TIMESTAMP_RE.sub("", line).strip()
         if not line:
             continue
@@ -90,13 +98,14 @@ def parse_transcript(raw):
             text = STAGE_DIR_RE.sub("", text).strip()  # drop "[Frustrated]" etc.
             if speaker and len(speaker) <= 20 and text:
                 turns.append((normalize_speaker(speaker), text))
+                times.append(t)
                 continue
 
         # no clear speaker -> tack onto the previous turn
         if turns:
             prev_speaker, prev_text = turns[-1]
             turns[-1] = (prev_speaker, f"{prev_text} {line}".strip())
-    return turns
+    return turns, times
 
 
 def band(score):
@@ -111,18 +120,30 @@ def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
 
 
-def run_pipeline(transcript):
+def run_pipeline(transcript, times=None):
     """Same steps as qa_report.py, returned as a dict for the web page."""
     transcript_text = format_transcript(transcript)
+    if times is None:
+        times = [None] * len(transcript)
 
     # RoBERTa: sentiment + tense moments
     rows = analyze(transcript)
     intense = [r for r in rows if r["intense"]]
 
     # Gemma: three small calls
+    harsh = agent_harsh_lines(rows)
     summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text))
-    ratings = parse_ratings(gemma(build_prompt(transcript_text, intense)))
+    ratings = apply_tone_penalty(
+        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh))), harsh)
     suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text)))
+
+    # RAG: how accurate were the agent's answers vs the ideal answers?
+    accuracy_results, accuracy_overall = check_accuracy(transcript)
+    # RAG: did the agent break any compliance rules? (token-free)
+    compliance_results, compliance_score = check_compliance(transcript)
+    # Timestamps: how fast did the agent reply? (token-free)
+    delays = response_delays(transcript, times)
+    rt_score = response_time_score(delays)
 
     # Scores
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
@@ -166,27 +187,53 @@ def run_pipeline(transcript):
             for r in intense
         ],
         "suggestions": suggestions,
+        "compliance_score": compliance_score,
+        "compliance": compliance_results,
+        "response_time_score": rt_score,
+        "response_times": [
+            {
+                "agent_turn": d["agent_turn"],
+                "delay": d["delay"],
+                "slow": d["slow"],
+                "client_text": d["client_text"],
+            }
+            for d in delays
+        ],
+        "accuracy_overall": accuracy_overall,
+        "accuracy": [
+            {
+                "client_question": r["client_question"],
+                "matched_question": r["matched_question"],
+                "confidence": r["confidence"],
+                "agent_answer": r["agent_answer"],
+                "ideal_answer": r["ideal_answer"],
+                "covered": r["covered"],
+                "missed": r["missed"],
+                "accuracy": round(r["accuracy"] * 100, 1),
+            }
+            for r in accuracy_results
+        ],
     }
 
 
 @app.post("/analyze")
 def analyze_call(payload: TranscriptIn):
-    transcript = parse_transcript(payload.transcript)
+    transcript, times = parse_transcript(payload.transcript)
     if not transcript:
         return {"error": "No transcript lines found. Use 'Agent: ...' and "
                          "'Client: ...' on separate lines."}
-    return run_pipeline(transcript)
+    return run_pipeline(transcript, times)
 
 
-SAMPLE = """Agent: Thank you for calling support, how can I help you today?
-Client: I was charged twice for my subscription this month and I want it fixed.
-Agent: I'm sorry to hear that. Let me pull up your account and take a look.
-Client: This is the second time this has happened, it's really frustrating.
-Agent: I completely understand, that's not acceptable. I can see the duplicate charge now.
-Agent: I've refunded the extra charge and it will show up in 3 to 5 business days.
-Client: Okay, thank you. I appreciate you sorting it out quickly.
-Agent: Of course. Is there anything else I can help you with?
-Client: No that's all, thanks for your help."""
+SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
+[00:06] Client: I was charged twice for my subscription this month and I want it fixed.
+[00:09] Agent: I'm sorry to hear that. Let me pull up your account and take a look.
+[00:14] Client: This is the second time this has happened, it's really frustrating.
+[00:31] Agent: I completely understand, that's not acceptable. I can see the duplicate charge now.
+[00:36] Client: Okay, so what happens now?
+[00:39] Agent: I've refunded the extra charge and it will show up in 3 to 5 business days.
+[00:43] Client: Alright, thank you.
+[01:09] Agent: Of course. Is there anything else I can help you with?"""
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -267,6 +314,35 @@ def index():
         .tense .txt { font-size: 14px; color: #23252b; }
         .prose { font-size: 15px; line-height: 1.65; color: #23252b; white-space: pre-wrap; }
         .empty { color: #9a9ea8; font-size: 14px; }
+        .acc-row { padding: 14px 0; border-bottom: 1px solid #f0f1f4; }
+        .acc-row:last-child { border-bottom: none; }
+        .acc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; }
+        .acc-q { font-weight: 700; font-size: 14px; }
+        .acc-score {
+          font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+        }
+        .acc-score.high { background: #e3f4ec; color: #1a7a4f; }
+        .acc-score.mid  { background: #fdf3e0; color: #8a6100; }
+        .acc-score.low  { background: #fdeaea; color: #c62828; }
+        .acc-line { font-size: 13px; color: #5c606a; margin-top: 3px; }
+        .acc-line b { color: #23252b; font-weight: 600; }
+        .kp { font-size: 13px; margin-top: 4px; }
+        .kp.ok  { color: #1a7a4f; }
+        .kp.no  { color: #c62828; }
+        .acc-conf { font-size: 11px; color: #9a9ea8; margin-left: 8px; font-weight: 500; }
+        .comp-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f1f4; }
+        .comp-row:last-child { border-bottom: none; }
+        .comp-mark { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 6px; min-width: 70px; text-align: center; }
+        .comp-mark.ok { background: #e3f4ec; color: #1a7a4f; }
+        .comp-mark.broken { background: #fdeaea; color: #c62828; }
+        .comp-body .rule { font-weight: 600; font-size: 14px; }
+        .comp-body .ev { font-size: 13px; color: #c62828; margin-top: 3px; font-style: italic; }
+        .rt-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f0f1f4; }
+        .rt-row:last-child { border-bottom: none; }
+        .rt-delay { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; min-width: 58px; text-align: center; }
+        .rt-delay.ok { background: #e3f4ec; color: #1a7a4f; }
+        .rt-delay.slow { background: #fdeaea; color: #c62828; }
+        .rt-text { font-size: 13px; color: #5c606a; }
         .parsed-info { font-size: 12px; color: #9a9ea8; margin-top: 12px; }
         .warn {
           background: #fef6e7; border: 1px solid #f4d68a; color: #8a6100;
@@ -305,6 +381,9 @@ def index():
             <div class="subscores">
               <div class="subscore"><div class="n" id="agentScore">—</div><div class="l">Agent</div></div>
               <div class="subscore"><div class="n" id="convScore">—</div><div class="l">Conversation</div></div>
+              <div class="subscore"><div class="n" id="accScore">—</div><div class="l">Answer accuracy</div></div>
+              <div class="subscore"><div class="n" id="compScore">—</div><div class="l">Compliance</div></div>
+              <div class="subscore"><div class="n" id="rtScore">—</div><div class="l">Response time</div></div>
             </div>
             <div class="parsed-info" id="parsedInfo"></div>
           </div>
@@ -317,6 +396,21 @@ def index():
           <div class="panel">
             <h2>Agent Scorecard</h2>
             <div id="scorecard"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Response Time</h2>
+            <div id="responsetime"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Compliance Check (RAG)</h2>
+            <div id="compliance"></div>
+          </div>
+
+          <div class="panel">
+            <h2>Answer Accuracy (RAG)</h2>
+            <div id="accuracy"></div>
           </div>
 
           <div class="panel">
@@ -394,6 +488,57 @@ def index():
               <span class="sc-name">${esc(r.name)}</span>
               <span class="sc-reason">${esc(r.reason)}</span>
             </div>`).join('');
+
+          document.getElementById('rtScore').textContent =
+            (d.response_time_score === undefined || d.response_time_score === null) ? 'n/a' : d.response_time_score;
+          const rt = document.getElementById('responsetime');
+          if (!d.response_times || d.response_times.length === 0) {
+            rt.innerHTML = '<div class="empty">No timestamps found — add times like "[00:15]" to each line to measure response time.</div>';
+          } else {
+            rt.innerHTML = d.response_times.map(r => `
+              <div class="rt-row">
+                <span class="rt-delay ${r.slow ? 'slow' : 'ok'}">${r.delay}s</span>
+                <span class="rt-text">after: ${esc(r.client_text)}</span>
+              </div>`).join('');
+          }
+
+          document.getElementById('compScore').textContent =
+            (d.compliance_score === undefined || d.compliance_score === null) ? 'n/a' : d.compliance_score;
+          const comp = document.getElementById('compliance');
+          comp.innerHTML = (d.compliance || []).map(r => {
+            const broken = r.status === 'BROKEN';
+            return `
+              <div class="comp-row">
+                <span class="comp-mark ${broken ? 'broken' : 'ok'}">${broken ? 'BROKEN' : 'OK'}</span>
+                <div class="comp-body">
+                  <div class="rule">${esc(r.rule)}</div>
+                  ${broken ? `<div class="ev">heard: "${esc(r.evidence)}"</div>` : ''}
+                </div>
+              </div>`;
+          }).join('');
+
+          const accScore = document.getElementById('accScore');
+          accScore.textContent = (d.accuracy_overall === null) ? 'n/a' : d.accuracy_overall;
+          const acc = document.getElementById('accuracy');
+          if (!d.accuracy || d.accuracy.length === 0) {
+            acc.innerHTML = '<div class="empty">No client questions matched the knowledge base, so accuracy could not be checked.</div>';
+          } else {
+            acc.innerHTML = d.accuracy.map(a => {
+              const c = a.accuracy >= 60 ? 'high' : (a.accuracy >= 35 ? 'mid' : 'low');
+              const covered = (a.covered || []).map(p => `<div class="kp ok">✓ ${esc(p)}</div>`).join('');
+              const missed = (a.missed || []).map(p => `<div class="kp no">✗ ${esc(p)}</div>`).join('');
+              return `
+                <div class="acc-row">
+                  <div class="acc-top">
+                    <span class="acc-q">${esc(a.client_question)}<span class="acc-conf">matched: ${esc(a.matched_question)} (${esc(a.confidence)})</span></span>
+                    <span class="acc-score ${c}">${a.accuracy}/100</span>
+                  </div>
+                  <div class="acc-line"><b>Agent said:</b> ${esc(a.agent_answer)}</div>
+                  ${covered}${missed}
+                  <div class="acc-line"><b>Ideal answer:</b> ${esc(a.ideal_answer)}</div>
+                </div>`;
+            }).join('');
+          }
 
           const tense = document.getElementById('tense');
           if (d.intense.length === 0) {

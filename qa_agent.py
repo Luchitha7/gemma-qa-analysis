@@ -17,7 +17,7 @@ Produces three scores (0-100): agent score, conversation score, final QA score.
 import re
 
 from gemma_client import gemma
-from qa_intensity import analyze          # reuses RoBERTa sentiment + intensity
+from qa_intensity import analyze, INTENSITY_THRESHOLD  # RoBERTa sentiment + intensity
 from sample_call import TRANSCRIPT
 
 # ---- The QA parameters (edit these freely) --------------------------------
@@ -49,15 +49,31 @@ def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
 
 
-def build_prompt(transcript_text, intense_moments):
+def agent_harsh_lines(rows):
+    """Agent's OWN lines that RoBERTa scored as harsh/negative (rude tone)."""
+    return [r for r in rows
+            if r["speaker"].lower() == "agent"
+            and r["sentiment"] <= INTENSITY_THRESHOLD]
+
+
+def build_prompt(transcript_text, intense_moments, harsh_lines):
     criteria = "\n".join(f"- {name}: {desc}" for name, desc in PARAMETERS)
     moments = "\n".join(
         f"- Turn {m['turn']} ({m['speaker']}): {m['text']}" for m in intense_moments
     ) or "- (none flagged)"
+    harsh = "\n".join(
+        f"- Turn {m['turn']}: {m['text']}" for m in harsh_lines
+    ) or "- (none)"
     example = "\n".join(
         f"{name}: PASS - short reason here" for name, _ in PARAMETERS
     )
-    return f"""You are a call quality analyst. Judge ONLY the agent's performance against each criterion below.
+    return f"""You are a STRICT call quality auditor. Your job is to catch problems, not to be nice to the agent. Judge ONLY the agent's performance.
+
+How to rate each criterion:
+- FAIL if the agent is rude, dismissive, blames the customer, shifts blame, refuses a reasonable request (like a supervisor), pushes an unfair charge, ignores what the customer says, or does not resolve the issue.
+- PARTIAL if the agent is mostly okay but slips up, or only partly helps.
+- PASS only if the agent is clearly professional AND genuinely helpful AND the issue is resolved.
+When in doubt, do NOT give PASS.
 
 Reply with EXACTLY {len(PARAMETERS)} lines, one per criterion, and NOTHING else.
 Each line MUST start with the criterion name, then a colon, then one of the
@@ -72,9 +88,25 @@ Criteria to judge:
 These moments were flagged as the tense parts of the call - pay special attention to how the agent handled them:
 {moments}
 
+These are the agent's OWN lines that sounded harsh or negative - weigh these heavily for Tone and Ownership:
+{harsh}
+
 Transcript:
 {transcript_text}
 """
+
+
+def apply_tone_penalty(ratings, harsh_lines):
+    """Data-based safety net: if RoBERTa shows the agent's own lines were harsh,
+    the Tone rating cannot be a PASS (Gemma alone is too lenient)."""
+    if not harsh_lines:
+        return ratings
+    note = f"RoBERTa flagged {len(harsh_lines)} harsh agent line(s)"
+    for r in ratings:
+        if r["name"] == "Tone and respect" and r["rating"] == "PASS":
+            r["rating"] = "FAIL" if len(harsh_lines) >= 2 else "PARTIAL"
+            r["reason"] = f"{r['reason']} [{note}]".strip() if r["reason"] else note
+    return ratings
 
 
 def parse_ratings(reply):
@@ -111,9 +143,10 @@ if __name__ == "__main__":
     rows = analyze(TRANSCRIPT)
     intense = [r for r in rows if r["intense"]]
 
+    harsh = agent_harsh_lines(rows)
     print("Asking Gemma to judge the agent against the QA parameters...\n")
-    reply = gemma(build_prompt(transcript_text, intense))
-    ratings = parse_ratings(reply)
+    reply = gemma(build_prompt(transcript_text, intense, harsh))
+    ratings = apply_tone_penalty(parse_ratings(reply), harsh)
 
     print("=" * 78)
     print("PART 1  —  AGENT HANDLING ANALYSIS")
