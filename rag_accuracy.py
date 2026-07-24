@@ -12,14 +12,23 @@ show exactly which points the agent covered and which they missed.
     python rag_accuracy.py
 """
 
-from rag import retrieve, similarity
+import re
+
+from rag import retrieve, max_similarity
 from sample_call import TRANSCRIPT
 
 # A client line must match a known question at least this well to be judged.
 RETRIEVAL_THRESHOLD = 0.35
 # A key point counts as "covered" if the agent's reply is at least this close
-# to it in meaning.
+# to it in meaning. We compare each key point against the closest SENTENCE of
+# the reply (not the whole reply), so a single point isn't diluted by a long
+# answer — this lines the scores up much better with how a human reads them.
 KEY_POINT_THRESHOLD = 0.35
+
+
+def _sentences(text):
+    """Split a reply into sentences for point-by-point matching."""
+    return [s.strip() for s in re.split(r"[.!?]", text) if s.strip()]
 
 
 def next_agent_reply(transcript, start):
@@ -51,9 +60,12 @@ def check_accuracy(transcript):
         if reply is None:
             continue
 
+        sentences = _sentences(reply) or [reply]
         covered, missed = [], []
-        for point in match["key_points"]:
-            if similarity(point, reply) >= KEY_POINT_THRESHOLD:
+        for point, (score, _idx) in zip(
+                match["key_points"],
+                max_similarity(match["key_points"], sentences)):
+            if score >= KEY_POINT_THRESHOLD:
                 covered.append(point)
             else:
                 missed.append(point)
