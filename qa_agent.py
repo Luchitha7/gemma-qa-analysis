@@ -41,8 +41,43 @@ PARAMETERS = [
 RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
 
 # How the final QA score is weighted between the two sub-scores.
+# (Kept for the older agent-only view; the full call score uses FINAL_WEIGHTS.)
 AGENT_WEIGHT = 0.7
 CONVERSATION_WEIGHT = 0.3
+
+# The full call score blends everything we measure. Answer accuracy and response
+# time can be missing (no matched question / no timestamps); when a part is
+# missing its weight is dropped and the rest are re-balanced so they still
+# add up. Weights sum to 1.0 when everything is present.
+FINAL_WEIGHTS = {
+    "agent": 0.45,          # how the agent handled the call (Gemma scorecard)
+    "accuracy": 0.20,       # did the agent give correct answers (RAG)
+    "compliance": 0.20,     # did the agent break any rules (RAG)
+    "conversation": 0.10,   # how the customer sounded overall (RoBERTa)
+    "response_time": 0.05,  # how fast the agent replied (timestamps)
+}
+
+
+def final_qa_score(agent, conversation, accuracy=None,
+                   compliance=None, response_time=None):
+    """Blend every available sub-score into one 0-100 number.
+
+    Parts that are None (e.g. no timed replies, or no client question matched
+    the knowledge base) are left out and the remaining weights re-balanced.
+    """
+    parts = {
+        "agent": agent,
+        "accuracy": accuracy,
+        "compliance": compliance,
+        "conversation": conversation,
+        "response_time": response_time,
+    }
+    available = {k: v for k, v in parts.items() if v is not None}
+    total_weight = sum(FINAL_WEIGHTS[k] for k in available)
+    if not total_weight:
+        return 0.0
+    blended = sum(v * FINAL_WEIGHTS[k] for k, v in available.items())
+    return round(blended / total_weight, 1)
 
 
 def format_transcript(transcript):
