@@ -18,12 +18,11 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
-from gemma_client import gemma
+from gemma_client import gemma, reset_token_usage, get_token_usage
 from qa_intensity import analyze
 from qa_agent import (
-    AGENT_WEIGHT, CONVERSATION_WEIGHT, RATING_SCORES,
-    agent_harsh_lines, apply_tone_penalty, build_prompt, conversation_score,
-    parse_ratings,
+    RATING_SCORES, agent_harsh_lines, apply_tone_penalty, build_prompt,
+    conversation_score, final_qa_score, parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
 from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
@@ -130,12 +129,19 @@ def run_pipeline(transcript, times=None):
     rows = analyze(transcript)
     intense = [r for r in rows if r["intense"]]
 
-    # Gemma: three small calls
+    # Gemma: three small calls. Reset the token tally first so we can measure
+    # exactly how many tokens this one report used.
+    reset_token_usage()
     harsh = agent_harsh_lines(rows)
-    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text))
+    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text),
+                    label="summary")
     ratings = apply_tone_penalty(
-        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh))), harsh)
-    suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text)))
+        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh),
+                            label="scorecard")), harsh)
+    suggestions = clean_suggestions(
+        gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text),
+              label="suggestions"))
+    token_usage = get_token_usage()
 
     # RAG: how accurate were the agent's answers vs the ideal answers?
     accuracy_results, accuracy_overall = check_accuracy(transcript)
@@ -149,7 +155,8 @@ def run_pipeline(transcript, times=None):
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
     agent = round(sum(rated) / len(rated), 1) if rated else 0.0
     conv = conversation_score(rows)
-    final = round(agent * AGENT_WEIGHT + conv * CONVERSATION_WEIGHT, 1)
+    final = final_qa_score(agent, conv, accuracy_overall,
+                           compliance_score, rt_score)
 
     # How the transcript was read (so a mis-parse can't hide behind a score).
     agent_lines = sum(1 for s, _ in transcript if s.lower() == "agent")
@@ -167,6 +174,7 @@ def run_pipeline(transcript, times=None):
         "band": band(final),
         "parsed": {"turns": len(transcript),
                    "agent": agent_lines, "client": client_lines},
+        "token_usage": token_usage,
         "warning": warning,
         "summary": summary,
         "ratings": [
@@ -241,317 +249,314 @@ def index():
     return """
     <html>
     <head>
-      <title>Call QA Analysis</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>SignalQA</title>
       <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
       <style>
+        :root {
+          --cream: #fbf9f4;
+          --beige: #eae8e3;
+          --beige-warm: #f0e0ca;
+          --ink: #1b1c19;
+          --muted: #444748;
+          --faint: #747878;
+          --line: #c4c7c7;
+          --error: #ba1a1a;
+        }
         * { box-sizing: border-box; }
         body {
           margin: 0;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-          background-color: #f3f2ef;
-          background-image: radial-gradient(circle at 12% 8%, #ffffff 0%, rgba(255,255,255,0) 45%),
-                             radial-gradient(circle at 92% 90%, #eae7e0 0%, rgba(234,231,224,0) 50%);
-          min-height: 100vh;
-          color: #23252b;
+          font-family: 'Hanken Grotesk', -apple-system, sans-serif;
+          background: var(--cream);
+          color: var(--ink);
+          -webkit-font-smoothing: antialiased;
         }
-        .page { min-height: 100vh; padding: 56px 24px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 820px; }
-        h1 { font-size: 28px; font-weight: 800; color: #14151a; margin: 0 0 6px; letter-spacing: -0.02em; }
-        .subtitle { color: #70747e; font-size: 15px; margin: 0 0 28px; }
-        .panel {
-          background: #ffffff; border: 1px solid #e6e7eb; border-radius: 16px;
-          padding: 24px 28px; margin-bottom: 20px; box-shadow: 0 1px 2px rgba(20,21,26,0.04);
+        .serif { font-family: 'Playfair Display', Georgia, serif; }
+        a { color: inherit; text-decoration: none; }
+
+        /* ---- top nav ---- */
+        .nav {
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 26px 64px; border-bottom: 0.5px solid var(--line);
         }
-        .panel h2 {
-          font-size: 12px; font-weight: 700; text-transform: uppercase;
-          letter-spacing: 0.08em; color: #9a9ea8; margin: 0 0 14px;
-        }
+        .wordmark { font-family: 'Playfair Display', serif; font-style: italic; font-size: 22px; letter-spacing: 0.02em; }
+
+        /* ---- layout ---- */
+        .wrap { max-width: 1440px; margin: 0 auto; padding: 0 64px; }
+        .grid { display: grid; grid-template-columns: 360px 1fr; gap: 72px; padding: 56px 0 96px; }
+        @media (max-width: 900px) { .wrap { padding: 0 24px; } .grid { grid-template-columns: 1fr; gap: 48px; } .nav { padding: 20px 24px; } }
+
+        h1.title { font-family: 'Playfair Display', serif; font-weight: 400; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em; margin: 0 0 18px; }
+        @media (max-width: 900px) { h1.title { font-size: 40px; } }
+        .lede { font-size: 15px; line-height: 1.65; color: var(--muted); margin: 0 0 40px; max-width: 34ch; }
+
+        .label { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+
+        /* ---- input ---- */
+        .field-label { display: block; margin-bottom: 12px; }
         textarea {
-          width: 100%; min-height: 200px; border: 1px solid #e6e7eb; border-radius: 12px;
-          padding: 14px 16px; font-family: 'Inter', sans-serif; font-size: 14px;
-          line-height: 1.6; resize: vertical; color: #23252b;
+          width: 100%; min-height: 300px; background: var(--cream);
+          border: 0.5px solid var(--line); border-radius: 0; padding: 18px;
+          font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; line-height: 1.7;
+          color: var(--ink); resize: vertical;
         }
-        textarea:focus { outline: none; border-color: #14151a; }
-        .row { display: flex; gap: 12px; align-items: center; margin-top: 14px; }
+        textarea::placeholder { color: var(--faint); }
+        textarea:focus { outline: none; border-color: var(--ink); }
+        .actions { display: flex; gap: 14px; margin-top: 22px; }
         .btn {
-          font-family: inherit; font-size: 14px; font-weight: 700; padding: 11px 26px;
-          border-radius: 999px; border: none; cursor: pointer; background: #14151a; color: #fff;
+          font-family: 'Hanken Grotesk', sans-serif; font-size: 12px; font-weight: 700;
+          letter-spacing: 0.1em; text-transform: uppercase; padding: 15px 26px;
+          border-radius: 0; cursor: pointer; border: 0.5px solid var(--ink); transition: background .15s, color .15s;
         }
-        .btn:disabled { opacity: 0.5; cursor: default; }
-        .btn.ghost { background: #f0f1f4; color: #5c606a; }
-        .hint { font-size: 13px; color: #9a9ea8; }
-        .score-hero { text-align: center; }
-        .score-value { font-size: 54px; font-weight: 800; letter-spacing: -0.02em; }
-        .score-value.good { color: #22a06b; }
-        .score-value.okay { color: #d99100; }
-        .score-value.bad { color: #dc4444; }
-        .score-band { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-        .subscores { display: flex; justify-content: center; gap: 40px; margin-top: 18px; }
-        .subscore { text-align: center; }
-        .subscore .n { font-size: 22px; font-weight: 800; color: #14151a; }
-        .subscore .l { font-size: 12px; color: #9a9ea8; margin-top: 2px; }
-        .scorecard-row {
-          display: flex; align-items: center; gap: 14px; padding: 12px 0;
-          border-bottom: 1px solid #f0f1f4;
-        }
-        .scorecard-row:last-child { border-bottom: none; }
-        .pill {
-          font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em;
-          padding: 4px 10px; border-radius: 6px; min-width: 66px; text-align: center;
-        }
-        .pill.pass { background: #22a06b; color: #fff; }
-        .pill.partial { background: #f2a900; color: #fff; }
-        .pill.fail { background: #dc4444; color: #fff; }
-        .pill.unrated { background: #eceef1; color: #5c606a; }
-        .sc-name { font-weight: 700; font-size: 15px; min-width: 150px; }
-        .sc-reason { font-size: 14px; color: #5c606a; }
-        .tense {
-          border-left: 3px solid #dc4444; background: #fdf4f4; border-radius: 6px;
-          padding: 10px 14px; margin-bottom: 10px;
-        }
-        .tense .meta { font-size: 12px; color: #c62828; font-weight: 700; margin-bottom: 4px; }
-        .tense .txt { font-size: 14px; color: #23252b; }
-        .prose { font-size: 15px; line-height: 1.65; color: #23252b; white-space: pre-wrap; }
-        .empty { color: #9a9ea8; font-size: 14px; }
-        .acc-row { padding: 14px 0; border-bottom: 1px solid #f0f1f4; }
-        .acc-row:last-child { border-bottom: none; }
-        .acc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 6px; }
-        .acc-q { font-weight: 700; font-size: 14px; }
-        .acc-score {
-          font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; white-space: nowrap;
-        }
-        .acc-score.high { background: #e3f4ec; color: #1a7a4f; }
-        .acc-score.mid  { background: #fdf3e0; color: #8a6100; }
-        .acc-score.low  { background: #fdeaea; color: #c62828; }
-        .acc-line { font-size: 13px; color: #5c606a; margin-top: 3px; }
-        .acc-line b { color: #23252b; font-weight: 600; }
-        .kp { font-size: 13px; margin-top: 4px; }
-        .kp.ok  { color: #1a7a4f; }
-        .kp.no  { color: #c62828; }
-        .acc-conf { font-size: 11px; color: #9a9ea8; margin-left: 8px; font-weight: 500; }
-        .comp-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f1f4; }
-        .comp-row:last-child { border-bottom: none; }
-        .comp-mark { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 6px; min-width: 70px; text-align: center; }
-        .comp-mark.ok { background: #e3f4ec; color: #1a7a4f; }
-        .comp-mark.broken { background: #fdeaea; color: #c62828; }
-        .comp-body .rule { font-weight: 600; font-size: 14px; }
-        .comp-body .ev { font-size: 13px; color: #c62828; margin-top: 3px; font-style: italic; }
-        .rt-row { display: flex; align-items: center; gap: 12px; padding: 9px 0; border-bottom: 1px solid #f0f1f4; }
-        .rt-row:last-child { border-bottom: none; }
-        .rt-delay { font-size: 13px; font-weight: 700; padding: 3px 10px; border-radius: 999px; min-width: 58px; text-align: center; }
-        .rt-delay.ok { background: #e3f4ec; color: #1a7a4f; }
-        .rt-delay.slow { background: #fdeaea; color: #c62828; }
-        .rt-text { font-size: 13px; color: #5c606a; }
-        .parsed-info { font-size: 12px; color: #9a9ea8; margin-top: 12px; }
-        .warn {
-          background: #fef6e7; border: 1px solid #f4d68a; color: #8a6100;
-          border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 14px;
-        }
-        .spinner {
-          width: 18px; height: 18px; border: 3px solid #d9dbe0; border-top-color: #14151a;
-          border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .btn.primary { background: var(--ink); color: var(--cream); }
+        .btn.primary:hover { background: var(--beige-warm); color: var(--ink); border-color: var(--beige-warm); }
+        .btn.ghost { background: transparent; color: var(--ink); }
+        .btn.ghost:hover { background: var(--beige); }
+        .btn:disabled { opacity: 0.4; cursor: default; }
+        .hint { font-size: 12px; color: var(--faint); margin-top: 18px; line-height: 1.5; }
+
+        /* ---- left: tense moments ---- */
+        .side-block { margin-top: 64px; }
+        .side-block > .label { display: block; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 0.5px solid var(--line); }
+        .tense-item { padding-left: 16px; border-left: 2px solid var(--error); margin-bottom: 22px; }
+        .tense-item .who { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--error); }
+        .tense-item .val { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+        /* ---- right column ---- */
         #results { display: none; }
+        .placeholder { color: var(--faint); font-size: 15px; line-height: 1.7; max-width: 40ch; padding-top: 8px; }
+
+        .score-block { display: flex; gap: 48px; align-items: center; flex-wrap: wrap; }
+        .ring-wrap { position: relative; width: 200px; height: 200px; flex: none; }
+        .ring-wrap svg { width: 200px; height: 200px; }
+        .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .ring-num { font-family: 'Playfair Display', serif; font-size: 30px; }
+        .ring-label { font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); margin-top: 4px; }
+        .subscores { display: grid; grid-template-columns: 1fr 1fr; gap: 30px 44px; }
+        .sub .sub-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+        .sub .sub-num { font-family: 'Playfair Display', serif; font-size: 34px; line-height: 1.1; margin-top: 6px; }
+
+        .warn { background: var(--beige-warm); border: 0.5px solid #d8c49a; color: #6b4e12; padding: 14px 18px; margin-top: 32px; font-size: 14px; }
+
+        section.blk { margin-top: 56px; }
+        section.blk > h2 {
+          font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+          color: var(--faint); margin: 0 0 20px; padding-bottom: 12px; border-bottom: 0.5px solid var(--line);
+        }
+        .prose { font-size: 16px; line-height: 1.7; color: var(--ink); white-space: pre-wrap; }
+
+        /* compliance / scorecard rows */
+        .fill { background: var(--beige); padding: 30px 34px; }
+        .row-line { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 0; border-bottom: 0.5px solid var(--line); }
+        .row-line:last-child { border-bottom: none; }
+        .row-line .rl-text { font-size: 15px; }
+        .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 12px; color: #fff; }
+        .tag.ok { background: var(--ink); }
+        .tag.broken, .tag.fail { background: var(--error); }
+        .tag.partial { background: var(--secondary, #685d4b); background: #685d4b; }
+        .tag.pass { background: var(--ink); }
+        .tag.unrated { background: var(--faint); }
+        .evidence { font-size: 13px; font-style: italic; color: var(--error); margin-top: 4px; }
+        .rl-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+        /* accuracy two-box */
+        .acc-item { margin-bottom: 40px; }
+        .acc-item:last-child { margin-bottom: 0; }
+        .acc-q { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+        .acc-meta { font-size: 12px; color: var(--faint); margin-bottom: 16px; }
+        .acc-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        @media (max-width: 700px) { .acc-boxes { grid-template-columns: 1fr; } }
+        .acc-box { padding: 22px 24px; border: 0.5px solid var(--line); }
+        .acc-box.ideal { background: var(--beige-warm); border-color: var(--beige-warm); }
+        .acc-box .box-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 12px; }
+        .acc-box .box-text { font-size: 14px; line-height: 1.6; font-style: italic; }
+        .kp { font-size: 13px; margin-top: 12px; }
+        .kp.ok { color: #3d5c46; } .kp.no { color: var(--error); }
+
+        /* response time */
+        .rt-row { display: flex; align-items: baseline; gap: 18px; padding: 12px 0; border-bottom: 0.5px solid var(--line); }
+        .rt-row:last-child { border-bottom: none; }
+        .rt-delay { font-family: 'Playfair Display', serif; font-size: 20px; min-width: 64px; }
+        .rt-delay.slow { color: var(--error); }
+        .rt-text { font-size: 14px; color: var(--muted); }
+
+        /* suggestions */
+        .sugg { font-size: 15px; line-height: 1.7; color: var(--ink); white-space: pre-wrap; }
+
+        .spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        footer { border-top: 0.5px solid var(--line); }
+        .foot { max-width: 1440px; margin: 0 auto; padding: 40px 64px; display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+        .foot .copy { font-size: 12px; color: var(--faint); max-width: 30ch; line-height: 1.6; }
       </style>
     </head>
     <body>
-      <div class="page">
-      <div class="container">
-        <h1>Call QA Analysis</h1>
-        <p class="subtitle">Paste a call transcript and get an automated quality report — RoBERTa + Gemma, all local.</p>
+      <nav class="nav">
+        <div class="wordmark">SignalQA</div>
+      </nav>
 
-        <div class="panel">
-          <h2>Transcript</h2>
-          <textarea id="transcript" placeholder="Agent: Thank you for calling support...&#10;Client: I have a problem with my bill...&#10;Agent: ..."></textarea>
-          <div class="row">
-            <button class="btn" id="analyzeBtn" onclick="analyze()">Analyze Call</button>
-            <button class="btn ghost" onclick="loadSample()">Load sample</button>
-            <span class="hint" id="status">One line per turn. Works with "Agent:"/"Client:", also "AI:"/"Customer:" and timestamps.</span>
-          </div>
-        </div>
+      <div class="wrap">
+        <div class="grid">
+          <div class="left">
+            <h1 class="title">SignalQA</h1>
+            <p class="lede">Automated linguistic and compliance evaluation for telecommunication customer interactions. Precision auditing for quality control.</p>
 
-        <div id="results">
-          <div class="warn" id="warning" style="display:none"></div>
-          <div class="panel score-hero">
-            <h2>Final QA Score</h2>
-            <div class="score-value" id="finalScore">—</div>
-            <div class="score-band" id="finalBand"></div>
-            <div class="subscores">
-              <div class="subscore"><div class="n" id="agentScore">—</div><div class="l">Agent</div></div>
-              <div class="subscore"><div class="n" id="convScore">—</div><div class="l">Conversation</div></div>
-              <div class="subscore"><div class="n" id="accScore">—</div><div class="l">Answer accuracy</div></div>
-              <div class="subscore"><div class="n" id="compScore">—</div><div class="l">Compliance</div></div>
-              <div class="subscore"><div class="n" id="rtScore">—</div><div class="l">Response time</div></div>
+            <label class="label field-label">Session Transcript Input</label>
+            <textarea id="transcript" placeholder="Paste call transcript here or load sample for analysis..."></textarea>
+            <div class="actions">
+              <button class="btn primary" id="analyzeBtn" onclick="analyze()">Analyze Call</button>
+              <button class="btn ghost" onclick="loadSample()">Load Sample</button>
             </div>
-            <div class="parsed-info" id="parsedInfo"></div>
+            <div class="hint" id="status">One line per turn. Works with Agent:/Client:, also AI:/Customer: and [00:15] timestamps.</div>
+
+            <div class="side-block" id="tenseBlock" style="display:none">
+              <span class="label">Tense Moment Detected</span>
+              <div id="tense"></div>
+            </div>
           </div>
 
-          <div class="panel">
-            <h2>Summary</h2>
-            <div class="prose" id="summary"></div>
-          </div>
+          <div class="right">
+            <div id="placeholder" class="placeholder">Run an analysis to see the quality report — final score, agent scorecard, compliance check, answer accuracy, response time, and suggestions.</div>
 
-          <div class="panel">
-            <h2>Agent Scorecard</h2>
-            <div id="scorecard"></div>
-          </div>
+            <div id="results">
+              <div class="score-block">
+                <div class="ring-wrap">
+                  <svg viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="88" fill="none" stroke="var(--line)" stroke-width="2"/>
+                    <circle id="ringArc" cx="100" cy="100" r="88" fill="none" stroke="var(--ink)" stroke-width="2" stroke-dasharray="552.9" stroke-dashoffset="552.9" transform="rotate(-90 100 100)"/>
+                  </svg>
+                  <div class="ring-center">
+                    <div class="ring-num serif" id="finalScore">&mdash;</div>
+                    <div class="ring-label">Final QA Score</div>
+                  </div>
+                </div>
+                <div class="subscores">
+                  <div class="sub"><div class="sub-label">Agent</div><div class="sub-num" id="agentScore">&mdash;</div></div>
+                  <div class="sub"><div class="sub-label">Conversation</div><div class="sub-num" id="convScore">&mdash;</div></div>
+                  <div class="sub"><div class="sub-label">Accuracy</div><div class="sub-num" id="accScore">&mdash;</div></div>
+                  <div class="sub"><div class="sub-label">Compliance</div><div class="sub-num" id="compScore">&mdash;</div></div>
+                  <div class="sub"><div class="sub-label">Response Time</div><div class="sub-num" id="rtScore">&mdash;</div></div>
+                </div>
+              </div>
 
-          <div class="panel">
-            <h2>Response Time</h2>
-            <div id="responsetime"></div>
-          </div>
+              <div class="warn" id="warning" style="display:none"></div>
 
-          <div class="panel">
-            <h2>Compliance Check (RAG)</h2>
-            <div id="compliance"></div>
-          </div>
-
-          <div class="panel">
-            <h2>Answer Accuracy (RAG)</h2>
-            <div id="accuracy"></div>
-          </div>
-
-          <div class="panel">
-            <h2>Tense Moments</h2>
-            <div id="tense"></div>
-          </div>
-
-          <div class="panel">
-            <h2>Suggestions</h2>
-            <div class="prose" id="suggestions"></div>
+              <section class="blk"><h2>Summary</h2><div class="prose" id="summary"></div></section>
+              <section class="blk"><h2>Compliance Check</h2><div class="fill" id="compliance"></div></section>
+              <section class="blk"><h2>Agent Scorecard</h2><div id="scorecard"></div></section>
+              <section class="blk"><h2>Response Time</h2><div id="responsetime"></div></section>
+              <section class="blk"><h2>Accuracy Analysis</h2><div id="accuracy"></div></section>
+              <section class="blk"><h2>Suggestions</h2><div class="sugg" id="suggestions"></div></section>
+              <section class="blk"><h2>Gemma Token Cost</h2><div id="tokencost"></div></section>
+            </div>
           </div>
         </div>
       </div>
-      </div>
+
+      <footer>
+        <div class="foot">
+          <div class="wordmark">SignalQA</div>
+          <div class="copy">Automated linguistic and compliance evaluation. Defined by precision.</div>
+        </div>
+      </footer>
 
       <script>
         const SAMPLE = %SAMPLE%;
-
-        function loadSample() {
-          document.getElementById('transcript').value = SAMPLE;
-        }
-
-        function esc(s) {
-          const d = document.createElement('div');
-          d.textContent = s;
-          return d.innerHTML;
-        }
+        function loadSample() { document.getElementById('transcript').value = SAMPLE; }
+        function esc(s){ const d=document.createElement('div'); d.textContent = (s==null?'':s); return d.innerHTML; }
 
         async function analyze() {
           const transcript = document.getElementById('transcript').value.trim();
           const btn = document.getElementById('analyzeBtn');
           const status = document.getElementById('status');
           if (!transcript) { status.textContent = 'Please paste a transcript first.'; return; }
-
           btn.disabled = true;
-          status.innerHTML = '<span class="spinner"></span> Analyzing… (this takes a few seconds)';
-
+          status.innerHTML = '<span class="spinner"></span> Analyzing…';
           try {
-            const res = await fetch('/analyze', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ transcript })
-            });
+            const res = await fetch('/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ transcript }) });
             const data = await res.json();
-            if (data.error) { status.textContent = data.error; btn.disabled = false; return; }
+            if (data.error) { status.textContent = data.error; btn.disabled=false; return; }
             render(data);
-            status.textContent = 'Done.';
-          } catch (e) {
-            status.textContent = 'Something went wrong: ' + e;
-          }
+            status.textContent = 'Analysis complete.';
+          } catch(e){ status.textContent = 'Something went wrong: ' + e; }
           btn.disabled = false;
         }
 
         function render(d) {
-          const cls = d.final >= 80 ? 'good' : (d.final >= 60 ? 'okay' : 'bad');
-          const fs = document.getElementById('finalScore');
-          fs.textContent = d.final;
-          fs.className = 'score-value ' + cls;
-          document.getElementById('finalBand').textContent = d.band;
+          document.getElementById('placeholder').style.display = 'none';
+          document.getElementById('results').style.display = 'block';
+
+          document.getElementById('finalScore').textContent = d.final;
+          const C = 552.9;
+          document.getElementById('ringArc').style.strokeDashoffset = C * (1 - Math.max(0, Math.min(100, d.final)) / 100);
+
           document.getElementById('agentScore').textContent = d.agent;
           document.getElementById('convScore').textContent = d.conversation;
+          document.getElementById('accScore').textContent = (d.accuracy_overall==null)?'n/a':d.accuracy_overall;
+          document.getElementById('compScore').textContent = (d.compliance_score==null)?'n/a':d.compliance_score;
+          document.getElementById('rtScore').textContent = (d.response_time_score==null)?'n/a':d.response_time_score;
+
           document.getElementById('summary').textContent = d.summary;
           document.getElementById('suggestions').textContent = d.suggestions;
 
-          const info = document.getElementById('parsedInfo');
-          info.textContent = `Read ${d.parsed.turns} turns · ${d.parsed.agent} agent · ${d.parsed.client} client`;
-
           const warn = document.getElementById('warning');
-          if (d.warning) { warn.textContent = '⚠ ' + d.warning; warn.style.display = 'block'; }
-          else { warn.style.display = 'none'; }
+          if (d.warning) { warn.textContent = d.warning; warn.style.display='block'; } else { warn.style.display='none'; }
 
-          document.getElementById('scorecard').innerHTML = d.ratings.map(r => `
-            <div class="scorecard-row">
-              <span class="pill ${r.rating.toLowerCase()}">${r.rating}</span>
-              <span class="sc-name">${esc(r.name)}</span>
-              <span class="sc-reason">${esc(r.reason)}</span>
-            </div>`).join('');
-
-          document.getElementById('rtScore').textContent =
-            (d.response_time_score === undefined || d.response_time_score === null) ? 'n/a' : d.response_time_score;
-          const rt = document.getElementById('responsetime');
-          if (!d.response_times || d.response_times.length === 0) {
-            rt.innerHTML = '<div class="empty">No timestamps found — add times like "[00:15]" to each line to measure response time.</div>';
-          } else {
-            rt.innerHTML = d.response_times.map(r => `
-              <div class="rt-row">
-                <span class="rt-delay ${r.slow ? 'slow' : 'ok'}">${r.delay}s</span>
-                <span class="rt-text">after: ${esc(r.client_text)}</span>
-              </div>`).join('');
-          }
-
-          document.getElementById('compScore').textContent =
-            (d.compliance_score === undefined || d.compliance_score === null) ? 'n/a' : d.compliance_score;
-          const comp = document.getElementById('compliance');
-          comp.innerHTML = (d.compliance || []).map(r => {
-            const broken = r.status === 'BROKEN';
-            return `
-              <div class="comp-row">
-                <span class="comp-mark ${broken ? 'broken' : 'ok'}">${broken ? 'BROKEN' : 'OK'}</span>
-                <div class="comp-body">
-                  <div class="rule">${esc(r.rule)}</div>
-                  ${broken ? `<div class="ev">heard: "${esc(r.evidence)}"</div>` : ''}
-                </div>
-              </div>`;
+          document.getElementById('compliance').innerHTML = (d.compliance||[]).map(function(r){
+            var broken = r.status === 'BROKEN';
+            return '<div class="row-line"><div><div class="rl-text">'+esc(r.rule)+'</div>'+(broken?'<div class="evidence">heard: "'+esc(r.evidence)+'"</div>':'')+'</div><span class="tag '+(broken?'broken':'ok')+'">'+(broken?'Broken':'OK')+'</span></div>';
           }).join('');
 
-          const accScore = document.getElementById('accScore');
-          accScore.textContent = (d.accuracy_overall === null) ? 'n/a' : d.accuracy_overall;
-          const acc = document.getElementById('accuracy');
-          if (!d.accuracy || d.accuracy.length === 0) {
-            acc.innerHTML = '<div class="empty">No client questions matched the knowledge base, so accuracy could not be checked.</div>';
+          document.getElementById('scorecard').innerHTML = (d.ratings||[]).map(function(r){
+            return '<div class="row-line"><div><div class="rl-text">'+esc(r.name)+'</div><div class="rl-sub">'+esc(r.reason)+'</div></div><span class="tag '+r.rating.toLowerCase()+'">'+esc(r.rating)+'</span></div>';
+          }).join('');
+
+          var rt = document.getElementById('responsetime');
+          if (!d.response_times || d.response_times.length===0) {
+            rt.innerHTML = '<div class="placeholder">No timestamps found &mdash; add times like [00:15] to each line to measure response time.</div>';
           } else {
-            acc.innerHTML = d.accuracy.map(a => {
-              const c = a.accuracy >= 60 ? 'high' : (a.accuracy >= 35 ? 'mid' : 'low');
-              const covered = (a.covered || []).map(p => `<div class="kp ok">✓ ${esc(p)}</div>`).join('');
-              const missed = (a.missed || []).map(p => `<div class="kp no">✗ ${esc(p)}</div>`).join('');
-              return `
-                <div class="acc-row">
-                  <div class="acc-top">
-                    <span class="acc-q">${esc(a.client_question)}<span class="acc-conf">matched: ${esc(a.matched_question)} (${esc(a.confidence)})</span></span>
-                    <span class="acc-score ${c}">${a.accuracy}/100</span>
-                  </div>
-                  <div class="acc-line"><b>Agent said:</b> ${esc(a.agent_answer)}</div>
-                  ${covered}${missed}
-                  <div class="acc-line"><b>Ideal answer:</b> ${esc(a.ideal_answer)}</div>
-                </div>`;
+            rt.innerHTML = d.response_times.map(function(r){
+              return '<div class="rt-row"><span class="rt-delay serif '+(r.slow?'slow':'')+'">'+r.delay+'s</span><span class="rt-text">after: '+esc(r.client_text)+'</span></div>';
             }).join('');
           }
 
-          const tense = document.getElementById('tense');
-          if (d.intense.length === 0) {
-            tense.innerHTML = '<div class="empty">None — the call stayed calm.</div>';
+          var acc = document.getElementById('accuracy');
+          if (!d.accuracy || d.accuracy.length===0) {
+            acc.innerHTML = '<div class="placeholder">No client questions matched the knowledge base, so accuracy could not be checked.</div>';
           } else {
-            tense.innerHTML = d.intense.map(m => `
-              <div class="tense">
-                <div class="meta">Turn ${m.turn} · ${esc(m.speaker)} · sentiment ${m.sentiment}</div>
-                <div class="txt">${esc(m.text)}</div>
-              </div>`).join('');
+            acc.innerHTML = d.accuracy.map(function(a){
+              var covered = (a.covered||[]).map(function(p){return '<div class="kp ok">✓ '+esc(p)+'</div>';}).join('');
+              var missed = (a.missed||[]).map(function(p){return '<div class="kp no">✗ '+esc(p)+'</div>';}).join('');
+              return '<div class="acc-item"><div class="acc-q">'+esc(a.client_question)+'</div><div class="acc-meta">matched: '+esc(a.matched_question)+' · '+esc(a.confidence)+' · '+a.accuracy+'/100</div><div class="acc-boxes"><div class="acc-box"><div class="box-label">Analyst Transcript</div><div class="box-text">"'+esc(a.agent_answer)+'"</div></div><div class="acc-box ideal"><div class="box-label">Ideal Answer</div><div class="box-text">"'+esc(a.ideal_answer)+'"</div></div></div>'+covered+missed+'</div>';
+            }).join('');
           }
 
-          document.getElementById('results').style.display = 'block';
+          var tok = document.getElementById('tokencost');
+          var u = d.token_usage;
+          if (!u) {
+            tok.innerHTML = '<div class="placeholder">No token data available.</div>';
+          } else {
+            var rows = (u.calls||[]).map(function(c){
+              return '<div class="row-line"><div class="rl-text">'+esc(c.label)+'</div><div class="rl-sub">'+c.input+' in · '+c.output+' out · '+(c.input+c.output)+' total</div></div>';
+            }).join('');
+            rows += '<div class="row-line"><div class="rl-text">Total</div><div class="rl-sub">'+u.input+' in · '+u.output+' out · <strong>'+u.total+' tokens</strong></div></div>';
+            tok.innerHTML = rows + '<div class="acc-meta">Gemma only — sentiment and rule/accuracy checks run locally with no tokens.</div>';
+          }
+
+          var tenseBlock = document.getElementById('tenseBlock');
+          var tense = document.getElementById('tense');
+          tenseBlock.style.display = 'block';
+          if (!d.intense || d.intense.length===0) {
+            tense.innerHTML = '<div class="placeholder">None &mdash; the call stayed calm.</div>';
+          } else {
+            tense.innerHTML = d.intense.map(function(m){
+              return '<div class="tense-item"><div class="who">Turn '+m.turn+': '+esc(m.speaker)+'</div><div class="val">sentiment '+m.sentiment+'</div></div>';
+            }).join('');
+          }
         }
       </script>
     </body>
