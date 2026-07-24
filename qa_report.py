@@ -10,12 +10,11 @@ Runs every part and prints a single report for a call:
     python qa_report.py
 """
 
-from gemma_client import gemma
+from gemma_client import gemma, reset_token_usage, get_token_usage
 from qa_intensity import analyze
 from qa_agent import (
-    AGENT_WEIGHT, CONVERSATION_WEIGHT, PARAMETERS, RATING_SCORES,
-    agent_harsh_lines, apply_tone_penalty, build_prompt, conversation_score,
-    parse_ratings,
+    PARAMETERS, RATING_SCORES, agent_harsh_lines, apply_tone_penalty,
+    build_prompt, conversation_score, final_qa_score, parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
 from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
@@ -49,12 +48,18 @@ if __name__ == "__main__":
     rows = analyze(TRANSCRIPT)
     intense = [r for r in rows if r["intense"]]
 
-    # --- Gemma: three separate small calls ---
+    # --- Gemma: three separate small calls (with token tracking) ---
+    reset_token_usage()
     harsh = agent_harsh_lines(rows)
-    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text))
+    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text),
+                    label="summary")
     ratings = apply_tone_penalty(
-        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh))), harsh)
-    suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text)))
+        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh),
+                            label="scorecard")), harsh)
+    suggestions = clean_suggestions(
+        gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text),
+              label="suggestions"))
+    token_usage = get_token_usage()
 
     # --- RAG (token-free): answer accuracy + compliance ---
     accuracy_results, accuracy_overall = check_accuracy(TRANSCRIPT)
@@ -64,7 +69,8 @@ if __name__ == "__main__":
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
     agent = round(sum(rated) / len(rated), 1) if rated else 0.0
     conv = conversation_score(rows)
-    final = round(agent * AGENT_WEIGHT + conv * CONVERSATION_WEIGHT, 1)
+    final = final_qa_score(agent, conv, accuracy_overall,
+                           compliance_score, response_time=None)
 
     # ================= REPORT =================
     print()
@@ -128,6 +134,17 @@ if __name__ == "__main__":
     print("  SUGGESTIONS")
     rule("-")
     print(f"  {suggestions}")
+
+    print("\n")
+    rule("-")
+    print("  GEMMA TOKEN COST  (from Ollama; RoBERTa + RAG steps are token-free)")
+    rule("-")
+    for c in token_usage["calls"]:
+        print(f"  {c['label']:<12} {c['input']:>6} in  {c['output']:>5} out  "
+              f"{c['input'] + c['output']:>6} total")
+    print(f"  {'TOTAL':<12} {token_usage['input']:>6} in  "
+          f"{token_usage['output']:>5} out  {token_usage['total']:>6} total")
+
     print()
     rule()
     print()
