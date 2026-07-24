@@ -247,4 +247,84 @@ QA_PAIRS = [
             "charge for the repair or the technician visit. I'll arrange it for you."
         ),
     },
+    {
+        "category": "billing",
+        "question": "I was charged after I already cancelled my subscription.",
+        "variants": [
+            "you took a payment even though I cancelled",
+            "I got billed after closing my account",
+            "why am I still being charged after cancelling",
+        ],
+        "key_points": [
+            "apologise or acknowledge the problem",
+            "confirm the cancellation date on the account",
+            "refund any charge taken after cancellation",
+            "give a timeframe for the refund",
+        ],
+        "ideal_answer": (
+            "I'm sorry about that. Let me confirm your cancellation date, and any "
+            "payment taken after it I'll refund now — it will show in 3 to 5 "
+            "business days. I'll also make sure no further charges are raised."
+        ),
+    },
+    {
+        "category": "technical",
+        "question": "My internet keeps dropping out every few minutes.",
+        "variants": [
+            "the connection keeps disconnecting",
+            "my wifi drops randomly through the day",
+            "I keep losing internet and it comes back",
+        ],
+        "key_points": [
+            "acknowledge the problem",
+            "run a line or connection stability test",
+            "check whether it is the router or the line",
+            "offer a concrete next step (reset, replacement, or technician)",
+        ],
+        "ideal_answer": (
+            "That sounds frustrating, sorry about that. Let me run a stability "
+            "test on your line to see where the drops are coming from. If it's the "
+            "router or the line on our side, I'll reset it remotely or arrange a "
+            "replacement at no cost."
+        ),
+    },
+    {
+        "category": "account",
+        "question": "I want to upgrade to a faster plan.",
+        "variants": [
+            "can I move to a higher speed package",
+            "I'd like to change to a better plan",
+            "how do I get faster internet",
+        ],
+        "key_points": [
+            "confirm the upgrade can be done",
+            "explain the new price and speed",
+            "confirm when the change takes effect",
+        ],
+        "ideal_answer": (
+            "Of course, I can upgrade you. I'll go over the faster plans and their "
+            "prices, and once you pick one I'll confirm the new speed and the date "
+            "it takes effect — usually within 24 hours."
+        ),
+    },
+    {
+        "category": "escalation",
+        "question": "This is the third time I've called about the same issue.",
+        "variants": [
+            "I keep calling about this and nothing gets fixed",
+            "I've rung several times already for this",
+            "why hasn't this been sorted after so many calls",
+        ],
+        "key_points": [
+            "acknowledge the repeated contact and apologise",
+            "take ownership instead of asking them to repeat everything",
+            "commit to a clear resolution or escalation this time",
+        ],
+        "ideal_answer": (
+            "I'm sorry you've had to call this many times, that's not good enough. "
+            "Let me pull up your history so you don't have to repeat yourself, and "
+            "I'll either resolve it now or escalate it with a reference so it's "
+            "seen through to the end."
+        ),
+    },
 ]
