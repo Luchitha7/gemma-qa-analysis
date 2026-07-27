@@ -2,3 +2,7 @@ venv/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Runtime state: weights saved from the frontend. The defaults live in code
+# (qa_agent.py FINAL_WEIGHTS), so this file is a local override, not source.
+weights.json

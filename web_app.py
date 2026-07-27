@@ -31,6 +31,7 @@ from rag_compliance import check_compliance
 from response_time import (
     leading_time_seconds, response_delays, response_time_score,
 )
+from weights_config import load_weights, save_weights
 
 app = FastAPI()
 
@@ -151,12 +152,14 @@ def run_pipeline(transcript, times=None):
     delays = response_delays(transcript, times)
     rt_score = response_time_score(delays)
 
-    # Scores
+    # Scores. Load the current weights (the saved file if present, otherwise
+    # the code defaults) so a change made from the frontend takes effect here.
+    weights = load_weights()
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
     agent = round(sum(rated) / len(rated), 1) if rated else 0.0
     conv = conversation_score(rows)
     final = final_qa_score(agent, conv, accuracy_overall,
-                           compliance_score, rt_score)
+                           compliance_score, rt_score, weights=weights)
 
     # How the transcript was read (so a mis-parse can't hide behind a score).
     agent_lines = sum(1 for s, _ in transcript if s.lower() == "agent")
@@ -231,6 +234,26 @@ def analyze_call(payload: TranscriptIn):
         return {"error": "No transcript lines found. Use 'Agent: ...' and "
                          "'Client: ...' on separate lines."}
     return run_pipeline(transcript, times)
+
+
+@app.get("/weights")
+def get_weights():
+    """Return the weights currently in effect (saved file, or defaults)."""
+    return load_weights()
+
+
+@app.post("/weights")
+def set_weights(payload: dict):
+    """Save weights sent from the frontend and return what was stored.
+
+    The body is the key-value pairs, e.g.:
+        {"agent": 0.45, "accuracy": 0.20, "compliance": 0.20,
+         "conversation": 0.10, "response_time": 0.05}
+    save_weights() keeps only known numeric keys, so a bad payload can't
+    corrupt the file. Every future call to /analyze then uses these.
+    """
+    saved = save_weights(payload)
+    return {"status": "saved", "weights": saved}
 
 
 SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
