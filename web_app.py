@@ -341,6 +341,23 @@ def index():
         .btn:disabled { opacity: 0.4; cursor: default; }
         .hint { font-size: 12px; color: var(--faint); margin-top: 18px; line-height: 1.5; }
 
+        /* ---- weights editor ---- */
+        .wrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 0.5px solid var(--line); }
+        .wrow label { font-size: 14px; }
+        .wcell { display: flex; align-items: center; gap: 6px; }
+        .wcell input {
+          width: 62px; background: var(--cream); border: 0.5px solid var(--line);
+          padding: 8px 10px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px;
+          color: var(--ink); text-align: right;
+        }
+        .wcell input:focus { outline: none; border-color: var(--ink); }
+        .wsuffix { font-size: 13px; color: var(--faint); }
+        .wtotal { border-bottom: none; }
+        .wtotal label { font-weight: 600; }
+        .wtotal #w_total { font-size: 15px; }
+        .wtotal.off #w_total { color: var(--error); }
+        .wtotal.off label { color: var(--error); }
+
         /* ---- left: tense moments ---- */
         .side-block { margin-top: 64px; }
         .side-block > .label { display: block; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 0.5px solid var(--line); }
@@ -436,6 +453,21 @@ def index():
             </div>
             <div class="hint" id="status">One line per turn. Works with Agent:/Client:, also AI:/Customer: and [00:15] timestamps.</div>
 
+            <div class="side-block" id="weightsBlock">
+              <span class="label">Scoring Weights</span>
+              <div class="wrow"><label>Agent handling</label><span class="wcell"><input type="number" id="w_agent" step="1" min="0"><span class="wsuffix">%</span></span></div>
+              <div class="wrow"><label>Answer accuracy</label><span class="wcell"><input type="number" id="w_accuracy" step="1" min="0"><span class="wsuffix">%</span></span></div>
+              <div class="wrow"><label>Compliance</label><span class="wcell"><input type="number" id="w_compliance" step="1" min="0"><span class="wsuffix">%</span></span></div>
+              <div class="wrow"><label>Customer sentiment</label><span class="wcell"><input type="number" id="w_conversation" step="1" min="0"><span class="wsuffix">%</span></span></div>
+              <div class="wrow"><label>Response time</label><span class="wcell"><input type="number" id="w_response_time" step="1" min="0"><span class="wsuffix">%</span></span></div>
+              <div class="wrow wtotal"><label>Total</label><span class="wcell"><strong id="w_total">100</strong><span class="wsuffix">%</span></span></div>
+              <div class="actions">
+                <button class="btn primary" id="saveWeightsBtn" onclick="saveWeights()">Save Weights</button>
+                <button class="btn ghost" onclick="loadWeights()">Reload</button>
+              </div>
+              <div class="hint" id="weightsStatus">Loading current weights…</div>
+            </div>
+
             <div class="side-block" id="tenseBlock" style="display:none">
               <span class="label">Tense Moment Detected</span>
               <div id="tense"></div>
@@ -491,6 +523,59 @@ def index():
         const SAMPLE = %SAMPLE%;
         function loadSample() { document.getElementById('transcript').value = SAMPLE; }
         function esc(s){ const d=document.createElement('div'); d.textContent = (s==null?'':s); return d.innerHTML; }
+
+        // ---- scoring weights ----
+        // The backend stores weights as fractions (0.45); we show them as whole
+        // percentages (45) because that's how people read them. We convert on
+        // the way in and out. The scorer rescales anyway, so they need not total
+        // exactly 100 — but we show the running total so it's easy to keep tidy.
+        const WEIGHT_KEYS = ['agent','accuracy','compliance','conversation','response_time'];
+
+        function updateTotal() {
+          var total = 0;
+          WEIGHT_KEYS.forEach(function(k){ total += parseFloat(document.getElementById('w_'+k).value) || 0; });
+          total = Math.round(total);
+          document.getElementById('w_total').textContent = total;
+          // Flag when it doesn't add to 100. The score still rescales, so this
+          // is a nudge to keep it tidy, not a hard error.
+          document.querySelector('.wtotal').classList.toggle('off', total !== 100);
+        }
+
+        async function loadWeights() {
+          const st = document.getElementById('weightsStatus');
+          try {
+            const w = await (await fetch('/weights')).json();
+            WEIGHT_KEYS.forEach(function(k){
+              document.getElementById('w_'+k).value = Math.round((w[k]||0) * 100);
+            });
+            updateTotal();
+            st.textContent = 'These weights are applied to every call.';
+          } catch(e){ st.textContent = 'Could not load weights: ' + e; }
+        }
+
+        async function saveWeights() {
+          const st = document.getElementById('weightsStatus');
+          const btn = document.getElementById('saveWeightsBtn');
+          const payload = {};
+          WEIGHT_KEYS.forEach(function(k){
+            payload[k] = (parseFloat(document.getElementById('w_'+k).value) || 0) / 100;
+          });
+          btn.disabled = true;
+          st.textContent = 'Saving…';
+          try {
+            const res = await fetch('/weights', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+            await res.json();
+            st.textContent = 'Saved. Every call from now on uses these weights.';
+          } catch(e){ st.textContent = 'Could not save: ' + e; }
+          btn.disabled = false;
+        }
+
+        // Recompute the total live as the numbers are edited.
+        WEIGHT_KEYS.forEach(function(k){
+          document.getElementById('w_'+k).addEventListener('input', updateTotal);
+        });
+
+        loadWeights();  // fill the boxes with the current weights on page load
 
         async function analyze() {
           const transcript = document.getElementById('transcript').value.trim();
