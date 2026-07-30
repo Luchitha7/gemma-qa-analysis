@@ -106,6 +106,25 @@ def _fmt(score):
     return "n/a" if score is None else f"{score:g}"
 
 
+def _as_lines(suggestions):
+    """Normalise suggestions (a newline string or a list) into clean lines.
+
+    The pipeline returns suggestions as one newline-separated string, and each
+    line may already start with a bullet marker. We split it into lines and
+    strip any leading '-', '*' or bullet so we don't double up.
+    """
+    if isinstance(suggestions, str):
+        items = suggestions.splitlines()
+    else:
+        items = list(suggestions)
+    lines = []
+    for item in items:
+        text = str(item).strip().lstrip("-*•").strip()
+        if text:
+            lines.append(text)
+    return lines
+
+
 def _header(result, st):
     """The top band: big final score, its band, and the date."""
     final = result.get("final", 0)
@@ -277,7 +296,7 @@ def build_report(result):
         flow.append(Paragraph("Answer accuracy", st["h2"]))
         flow.append(_accuracy(result, st))
 
-    suggestions = result.get("suggestions") or []
+    suggestions = _as_lines(result.get("suggestions") or [])
     if suggestions:
         flow.append(Paragraph("Coaching suggestions", st["h2"]))
         for s in suggestions:
