@@ -15,7 +15,7 @@ Requires Ollama running ('brew services start ollama') and the venv active.
 import re
 
 from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
 
 from gemma_client import gemma, reset_token_usage, get_token_usage
@@ -32,6 +32,7 @@ from response_time import (
     leading_time_seconds, response_delays, response_time_score,
 )
 from weights_config import load_weights, save_weights
+from report_pdf import build_report
 
 app = FastAPI()
 
@@ -256,6 +257,30 @@ def set_weights(payload: dict):
     return {"status": "saved", "weights": saved}
 
 
+@app.post("/report")
+def report(payload: dict):
+    """Return a one-call QA report as a downloadable PDF.
+
+    Accepts either a raw transcript (which is scored first) or an already
+    computed /analyze result (which is just rendered). The frontend sends the
+    result it already has, so no call is scored twice.
+    """
+    if "final" not in payload and "transcript" in payload:
+        transcript, times = parse_transcript(payload["transcript"])
+        if not transcript:
+            return {"error": "No transcript lines found. Use 'Agent: ...' and "
+                             "'Client: ...' on separate lines."}
+        payload = run_pipeline(transcript, times)
+
+    pdf = build_report(payload)
+    return Response(
+        content=pdf,
+        media_type="application/pdf",
+        headers={"Content-Disposition":
+                 "attachment; filename=call_qa_report.pdf"},
+    )
+
+
 SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
 [00:06] Client: I was charged twice for my subscription this month and I want it fixed.
 [00:09] Agent: I'm sorry to hear that. Let me pull up your account and take a look.
@@ -450,6 +475,7 @@ def index():
             <div class="actions">
               <button class="btn primary" id="analyzeBtn" onclick="analyze()">Analyze Call</button>
               <button class="btn ghost" onclick="loadSample()">Load Sample</button>
+              <button class="btn ghost" id="reportBtn" onclick="downloadReport()" style="display:none">Download Report</button>
             </div>
             <div class="hint" id="status">One line per turn. Works with Agent:/Client:, also AI:/Customer: and [00:15] timestamps.</div>
 
@@ -577,6 +603,29 @@ def index():
 
         loadWeights();  // fill the boxes with the current weights on page load
 
+        let lastResult = null;  // the most recent /analyze result, for the PDF
+
+        async function downloadReport() {
+          if (!lastResult) return;
+          const rbtn = document.getElementById('reportBtn');
+          const status = document.getElementById('status');
+          rbtn.disabled = true;
+          const original = rbtn.textContent;
+          rbtn.textContent = 'Preparing…';
+          try {
+            const res = await fetch('/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(lastResult) });
+            if (!res.ok) { status.textContent = 'Could not build the report.'; return; }
+            const blob = await res.blob();
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'call_qa_report.pdf';
+            document.body.appendChild(a); a.click(); a.remove();
+            URL.revokeObjectURL(url);
+          } catch(e){ status.textContent = 'Something went wrong: ' + e; }
+          rbtn.textContent = original;
+          rbtn.disabled = false;
+        }
+
         async function analyze() {
           const transcript = document.getElementById('transcript').value.trim();
           const btn = document.getElementById('analyzeBtn');
@@ -589,6 +638,8 @@ def index():
             const data = await res.json();
             if (data.error) { status.textContent = data.error; btn.disabled=false; return; }
             render(data);
+            lastResult = data;
+            document.getElementById('reportBtn').style.display = '';
             status.textContent = 'Analysis complete.';
           } catch(e){ status.textContent = 'Something went wrong: ' + e; }
           btn.disabled = false;
