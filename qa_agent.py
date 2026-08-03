@@ -59,12 +59,17 @@ FINAL_WEIGHTS = {
 
 
 def final_qa_score(agent, conversation, accuracy=None,
-                   compliance=None, response_time=None):
+                   compliance=None, response_time=None, weights=None):
     """Blend every available sub-score into one 0-100 number.
 
     Parts that are None (e.g. no timed replies, or no client question matched
     the knowledge base) are left out and the remaining weights re-balanced.
+
+    `weights` lets a caller pass a custom set (e.g. loaded from the frontend
+    weights file). When it's None we use FINAL_WEIGHTS, so the behaviour is
+    unchanged for any caller that doesn't supply weights.
     """
+    weights = weights if weights is not None else FINAL_WEIGHTS
     parts = {
         "agent": agent,
         "accuracy": accuracy,
@@ -73,10 +78,10 @@ def final_qa_score(agent, conversation, accuracy=None,
         "response_time": response_time,
     }
     available = {k: v for k, v in parts.items() if v is not None}
-    total_weight = sum(FINAL_WEIGHTS[k] for k in available)
+    total_weight = sum(weights[k] for k in available)
     if not total_weight:
         return 0.0
-    blended = sum(v * FINAL_WEIGHTS[k] for k, v in available.items())
+    blended = sum(v * weights[k] for k, v in available.items())
     return round(blended / total_weight, 1)
 
 
