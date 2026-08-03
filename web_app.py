@@ -14,9 +14,12 @@ Requires Ollama running ('brew services start ollama') and the venv active.
 
 import re
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
 from gemma_client import gemma, reset_token_usage, get_token_usage
 from qa_intensity import analyze
@@ -34,7 +37,15 @@ from response_time import (
 from weights_config import load_weights, save_weights
 from report_pdf import build_report
 
+# Rate limiting. Each caller is identified by IP address and gets its own
+# request budget per endpoint. Going over the limit returns HTTP 429 instead
+# of running the work, which protects the server (especially the heavy
+# /analyze call) from overload and abuse.
+limiter = Limiter(key_func=get_remote_address)
+
 app = FastAPI()
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 
 class TranscriptIn(BaseModel):
@@ -229,7 +240,8 @@ def run_pipeline(transcript, times=None):
 
 
 @app.post("/analyze")
-def analyze_call(payload: TranscriptIn):
+@limiter.limit("10/minute")  # heavy: runs Gemma + RoBERTa + RAG
+def analyze_call(request: Request, payload: TranscriptIn):
     transcript, times = parse_transcript(payload.transcript)
     if not transcript:
         return {"error": "No transcript lines found. Use 'Agent: ...' and "
@@ -238,13 +250,15 @@ def analyze_call(payload: TranscriptIn):
 
 
 @app.get("/weights")
-def get_weights():
+@limiter.limit("60/minute")  # light: just reads the weights file
+def get_weights(request: Request):
     """Return the weights currently in effect (saved file, or defaults)."""
     return load_weights()
 
 
 @app.post("/weights")
-def set_weights(payload: dict):
+@limiter.limit("20/minute")  # light, but changes state
+def set_weights(request: Request, payload: dict):
     """Save weights sent from the frontend and return what was stored.
 
     The body is the key-value pairs, e.g.:
@@ -258,7 +272,8 @@ def set_weights(payload: dict):
 
 
 @app.post("/report")
-def report(payload: dict):
+@limiter.limit("30/minute")  # medium: renders a PDF (may re-score if raw)
+def report(request: Request, payload: dict):
     """Return a one-call QA report as a downloadable PDF.
 
     Accepts either a raw transcript (which is scored first) or an already
