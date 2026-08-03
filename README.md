@@ -9,6 +9,42 @@ Everything runs locally. No transcripts leave the machine, and there are no API
 bills — the only language-model work is a small model served by Ollama on the
 same host.
 
+## Quick start
+
+From a fresh clone to the running web app. Run these once, in order, from the
+project folder. Requires macOS and Python 3.11.
+
+```bash
+# 1. Install Ollama and pull the language model (one-time)
+brew install ollama
+brew services start ollama
+ollama pull gemma3:1b
+
+# 2. Create the virtual environment and install dependencies (one-time)
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Start the app
+python web_app.py
+```
+
+Then open **http://localhost:8000**, paste a call transcript (or click **Load
+Sample**), and click **Analyze Call**.
+
+Every time after that, you only need steps 3 again, with the environment active:
+
+```bash
+source venv/bin/activate   # if not already active
+python web_app.py
+```
+
+Make sure Ollama is running (`brew services start ollama`) whenever you use the
+app — the scoring needs it. The first analysis also downloads the RoBERTa and
+MiniLM models (~500 MB) and caches them; after that it works offline.
+
+The sections below explain how it works and cover the other ways to run it.
+
 ## How it works
 
 The system leans on three components, each used only for what it is actually good
