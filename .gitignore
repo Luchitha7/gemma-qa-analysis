@@ -6,3 +6,6 @@ __pycache__/
 # Runtime state: weights saved from the frontend. The defaults live in code
 # (qa_agent.py FINAL_WEIGHTS), so this file is a local override, not source.
 weights.json
+
+# Local editor / preview tool config, not project source.
+.claude/
