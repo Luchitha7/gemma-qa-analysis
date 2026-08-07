@@ -14,9 +14,11 @@ Requires Ollama running ('brew services start ollama') and the venv active.
 
 import re
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, Response
 from pydantic import BaseModel
+
+import job_queue
 
 from gemma_client import gemma, reset_token_usage, get_token_usage
 from qa_intensity import analyze
@@ -235,6 +237,49 @@ def analyze_call(payload: TranscriptIn):
         return {"error": "No transcript lines found. Use 'Agent: ...' and "
                          "'Client: ...' on separate lines."}
     return run_pipeline(transcript, times)
+
+
+def score_job(transcript_text):
+    """Score one transcript. Run by the queue's workers, not by a request.
+
+    Raises on a bad transcript so the job is marked 'error' with the reason,
+    instead of returning a normal-looking result.
+    """
+    transcript, times = parse_transcript(transcript_text)
+    if not transcript:
+        raise ValueError("No transcript lines found. Use 'Agent: ...' and "
+                         "'Client: ...' on separate lines.")
+    return run_pipeline(transcript, times)
+
+
+# Start the fixed pool of workers that drain the queue. Done once, at import.
+job_queue.start_workers(score_job)
+
+
+@app.post("/jobs")
+def submit_job(payload: TranscriptIn):
+    """Queue a transcript for scoring and return its job id immediately.
+
+    This is the safe way to score at scale: the request is accepted and lined
+    up instead of hitting the model straight away, so a burst of requests can
+    never overload the machine. Poll GET /jobs/{id} for the result.
+    """
+    return job_queue.submit(payload.transcript)
+
+
+@app.get("/jobs/{job_id}")
+def job_status(job_id: str):
+    """Fetch a job by id: its status, and the result once it is done."""
+    job = job_queue.get(job_id)
+    if job is None:
+        raise HTTPException(status_code=404, detail="No job with that id.")
+    return job
+
+
+@app.get("/jobs")
+def list_jobs():
+    """The whole queue at a glance: how many are waiting, running, and done."""
+    return job_queue.snapshot()
 
 
 @app.get("/weights")
