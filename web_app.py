@@ -15,7 +15,7 @@ Requires Ollama running ('brew services start ollama') and the venv active.
 import re
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel
 
 import job_queue
@@ -263,8 +263,26 @@ def submit_job(payload: TranscriptIn):
     This is the safe way to score at scale: the request is accepted and lined
     up instead of hitting the model straight away, so a burst of requests can
     never overload the machine. Poll GET /jobs/{id} for the result.
+
+    If the system is already at capacity, the request is turned away with a
+    503 and a Retry-After header rather than being queued, so the app never
+    builds up a huge backlog. The caller should wait and try again.
     """
-    return job_queue.submit(payload.transcript)
+    ok, info = job_queue.submit(payload.transcript)
+    if not ok:
+        return JSONResponse(
+            status_code=503,
+            headers={"Retry-After": str(info["retry_after"])},
+            content={
+                "status": "busy",
+                "message": "The scorer is at capacity. Please retry shortly.",
+                "processing": info["processing"],
+                "waiting": info["waiting"],
+                "capacity": info["capacity"],
+                "retry_after_seconds": info["retry_after"],
+            },
+        )
+    return info
 
 
 @app.get("/jobs/{job_id}")

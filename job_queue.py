@@ -32,10 +32,21 @@ from datetime import datetime, timezone
 # How many jobs may be scored at the same time. Small on purpose (see above).
 MAX_CONCURRENT = int(os.environ.get("QA_MAX_CONCURRENT", "2"))
 
+# The most jobs the system will hold at once: the ones being scored plus the
+# few waiting. Once this is reached, new requests are turned away with a
+# "busy, retry shortly" instead of being queued, so the app never holds a huge
+# backlog in memory. Set QA_CAPACITY=2 to only ever accept what is being scored
+# (the strictest "reject the rest" behaviour); raise it for a bigger buffer.
+CAPACITY = int(os.environ.get("QA_CAPACITY", "10"))
+
+# How long to tell a turned-away caller to wait before trying again (seconds).
+RETRY_AFTER = int(os.environ.get("QA_RETRY_AFTER", "10"))
+
 _jobs = {}                 # job_id -> job record (includes the raw payload)
-_lock = threading.Lock()   # guards _jobs and _seq
+_lock = threading.Lock()   # guards _jobs, _seq and _active
 _pending = queue.Queue()   # job_ids waiting to be scored, in arrival order
 _seq = 0                   # running count, for a human-friendly job number
+_active = 0                # jobs in the system now (queued + processing)
 _started = False
 
 
@@ -51,15 +62,27 @@ def _public(job):
 
 
 def submit(payload):
-    """Accept a scoring request, put it in the queue, and return its record.
+    """Try to accept a scoring request.
 
-    Returns immediately. The job starts as 'queued' and is picked up by a
-    worker when one is free.
+    Returns (True, job_record) if there was room and the job was queued, or
+    (False, info) if the system is at capacity. In the busy case, info carries
+    the current counts and how long to wait, so the caller can be told to
+    retry. Nothing is stored for a rejected request.
     """
-    global _seq
+    global _seq, _active
     job_id = uuid.uuid4().hex[:12]
     with _lock:
+        if _active >= CAPACITY:
+            running = sum(1 for j in _jobs.values()
+                          if j["status"] == "processing")
+            return False, {
+                "waiting": _active - running,
+                "processing": running,
+                "capacity": CAPACITY,
+                "retry_after": RETRY_AFTER,
+            }
         _seq += 1
+        _active += 1
         job = {
             "id": job_id,
             "number": _seq,
@@ -74,7 +97,7 @@ def submit(payload):
         _jobs[job_id] = job
         record = _public(job)
     _pending.put(job_id)
-    return record
+    return True, record
 
 
 def get(job_id):
@@ -94,8 +117,11 @@ def snapshot():
     counts = {"queued": 0, "processing": 0, "done": 0, "error": 0}
     for j in jobs:
         counts[j["status"]] = counts.get(j["status"], 0) + 1
+    active = counts["queued"] + counts["processing"]
     return {
         "max_concurrent": MAX_CONCURRENT,
+        "capacity": CAPACITY,
+        "free_slots": max(0, CAPACITY - active),
         "waiting": counts["queued"],
         "running": counts["processing"],
         "done": counts["done"],
@@ -125,12 +151,14 @@ def start_workers(score_fn):
 
 def _worker_loop(score_fn):
     """One worker: take the next job, score it, store the outcome, repeat."""
+    global _active
     while True:
         job_id = _pending.get()          # blocks until a job is available
         try:
             with _lock:
                 job = _jobs.get(job_id)
                 if job is None:
+                    _active = max(0, _active - 1)
                     continue
                 job["status"] = "processing"
                 job["started_at"] = _now()
@@ -147,5 +175,7 @@ def _worker_loop(score_fn):
                     job["result"] = value
                     job["error"] = err
                     job["finished_at"] = _now()
+                # this job is finished, so it frees a slot for a new request
+                _active = max(0, _active - 1)
         finally:
             _pending.task_done()
