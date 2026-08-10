@@ -94,6 +94,16 @@ class QAUser(HttpUser):
         # so even a burst of users gets a fast reply and the model is never
         # hit by more than QA_MAX_CONCURRENT scores at once. Compare this to
         # the 'heavy' tag: same 150 users, but here nothing overloads.
-        self.client.post("/jobs",
-                         json={"transcript": SAMPLE_TRANSCRIPT},
-                         name="POST /jobs")
+        #
+        # Under capacity limits, a full system replies 503 "busy, retry
+        # shortly". That is the endpoint working as designed, not an error, so
+        # we count both 200 (accepted) and 503 (politely turned away) as
+        # success. Only other codes are real failures.
+        with self.client.post("/jobs",
+                              json={"transcript": SAMPLE_TRANSCRIPT},
+                              name="POST /jobs",
+                              catch_response=True) as resp:
+            if resp.status_code in (200, 503):
+                resp.success()
+            else:
+                resp.failure(f"unexpected status {resp.status_code}")
