@@ -37,7 +37,7 @@ MAX_CONCURRENT = int(os.environ.get("QA_MAX_CONCURRENT", "2"))
 # "busy, retry shortly" instead of being queued, so the app never holds a huge
 # backlog in memory. Set QA_CAPACITY=2 to only ever accept what is being scored
 # (the strictest "reject the rest" behaviour); raise it for a bigger buffer.
-CAPACITY = int(os.environ.get("QA_CAPACITY", "10"))
+CAPACITY = int(os.environ.get("QA_CAPACITY", "5"))
 
 # How long to tell a turned-away caller to wait before trying again (seconds).
 RETRY_AFTER = int(os.environ.get("QA_RETRY_AFTER", "10"))
