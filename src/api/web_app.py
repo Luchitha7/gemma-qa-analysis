@@ -24,9 +24,12 @@ for _path in [_ROOT, _SRC, _TESTS]:
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel
+from typing import Optional, List, Dict, Any
+from sqlalchemy.orm import Session
 
 from src.api import job_queue
 from src.core.gemma_client import gemma, reset_token_usage, get_token_usage
@@ -45,7 +48,41 @@ from src.services.response_time import (
 from src.core.weights_config import load_weights, save_weights
 from src.core.report_pdf import build_report
 
-app = FastAPI()
+# Multi-Tenant & RAG Modules
+from src.db.database import get_db, init_db
+from src.db.models import Tenant, Document, CriteriaConfig, EvaluationReport
+from src.rag.pdf_parser import convert_pdf_bytes_to_markdown
+from src.rag.llm_separator import separate_criteria_and_policies
+from src.rag.vector_store import add_policy_chunks, get_tenant_policies, search_policies, delete_tenant_policies
+from src.services.dynamic_evaluator import evaluate_interaction
+
+app = FastAPI(title="Multi-Tenant QA Service API")
+
+# Enable CORS for Vite frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize Database tables on startup
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
+
+class TenantCreate(BaseModel):
+    id: str
+    name: str
+    description: Optional[str] = ""
+
+
+class EvaluateRequest(BaseModel):
+    transcript: str
+    channel: Optional[str] = "Call"
+    agent_name: Optional[str] = "Agent"
 
 
 class TranscriptIn(BaseModel):
@@ -496,6 +533,235 @@ def report(payload: dict):
         headers={"Content-Disposition":
                  "attachment; filename=call_qa_report.pdf"},
     )
+
+
+# ============================================================================
+# MULTI-TENANT & RAG API ENDPOINTS
+# ============================================================================
+
+@app.get("/api/tenants")
+def list_tenants(db: Session = Depends(get_db)):
+    """List all registered company tenants."""
+    tenants = db.query(Tenant).order_by(Tenant.created_at.desc()).all()
+    # If no tenants exist, create default S-NET tenant
+    if not tenants:
+        default_tenant = Tenant(
+            id="S-NET",
+            name="S-NET Communications",
+            description="Telecommunications & Enterprise IT Support"
+        )
+        db.add(default_tenant)
+        db.commit()
+        db.refresh(default_tenant)
+        tenants = [default_tenant]
+
+    return [{"id": t.id, "name": t.name, "description": t.description, "created_at": t.created_at} for t in tenants]
+
+
+@app.post("/api/tenants")
+def create_tenant(payload: TenantCreate, db: Session = Depends(get_db)):
+    """Create a new company tenant."""
+    existing = db.query(Tenant).filter(Tenant.id == payload.id).first()
+    if existing:
+        return {"status": "exists", "tenant": {"id": existing.id, "name": existing.name}}
+    tenant = Tenant(id=payload.id, name=payload.name, description=payload.description or "")
+    db.add(tenant)
+    db.commit()
+    db.refresh(tenant)
+    return {"status": "created", "tenant": {"id": tenant.id, "name": tenant.name}}
+
+
+@app.post("/api/tenants/{tenant_id}/upload-pdf")
+async def upload_pdf_guideline(tenant_id: str, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    """Upload company QA guideline PDF, convert to Markdown, separate Criteria and Policies, and store in PostgreSQL & ChromaDB."""
+    tenant = db.query(Tenant).filter(Tenant.id == tenant_id).first()
+    if not tenant:
+        # Auto create tenant if not present
+        tenant = Tenant(id=tenant_id, name=tenant_id, description=f"{tenant_id} Support Operations")
+        db.add(tenant)
+        db.commit()
+
+    content = await file.read()
+    if not content:
+        raise HTTPException(status_code=400, detail="Empty PDF file uploaded.")
+
+    # 1. Lossless PDF to Markdown Conversion
+    markdown_text, page_count = convert_pdf_bytes_to_markdown(content, file.filename)
+
+    # 2. Save Document in PostgreSQL
+    doc = Document(
+        tenant_id=tenant_id,
+        filename=file.filename,
+        raw_markdown=markdown_text,
+        page_count=page_count
+    )
+    db.add(doc)
+    db.commit()
+    db.refresh(doc)
+
+    # 3. LLM Separation into Criteria JSON & Policy Chunks
+    separation_result = separate_criteria_and_policies(markdown_text)
+    criteria_json = separation_result.get("criteria", {})
+    policy_chunks = separation_result.get("company_policies", [])
+
+    # 4. Save Criteria Config in PostgreSQL
+    criteria_record = CriteriaConfig(
+        tenant_id=tenant_id,
+        channel="All",
+        category_weights=criteria_json.get("category_weights", {}),
+        auto_fail_rules=criteria_json.get("auto_fail_rules", []),
+        raw_json=criteria_json
+    )
+    db.add(criteria_record)
+    db.commit()
+
+    # 5. Embed and Store Policy Chunks in ChromaDB
+    add_policy_chunks(tenant_id, policy_chunks)
+
+    return {
+        "status": "success",
+        "tenant_id": tenant_id,
+        "filename": file.filename,
+        "page_count": page_count,
+        "markdown_char_count": len(markdown_text),
+        "criteria_summary": {
+            "categories": [c.get("name") for c in criteria_json.get("categories", [])],
+            "weights": criteria_json.get("category_weights", {})
+        },
+        "policy_chunks_count": len(policy_chunks)
+    }
+
+
+@app.get("/api/tenants/{tenant_id}/markdown")
+def get_tenant_markdown(tenant_id: str, db: Session = Depends(get_db)):
+    """Retrieve the latest converted Markdown document for the given tenant."""
+    doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
+    if not doc:
+        return {"markdown": "# No document uploaded yet\nUpload a QA Guideline PDF to view its converted Markdown.", "filename": None}
+    return {"markdown": doc.raw_markdown, "filename": doc.filename, "uploaded_at": doc.uploaded_at}
+
+
+@app.get("/api/tenants/{tenant_id}/criteria")
+def get_tenant_criteria(tenant_id: str, db: Session = Depends(get_db)):
+    """Retrieve the latest parsed criteria JSON for the given tenant."""
+    criteria = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
+    if not criteria:
+        # Return standard default criteria
+        return {
+            "category_weights": {"Soft Skills": 0.25, "Technical Knowledge": 0.50, "Process Knowledge": 0.25},
+            "categories": [
+                {
+                    "name": "Soft Skills",
+                    "weight_percentage": 25.0,
+                    "line_items": [
+                        {"name": "Branding and Survey", "description": "Verbatim greeting and closing spiels within SLA."},
+                        {"name": "Hold time and Dead Air", "description": "Hold < 3 mins, dead air < 20s."}
+                    ]
+                },
+                {
+                    "name": "Technical Knowledge",
+                    "weight_percentage": 50.0,
+                    "line_items": [
+                        {"name": "Verified customer", "description": "Validated name, company, email, contact number."},
+                        {"name": "Provided appropriate solution", "description": "Performed logical troubleshooting steps."}
+                    ]
+                }
+            ],
+            "auto_fail_rules": [
+                {"name": "Discourtesy", "description": "Profanity, impatience, sarcasm"},
+                {"name": "Call Avoidance", "description": "Rejecting or prematurely ending call without resolution"}
+            ]
+        }
+    return criteria.raw_json
+
+
+@app.get("/api/tenants/{tenant_id}/policies")
+def get_tenant_policy_chunks(tenant_id: str):
+    """Retrieve stored policy knowledge chunks from Vector DB for the tenant."""
+    return get_tenant_policies(tenant_id)
+
+
+@app.post("/api/tenants/{tenant_id}/evaluate")
+def evaluate_tenant_transcript(tenant_id: str, req: EvaluateRequest, db: Session = Depends(get_db)):
+    """Run dynamic QA analysis on a transcript using tenant's custom criteria and Vector RAG."""
+    # 1. Fetch criteria
+    criteria_record = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
+    criteria_data = criteria_record.raw_json if criteria_record else {}
+
+    # 2. Run Dynamic Evaluation
+    result = evaluate_interaction(
+        transcript_text=req.transcript,
+        criteria_data=criteria_data,
+        tenant_id=tenant_id,
+        channel=req.channel or "Call"
+    )
+
+    # 3. Save Evaluation in PostgreSQL
+    eval_report = EvaluationReport(
+        tenant_id=tenant_id,
+        channel=req.channel or "Call",
+        agent_name=req.agent_name or "Agent",
+        transcript=req.transcript,
+        final_score=result["final_score"],
+        is_auto_fail=result["is_auto_fail"],
+        scorecard_json=result["scorecard"],
+        sentiment_json=result["sentiment_analysis"],
+        rag_matches_json=result["matched_policies"],
+        summary=result["summary"],
+        suggestions=result["suggestions"]
+    )
+    db.add(eval_report)
+    db.commit()
+    db.refresh(eval_report)
+
+    result["evaluation_id"] = eval_report.id
+    result["created_at"] = eval_report.created_at
+    return result
+
+
+@app.get("/api/evaluations")
+def list_evaluations(tenant_id: Optional[str] = None, db: Session = Depends(get_db)):
+    """List past evaluation reports."""
+    q = db.query(EvaluationReport)
+    if tenant_id:
+        q = q.filter(EvaluationReport.tenant_id == tenant_id)
+    reports = q.order_by(EvaluationReport.created_at.desc()).limit(50).all()
+    return [
+        {
+            "id": r.id,
+            "tenant_id": r.tenant_id,
+            "channel": r.channel,
+            "agent_name": r.agent_name,
+            "final_score": r.final_score,
+            "is_auto_fail": r.is_auto_fail,
+            "created_at": r.created_at,
+            "summary": r.summary
+        }
+        for r in reports
+    ]
+
+
+@app.get("/api/evaluations/{evaluation_id}")
+def get_evaluation(evaluation_id: str, db: Session = Depends(get_db)):
+    """Get single evaluation report detail."""
+    report = db.query(EvaluationReport).filter(EvaluationReport.id == evaluation_id).first()
+    if not report:
+        raise HTTPException(status_code=404, detail="Evaluation not found.")
+    return {
+        "id": report.id,
+        "tenant_id": report.tenant_id,
+        "channel": report.channel,
+        "agent_name": report.agent_name,
+        "transcript": report.transcript,
+        "final_score": report.final_score,
+        "is_auto_fail": report.is_auto_fail,
+        "scorecard": report.scorecard_json,
+        "sentiment_analysis": report.sentiment_json,
+        "matched_policies": report.rag_matches_json,
+        "summary": report.summary,
+        "suggestions": report.suggestions,
+        "created_at": report.created_at
+    }
 
 
 SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?

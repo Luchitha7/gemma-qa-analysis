@@ -1,0 +1,20 @@
+{
+  "S-NET": [
+    {
+      "title": "Hold Time & Dead Air Policy",
+      "content": "Support must not exceed 3-minute hold times without updating customer. Dead air must not exceed 20 seconds."
+    },
+    {
+      "title": "Escalation & Supervisor Protocol",
+      "content": "When a customer requests a supervisor, support must perform a supervised transfer to a lead or schedule a callback."
+    },
+    {
+      "title": "Hold & Dead Air SLA",
+      "content": "Support did not exceed 3-minute hold times. Dead air should not exceed 20 seconds."
+    },
+    {
+      "title": "Escalation Guidelines",
+      "content": "Escalate to supervisor at customer request or if threatening to cancel."
+    }
+  ]
+}

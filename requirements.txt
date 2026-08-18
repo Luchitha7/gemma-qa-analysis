@@ -6,3 +6,8 @@ pydantic
 sentence-transformers
 reportlab
 pypdf
+pymupdf
+sqlalchemy
+psycopg2-binary
+python-multipart
+python-dotenv

@@ -1,124 +1,97 @@
 ### ====================================================================
-### GEMMA QA ANALYSIS SERVICE - REST API REQUEST COLLECTION
-### Use with VS Code REST Client extension, IntelliJ, or Postman
+### MULTI-TENANT QA SERVICE & RAG REST API ENDPOINTS
+### Compatible with VS Code REST Client / IntelliJ HTTP Client / Postman
 ### ====================================================================
 
 @baseUrl = http://localhost:8000
 @tenantId = S-NET
 
 ### --------------------------------------------------------------------
-### 1. HEALTH CHECK & MAIN DASHBOARD
+### 1. TENANT MANAGEMENT (POSTGRESQL)
 ### --------------------------------------------------------------------
 
-### Get Main Web Application Dashboard
-GET {{baseUrl}}/
-Accept: text/html
+### List All Companies / Tenants
+GET {{baseUrl}}/api/tenants
 
-### Get Queue Dashboard Page
-GET {{baseUrl}}/queue
-Accept: text/html
-
-### --------------------------------------------------------------------
-### 2. SYNCHRONOUS CALL ANALYSIS
-### --------------------------------------------------------------------
-
-### Analyze Call Transcript (Synchronous)
-POST {{baseUrl}}/analyze
+### Create a New Tenant
+POST {{baseUrl}}/api/tenants
 Content-Type: application/json
 
 {
-  "transcript": "[00:00] Client: Hello, my internet has been completely down since this morning!\n[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:12] Client: The internet light on my router is flashing red and I need this fixed for work.\n[00:18] Agent: I am sorry to hear that. Let me run a line diagnostic right now to check your connection.\n[00:30] Agent: I can see a line fault on our end. I will arrange a technician visit at no extra cost to you.\n[00:45] Client: Thank you, that is very helpful.\n[00:50] Agent: You are welcome. Thank you for Choosing S-NET and have a great day."
+  "id": "AcmeCorp",
+  "name": "Acme Corporation Support",
+  "description": "Global SaaS and Cloud Services Customer Support"
 }
 
 ### --------------------------------------------------------------------
-### 3. ASYNCHRONOUS JOB QUEUE
+### 2. PDF UPLOAD, MARKDOWN CONVERSION & RAG INDEXING
 ### --------------------------------------------------------------------
 
-### Submit Analysis Job to Async Queue
-# @name submitJob
-POST {{baseUrl}}/jobs
-Content-Type: application/json
-
-{
-  "transcript": "[00:00] Client: I was charged twice for my subscription this month.\n[00:06] Agent: Thank you for calling S-NET Communications. My name is Sam, how can I assist you?\n[00:14] Client: You took two payments of $50 from my bank account.\n[00:22] Agent: I apologize for the mistake. I can see the duplicate charge and I will refund $50 right now.\n[00:35] Agent: The refund will reflect in 3 to 5 business days. Is there anything else I can help with?\n[00:42] Client: No, that is all. Thanks.\n[00:48] Agent: Thank you for Choosing S-NET and have a great day."
-}
-
-###
-
-@jobId = {{submitJob.response.body.job_id}}
-
-### Get Status of Specific Job
-GET {{baseUrl}}/jobs/{{jobId}}
-
-### List All Submitted Jobs
-GET {{baseUrl}}/jobs
-
-### --------------------------------------------------------------------
-### 4. SCORING WEIGHTS CONFIGURATION
-### --------------------------------------------------------------------
-
-### Fetch Current Scoring Weights
-GET {{baseUrl}}/weights
-
-### Update Custom Scoring Weights
-POST {{baseUrl}}/weights
-Content-Type: application/json
-
-{
-  "agent": 0.50,
-  "accuracy": 0.20,
-  "compliance": 0.15,
-  "conversation": 0.10,
-  "response_time": 0.05
-}
-
-### Reset Scoring Weights to Code Defaults
-POST {{baseUrl}}/weights
-Content-Type: application/json
-
-{
-  "agent": 0.45,
-  "accuracy": 0.20,
-  "compliance": 0.20,
-  "conversation": 0.10,
-  "response_time": 0.05
-}
-
-### --------------------------------------------------------------------
-### 5. PDF REPORT GENERATION
-### --------------------------------------------------------------------
-
-### Generate & Download PDF Report
-POST {{baseUrl}}/report
-Content-Type: application/json
-
-{
-  "transcript": "[00:00] Client: My wifi connection keeps dropping every few minutes.\n[00:08] Agent: Thank you for calling S-NET Communications. My name is Jordan, how can I help you today?\n[00:16] Client: I keep losing signal while working.\n[00:24] Agent: Let me run a stability test on your line. If the router is faulty, we will replace it free of charge.\n[00:40] Agent: Thank you for Choosing S-NET and have a great day."
-}
-
-### --------------------------------------------------------------------
-### 6. MULTI-TENANT ENTERPRISE QA ENDPOINTS (NEW ARCHITECTURE)
-### --------------------------------------------------------------------
-
-### Upload & Ingest Company Guidelines PDF
-POST {{baseUrl}}/tenants/{{tenantId}}/ingest-pdf
+### Upload Guideline PDF (Converts to Markdown & Indexes into Vector DB)
+POST {{baseUrl}}/api/tenants/{{tenantId}}/upload-pdf
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="QA_Form_Guideline.pdf"
+Content-Disposition: form-data; name="file"; filename="sample_guideline.pdf"
 Content-Type: application/pdf
 
-< ./docs/QA_Form_Guideline.pdf
+< ./sample_guideline.pdf
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-### Get Extracted Tenant Criteria Schema
-GET {{baseUrl}}/tenants/{{tenantId}}/criteria
+### Get Converted Lossless Markdown (.md)
+GET {{baseUrl}}/api/tenants/{{tenantId}}/markdown
 
-### Perform Multi-Tenant RAG QA Evaluation
-POST {{baseUrl}}/tenants/{{tenantId}}/evaluate
+### Get Parsed Criteria JSON (Categories, Weights, Line Items, Auto-Fails)
+GET {{baseUrl}}/api/tenants/{{tenantId}}/criteria
+
+### Get Vector DB Knowledge Chunks (RAG Policies)
+GET {{baseUrl}}/api/tenants/{{tenantId}}/policies
+
+### --------------------------------------------------------------------
+### 3. LIVE MULTI-TENANT QA EVALUATION (RAG + GEMMA + SCORING)
+### --------------------------------------------------------------------
+
+### Evaluate Compliant Call Transcript
+POST {{baseUrl}}/api/tenants/{{tenantId}}/evaluate
 Content-Type: application/json
 
 {
   "channel": "Call",
-  "transcript": "[00:00] Client: I need to speak to your manager right now!\n[00:05] Agent: Supervisors do not take these calls. You are better off hanging up.\n[00:12] Client: That is unacceptable and rude.\n[00:18] Agent: Whatever, I don't have time for this."
+  "agent_name": "Alex",
+  "transcript": "[00:00] Client: Hello, my internet has been completely down since this morning!\n[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:12] Client: The router light is red and blinking. My account name is John Doe at 104 Main St.\n[00:18] Agent: Thank you for confirming, John. Let me check the line status and run a remote test right now.\n[00:25] Agent: I can see a line fault on our side. Since you rent the router from us, I will arrange a technician visit at no extra cost to you.\n[00:40] Client: That sounds great, thank you so much!\n[00:45] Agent: You are very welcome. I will transfer you to our quick 1-question survey. Thank you for Choosing S-NET and have a great day."
 }
+
+### Evaluate Auto-Fail Call Transcript (Profanity / Avoidance)
+POST {{baseUrl}}/api/tenants/{{tenantId}}/evaluate
+Content-Type: application/json
+
+{
+  "channel": "Call",
+  "agent_name": "BadAgent",
+  "transcript": "[00:00] Client: Why was I charged an extra $60 fee on my internet bill this month?\n[00:05] Agent: You probably didn't read your contract properly.\n[00:10] Client: Excuse me? I want to speak to your supervisor right now.\n[00:15] Agent: Supervisors do not take these calls. You are better off just hanging up.\n[00:22] Client: This is outrageous! I am canceling my service.\n[00:28] Agent: Whatever, get lost then."
+}
+
+### --------------------------------------------------------------------
+### 4. AUDIT & EVALUATION HISTORY
+### --------------------------------------------------------------------
+
+### List All Past QA Evaluations
+GET {{baseUrl}}/api/evaluations?tenant_id={{tenantId}}
+
+### --------------------------------------------------------------------
+### 5. ORIGINAL LEGACY ENDPOINTS (STILL SUPPORTED)
+### --------------------------------------------------------------------
+
+### Synchronous /analyze
+POST {{baseUrl}}/analyze
+Content-Type: application/json
+
+{
+  "transcript": "[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:05] Client: I was charged twice this month.\n[00:10] Agent: I apologize, I will refund the charge immediately.\n[00:20] Agent: Thank you for Choosing S-NET and have a great day."
+}
+
+### Get Queue Status
+GET {{baseUrl}}/queue
+
+### Get Scoring Weights
+GET {{baseUrl}}/weights
