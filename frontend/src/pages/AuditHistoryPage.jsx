@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTenant } from '../context/TenantContext';
-import { Clock, Eye } from 'lucide-react';
+import { Clock, Eye, Trash2 } from 'lucide-react';
 import AuditDetailModal from '../components/AuditDetailModal';
 
 export default function AuditHistoryPage() {
@@ -38,15 +38,57 @@ export default function AuditHistoryPage() {
     }
   };
 
+  const handleDeleteEvaluation = async (id) => {
+    if (!window.confirm(`Are you sure you want to delete this evaluation report (${id.slice(0, 8)}...)?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/evaluations/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        if (selectedHistoryItem && selectedHistoryItem.id === id) {
+          setSelectedHistoryItem(null);
+        }
+        fetchHistory();
+      } else {
+        alert('Failed to delete evaluation record.');
+      }
+    } catch (err) {
+      alert('Delete error: ' + err.message);
+    }
+  };
+
+  const handleClearAllHistory = async () => {
+    if (!window.confirm(`Are you sure you want to delete ALL audit records for "${selectedTenant}"?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/evaluations?tenant_id=${selectedTenant}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        setSelectedHistoryItem(null);
+        fetchHistory();
+      }
+    } catch (err) {
+      alert('Clear error: ' + err.message);
+    }
+  };
+
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center gap-4">
         <div>
           <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
             <Clock size={20} className="text-blue-600" /> QA Audit History ({selectedTenant})
           </h2>
-          <p className="text-xs text-slate-500">Historical records stored in PostgreSQL table `evaluation_reports`. Click any row to view in-depth breakdown.</p>
+          <p className="text-xs text-slate-500">Historical evaluation records stored in PostgreSQL. Click any row to view in-depth breakdown or delete individual records.</p>
         </div>
+        {historyData.length > 0 && (
+          <button
+            onClick={handleClearAllHistory}
+            className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg px-3 py-1.5 text-xs font-semibold transition cursor-pointer"
+          >
+            <Trash2 size={13} /> Clear All {selectedTenant} Logs
+          </button>
+        )}
       </div>
 
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
@@ -60,7 +102,7 @@ export default function AuditHistoryPage() {
                 <th className="p-4">Status</th>
                 <th className="p-4">Date & Time</th>
                 <th className="p-4">Summary</th>
-                <th className="p-4 text-right">Action</th>
+                <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -92,15 +134,26 @@ export default function AuditHistoryPage() {
                     <td className="p-4 text-slate-500">{new Date(row.created_at).toLocaleString()}</td>
                     <td className="p-4 text-slate-700 max-w-sm truncate">{row.summary}</td>
                     <td className="p-4 text-right">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openHistoryDetail(row.id);
-                        }}
-                        className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-1 rounded text-[11px] font-semibold transition ml-auto cursor-pointer"
-                      >
-                        <Eye size={12} /> View Details
-                      </button>
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openHistoryDetail(row.id);
+                          }}
+                          className="flex items-center gap-1 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-2 py-1 rounded text-[11px] font-semibold transition cursor-pointer"
+                        >
+                          <Eye size={12} /> View
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteEvaluation(row.id);
+                          }}
+                          className="flex items-center gap-1 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 px-2 py-1 rounded text-[11px] font-semibold transition cursor-pointer"
+                        >
+                          <Trash2 size={12} /> Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))
@@ -113,6 +166,7 @@ export default function AuditHistoryPage() {
       <AuditDetailModal 
         item={selectedHistoryItem} 
         onClose={() => setSelectedHistoryItem(null)} 
+        onDelete={handleDeleteEvaluation}
       />
     </div>
   );

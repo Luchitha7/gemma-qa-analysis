@@ -843,6 +843,30 @@ def get_evaluation(evaluation_id: str, db: Session = Depends(get_db)):
     }
 
 
+@app.delete("/api/evaluations/{evaluation_id}")
+def delete_evaluation(evaluation_id: str, db: Session = Depends(get_db)):
+    """Delete a single evaluation report from PostgreSQL by its ID."""
+    report = db.query(EvaluationReport).filter(EvaluationReport.id == evaluation_id).first()
+    if not report:
+        raise HTTPException(status_code=404, detail="Evaluation not found.")
+    
+    db.delete(report)
+    db.commit()
+    return {"status": "deleted", "evaluation_id": evaluation_id}
+
+
+@app.delete("/api/evaluations")
+def clear_evaluations(tenant_id: Optional[str] = None, db: Session = Depends(get_db)):
+    """Clear all evaluation reports for a given tenant or across all tenants."""
+    query = db.query(EvaluationReport)
+    if tenant_id:
+        query = query.filter(EvaluationReport.tenant_id == tenant_id)
+    count = query.count()
+    query.delete()
+    db.commit()
+    return {"status": "cleared", "deleted_count": count, "tenant_id": tenant_id}
+
+
 SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
 [00:06] Client: I was charged twice for my subscription this month and I want it fixed.
 [00:09] Agent: I'm sorry to hear that. Let me pull up your account and take a look.

@@ -1,7 +1,7 @@
 import React from 'react';
-import { X, Database, CheckCircle, AlertTriangle } from 'lucide-react';
+import { X, Database, CheckCircle, AlertTriangle, Trash2 } from 'lucide-react';
 
-export default function AuditDetailModal({ item, onClose }) {
+export default function AuditDetailModal({ item, onClose, onDelete }) {
   if (!item) return null;
 
   return (
@@ -26,7 +26,7 @@ export default function AuditDetailModal({ item, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/60 transition cursor-pointer"
           >
             <X size={18} />
           </button>
@@ -127,10 +127,18 @@ export default function AuditDetailModal({ item, onClose }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end">
+        <div className="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-between items-center">
+          {onDelete ? (
+            <button
+              onClick={() => onDelete(item.id)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-semibold text-xs transition cursor-pointer"
+            >
+              <Trash2 size={13} /> Delete Audit Record
+            </button>
+          ) : <div />}
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-sm"
+            className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs shadow-sm cursor-pointer"
           >
             Close Audit View
           </button>

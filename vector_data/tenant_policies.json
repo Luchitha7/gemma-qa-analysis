@@ -1,1 +1,54 @@
-{}
+{
+  "S-NET": [
+    {
+      "title": "S-NET Communications - Hold Time & Dead Air Protocol",
+      "content": "S-NET Communications Policy: Inform customer, set expectations, and thank customer upon return. Hold times must NOT exceed 3 minutes. After 2 check-ins, subsequent holds can extend up to 10 minutes max (>10 mins is a callout). Dead air must not exceed 20 seconds. 5 seconds grace period allowed."
+    },
+    {
+      "title": "S-NET Communications - Customer & Account Validation Standard",
+      "content": "S-NET Communications Standard: All 4 details must be validated: (1) Caller's full name, (2) Company name, (3) Email address, (4) Contact callback number. Required for contact creation in Zoho CRM."
+    },
+    {
+      "title": "S-NET Communications - Escalation & Supervisor Procedure",
+      "content": "S-NET Communications Procedure: Attempt L1 troubleshooting within scope. If customer insists on supervisor or threatens cancellation, perform a supervised transfer or arrange a priority callback."
+    },
+    {
+      "title": "S-NET Communications - Email SLA & Thread Trimming Rules",
+      "content": "S-NET Communications Email Standard: Respond to assigned cases within 15 minutes. Trim redundant email history before sending replies. Include BrightWave brand signature and satisfaction survey on outbound resolutions."
+    },
+    {
+      "title": "S-NET Communications - Zoho CRM Case Tagging & Notes Compliance",
+      "content": "S-NET Communications Compliance: Document all changes, callback numbers, and screenshots. Tag Location, Account, Request Type, Self-QA checkboxes, and Ticket Status. Late documentation (>30 mins) is a violation."
+    },
+    {
+      "title": "S-NET Communications - Auto-Fail Disciplinary Triggers",
+      "content": "S-NET Communications Zero-Tolerance Rules: Discourtesy (profanity/bashing/sarcasm), Call/Ticket avoidance, Refusing supervisor escalation, Unreported line release, Fraud/misrepresentation, and Ticket abandonment trigger an instant 0/100 score."
+    }
+  ],
+  "Thejan": [
+    {
+      "title": "BrightWave Retail - Hold & Silence Management SLA",
+      "content": "BrightWave Retail Policy: Notify customer before placing on hold and give estimated wait. Hold segments must NOT exceed 2 minutes. After 2 check-ins, subsequent holds may extend up to 8 minutes max (anything beyond 8 mins is a violation). Silence/dead air must not exceed 15 seconds. A 4-second grace allowance applies (one occurrence only)."
+    },
+    {
+      "title": "BrightWave Retail - Identity & Order Verification Standard",
+      "content": "BrightWave Retail Standard: 4 fields must ALL be verified on every contact: (1) Full customer name (spell back for accuracy), (2) Email address, (3) Phone number, (4) Order or Case number. Verification may only be skipped if same customer, same case, same day, same agent."
+    },
+    {
+      "title": "BrightWave Retail - Supervisor Escalation & Membership Retention",
+      "content": "BrightWave Retail Escalation Protocol: If a customer requests a supervisor or threatens to cancel membership/account, support MUST perform a warm/supervised transfer to a lead. Refusing supervisor escalation is an immediate Automatic Fail."
+    },
+    {
+      "title": "BrightWave Retail - Email SLA & Thread Trimming Rules",
+      "content": "BrightWave Retail Email Standard: Respond to assigned cases within 15 minutes. Trim redundant email history before sending replies. Include BrightWave brand signature and satisfaction survey on outbound resolutions."
+    },
+    {
+      "title": "BrightWave Retail - Case Notes & Tagging Compliance",
+      "content": "BrightWave Retail Compliance: Complete notes must be submitted within 20 minutes of interaction end. Correctly tag Store/Region, Issue Category, Self-QA checkboxes, and Channel. Link duplicate/parent-child cases."
+    },
+    {
+      "title": "BrightWave Retail - Automatic Fail Breach Triggers",
+      "content": "BrightWave Retail Zero-Tolerance Rules: Rudeness/profanity, Interaction avoidance (staying on line >3m after closing or >6m off-topic), Escalation refusal, Improper disconnect without logging dropped-call protocol, Misrepresentation/fraud, and Case abandonment result in an instant 0/100 score."
+    }
+  ]
+}
