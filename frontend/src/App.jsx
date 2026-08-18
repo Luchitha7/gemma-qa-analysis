@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   FileText, Upload, CheckCircle, AlertTriangle, XCircle, 
   Sparkles, Layers, ShieldAlert, BookOpen, Clock, Activity, 
-  Database, RefreshCw, Plus, ChevronRight, Download, Copy, Play, Check, Trash2, FileMinus
+  Database, RefreshCw, Plus, ChevronRight, Download, Copy, Play, Check, Trash2, FileMinus, FileCode
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:8000';
@@ -20,10 +20,14 @@ export default function App() {
   const [criteriaData, setCriteriaData] = useState(null);
   const [policiesData, setPoliciesData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
+  const [sampleFiles, setSampleFiles] = useState([]);
+  const [selectedSampleFile, setSelectedSampleFile] = useState('');
   
   // Testing state
   const [channel, setChannel] = useState('Call');
+  const [agentName, setAgentName] = useState('Alex');
   const [transcript, setTranscript] = useState('');
+  const [selectedSampleMeta, setSelectedSampleMeta] = useState(null);
   const [evalResult, setEvalResult] = useState(null);
   const [evalLoading, setEvalLoading] = useState(false);
 
@@ -35,6 +39,7 @@ export default function App() {
   // Initial load
   useEffect(() => {
     fetchTenants();
+    fetchSamples();
   }, []);
 
   // When tenant changes, fetch its data
@@ -58,6 +63,16 @@ export default function App() {
       }
     } catch (e) {
       console.error('Failed to fetch tenants:', e);
+    }
+  };
+
+  const fetchSamples = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/samples`);
+      const data = await res.json();
+      setSampleFiles(data);
+    } catch (e) {
+      console.error('Failed to fetch samples:', e);
     }
   };
 
@@ -197,84 +212,35 @@ export default function App() {
     }
   };
 
-  const loadSample = (type) => {
-    if (type === 'compliant_call') {
-      setChannel('Call');
-      setTranscript(
-`[00:00] Client: Hello, my internet connection is completely down and I work from home!
-[00:04] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?
-[00:10] Client: The internet light on my router is blinking red. My account is John Doe, Acme Corp at 104 North Avenue.
-[00:18] Agent: Thank you for verifying your name and account details, John. I understand your internet is down and you have a blinking red light on the router. Let me run a line diagnostic right now.
-[00:28] Agent: Please allow me 2 minutes to run a stability test on your line. May I put you on hold?
-[00:32] Client: Sure, go ahead.
-[00:35] [Hold: 1m 20s]
-[01:55] Agent: Thank you for patiently waiting on the line. I found a line fault on our exchange side. Since you rent the router from S-NET, I will dispatch a technician at no cost to you today between 2 PM and 4 PM.
-[02:15] Client: That is very fast and helpful, thank you so much!
-[02:20] Agent: You are very welcome. I will transfer you to our brief 1-question survey regarding your call experience today. Thank you for Choosing S-NET and have a great day.`
-      );
-    } else if (type === 'hold_violation_call') {
-      setChannel('Call');
-      setTranscript(
-`[00:00] Client: Hi, I need help with my phone bill.
-[00:08] Agent: What is your number?
-[00:12] Client: It is 555-0199.
-[00:15] Agent: Hold on.
-[00:20] [Hold: 4m 45s without any refresh or update]
-[05:05] Agent: Okay, your bill is $95.
-[05:10] [Dead Air: 35 seconds]
-[05:45] Client: Hello? Are you still there?
-[05:50] Agent: Yeah, you have to pay by Friday. Bye.`
-      );
-    } else if (type === 'autofail_call') {
-      setChannel('Call');
-      setTranscript(
-`[00:00] Client: Why was I charged an extra $75 fee on my S-NET bill this month?
-[00:05] Agent: You clearly didn't read your contract terms.
-[00:10] Client: Excuse me? That is completely unacceptable. I want to speak to your supervisor right now!
-[00:16] Agent: Supervisors do not take these calls, and asking for a manager will not change anything.
-[00:24] Client: I am going to cancel my entire company subscription.
-[00:29] Agent: Whatever, get lost then. I don't have time for this.`
-      );
-    } else if (type === 'compliant_email') {
-      setChannel('Email');
-      setTranscript(
-`[10:00] Customer Email:
-To: support@snet.com
-Subject: Cannot access Zoho integration from office location
-
-Hi Support,
-Our team cannot connect to the Zoho phone integration since this morning. Error code 403.
-Account: Acme Corp, Location: Chicago Office.
-Contact: Sarah Miller (sarah@acme.com, 555-3211)
-
-[10:08] Agent Response Email:
-Dear Sarah Miller,
-
-Thank you for reaching out to S-NET Communications Support.
-
-I understand that your Chicago office team is unable to connect to the Zoho phone integration and is encountering Error 403. I have verified your account and location in our system.
-
-I have refreshed your API token and whitelisted your Chicago office IP range per our standard ARE process. Please ask your team to restart the Zoho integration widget.
-
-Ticket #SNET-88492 has been generated for tracking. We will follow up within 2 hours to ensure full resolution.
-
-Thank you for Choosing S-NET and have a great day!
-
-Best regards,
-S-NET Technical Support Team`
-      );
-    } else if (type === 'compliant_chat') {
-      setChannel('Chat');
-      setTranscript(
-`[00:00] Customer: Hi, our desk phones are not receiving incoming calls.
-[00:18] Agent: Thank you for contacting S-NET Communications. My name is Sam, how can I assist you today?
-[00:26] Customer: We are TechCorp, account #4992. I am David Brown (david@techcorp.com).
-[00:40] Agent: Hello David, thank you for confirming TechCorp and your contact details. I understand your desk phones are not receiving inbound calls. Let me check the call forwarding rules right now.
-[01:10] Agent: I found that call forwarding was accidentally toggled on to an inactive extension. I have restored standard routing. Could you test an inbound call now?
-[01:35] Customer: Tested now and it rings on all desk phones! Thanks!
-[01:45] Agent: Excellent! I will email your ticket reference #SNET-94812 shortly. Thank you for Choosing S-NET and have a great day!`
-      );
+  const handleSelectSampleJSON = (filename) => {
+    setSelectedSampleFile(filename);
+    const sample = sampleFiles.find(s => s.filename === filename);
+    if (sample) {
+      setTranscript(sample.transcript || '');
+      setChannel(sample.channel || 'Call');
+      setAgentName(sample.agent_name || 'Agent');
+      setSelectedSampleMeta(sample);
     }
+  };
+
+  const handleCustomJSONUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const parsed = JSON.parse(evt.target.result);
+        setTranscript(parsed.transcript || evt.target.result);
+        if (parsed.channel) setChannel(parsed.channel);
+        if (parsed.agent_name) setAgentName(parsed.agent_name);
+        setSelectedSampleFile(file.name);
+        setSelectedSampleMeta(parsed);
+      } catch (err) {
+        setTranscript(evt.target.result);
+        setSelectedSampleFile(file.name);
+      }
+    };
+    reader.readAsText(file);
   };
 
   const handleEvaluate = async () => {
@@ -289,7 +255,7 @@ S-NET Technical Support Team`
         body: JSON.stringify({
           transcript: transcript,
           channel: channel,
-          agent_name: 'Agent'
+          agent_name: agentName
         }),
       });
       const data = await res.json();
@@ -620,21 +586,54 @@ S-NET Technical Support Team`
                 <Sparkles className="text-teal-400" /> Live QA Evaluation against Company Criteria & RAG
               </h2>
               <p className="text-sm text-slate-400">
-                Paste a call, email, or chat transcript to run real-time evaluation using Gemma 3 4B, RoBERTa tone checks, and Vector RAG retrieval.
+                Select a sample JSON file from <code className="text-teal-300 bg-slate-800 px-1 rounded">inputs/</code>, upload a custom JSON, or paste a transcript to run evaluation.
               </p>
             </div>
 
-            {/* Presets & Channel Picker */}
-            <div className="space-y-3 bg-[#131b2e] p-4 rounded-xl border border-[#24324f]">
-              <div className="flex flex-wrap justify-between items-center gap-3">
-                <div className="flex items-center gap-3">
-                  <label className="text-xs font-semibold text-slate-400">Channel:</label>
-                  <div className="flex gap-1 bg-[#0b0f17] p-1 rounded-lg border border-slate-800">
+            {/* Interaction Input Selection Box */}
+            <div className="bg-[#131b2e] p-5 rounded-2xl border border-[#24324f] space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* 1. Select Sample JSON from inputs/ */}
+                <div>
+                  <label className="text-xs font-semibold text-slate-300 block mb-1.5 flex items-center gap-1.5">
+                    <FileCode size={14} className="text-teal-400" /> Select Sample JSON (inputs/):
+                  </label>
+                  <select
+                    value={selectedSampleFile}
+                    onChange={(e) => handleSelectSampleJSON(e.target.value)}
+                    className="w-full bg-[#0b0f17] text-white border border-[#2e3d5b] rounded-lg px-3 py-2 text-xs font-medium focus:outline-none focus:border-teal-400 cursor-pointer"
+                  >
+                    <option value="">-- Choose from inputs/ folder --</option>
+                    {sampleFiles.map((s) => (
+                      <option key={s.filename} value={s.filename}>
+                        {s.title} ({s.filename})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* 2. Upload Custom JSON file */}
+                <div>
+                  <label className="text-xs font-semibold text-slate-300 block mb-1.5 flex items-center gap-1.5">
+                    <Upload size={14} className="text-teal-400" /> Or Upload Custom JSON File:
+                  </label>
+                  <input
+                    type="file"
+                    accept=".json"
+                    onChange={handleCustomJSONUpload}
+                    className="w-full text-xs text-slate-400 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-teal-400 hover:file:bg-slate-700 cursor-pointer"
+                  />
+                </div>
+
+                {/* 3. Channel Selector */}
+                <div>
+                  <label className="text-xs font-semibold text-slate-300 block mb-1.5">Channel:</label>
+                  <div className="flex gap-1 bg-[#0b0f17] p-1 rounded-lg border border-[#2e3d5b]">
                     {['Call', 'Email', 'Chat'].map((c) => (
                       <button
                         key={c}
                         onClick={() => setChannel(c)}
-                        className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                        className={`flex-1 py-1 rounded text-xs font-semibold transition ${
                           channel === c ? 'bg-teal-500 text-black shadow' : 'text-slate-400 hover:text-white'
                         }`}
                       >
@@ -643,45 +642,20 @@ S-NET Technical Support Team`
                     ))}
                   </div>
                 </div>
+              </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-400 font-medium">Quick Preset Transcripts:</span>
+              {/* Sample Meta Description banner */}
+              {selectedSampleMeta && (
+                <div className="bg-[#1c273e] border border-[#2e3d5b] rounded-xl p-3 text-xs flex justify-between items-center gap-4">
+                  <div>
+                    <span className="font-bold text-teal-300 block">{selectedSampleMeta.title}</span>
+                    <span className="text-slate-400">{selectedSampleMeta.description}</span>
+                  </div>
+                  <span className="text-[11px] font-mono px-2 py-1 bg-slate-800 border border-slate-700 rounded text-slate-300 shrink-0">
+                    {selectedSampleMeta.filename || 'custom.json'}
+                  </span>
                 </div>
-              </div>
-
-              {/* Sample Buttons Grid */}
-              <div className="flex flex-wrap gap-2 pt-1 border-t border-[#24324f]">
-                <button
-                  onClick={() => loadSample('compliant_call')}
-                  className="bg-emerald-950/40 hover:bg-emerald-900/60 text-xs px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-300 font-medium transition"
-                >
-                  📞 Call: 100% Compliant (Verbatim Spiels & SLA)
-                </button>
-                <button
-                  onClick={() => loadSample('hold_violation_call')}
-                  className="bg-amber-950/40 hover:bg-amber-900/60 text-xs px-3 py-1.5 rounded-lg border border-amber-500/30 text-amber-300 font-medium transition"
-                >
-                  📞 Call: Hold & Dead Air Violation
-                </button>
-                <button
-                  onClick={() => loadSample('autofail_call')}
-                  className="bg-rose-950/40 hover:bg-rose-900/60 text-xs px-3 py-1.5 rounded-lg border border-rose-500/30 text-rose-300 font-medium transition"
-                >
-                  ⚠ Call: Auto-Fail Breach (Discourtesy/Escalation Refusal)
-                </button>
-                <button
-                  onClick={() => loadSample('compliant_email')}
-                  className="bg-sky-950/40 hover:bg-sky-900/60 text-xs px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-300 font-medium transition"
-                >
-                  ✉️ Email: 10m SLA & Template Compliant
-                </button>
-                <button
-                  onClick={() => loadSample('compliant_chat')}
-                  className="bg-purple-950/40 hover:bg-purple-900/60 text-xs px-3 py-1.5 rounded-lg border border-purple-500/30 text-purple-300 font-medium transition"
-                >
-                  💬 Chat: Fast Response & Verification
-                </button>
-              </div>
+              )}
             </div>
 
             {/* Transcript Textarea */}
@@ -690,7 +664,7 @@ S-NET Technical Support Team`
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Paste transcript here (e.g., [00:00] Agent: Thank you for calling S-NET... / [00:05] Client: Hi...)"
-                rows={10}
+                rows={11}
                 className="w-full bg-[#0b0f17] border border-[#2e3d5b] rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-teal-400"
               />
               <div className="flex justify-between items-center mt-3">

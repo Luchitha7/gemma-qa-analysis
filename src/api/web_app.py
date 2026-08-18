@@ -632,6 +632,25 @@ async def upload_pdf_guideline(tenant_id: str, file: UploadFile = File(...), db:
     }
 
 
+@app.get("/api/samples")
+def list_sample_inputs():
+    """List and return all sample conversation JSON files from the inputs/ folder."""
+    inputs_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "inputs")
+    samples = []
+    if os.path.exists(inputs_dir):
+        for fname in sorted(os.listdir(inputs_dir)):
+            if fname.endswith(".json"):
+                fpath = os.path.join(inputs_dir, fname)
+                try:
+                    with open(fpath, "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                        data["filename"] = fname
+                        samples.append(data)
+                except Exception as e:
+                    print(f"Error loading sample {fname}: {e}")
+    return samples
+
+
 @app.get("/api/tenants/{tenant_id}/documents")
 def list_tenant_documents(tenant_id: str, db: Session = Depends(get_db)):
     """List all uploaded PDF documents for the given tenant."""
