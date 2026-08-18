@@ -713,34 +713,34 @@ def get_tenant_markdown(tenant_id: str, db: Session = Depends(get_db)):
 def get_tenant_criteria(tenant_id: str, db: Session = Depends(get_db)):
     """Retrieve the latest parsed criteria JSON for the given tenant."""
     criteria = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
-    if not criteria:
-        # Return standard default criteria
-        return {
-            "category_weights": {"Soft Skills": 0.25, "Technical Knowledge": 0.50, "Process Knowledge": 0.25},
-            "categories": [
-                {
-                    "name": "Soft Skills",
-                    "weight_percentage": 25.0,
-                    "line_items": [
-                        {"name": "Branding and Survey", "description": "Verbatim greeting and closing spiels within SLA."},
-                        {"name": "Hold time and Dead Air", "description": "Hold < 3 mins, dead air < 20s."}
-                    ]
-                },
-                {
-                    "name": "Technical Knowledge",
-                    "weight_percentage": 50.0,
-                    "line_items": [
-                        {"name": "Verified customer", "description": "Validated name, company, email, contact number."},
-                        {"name": "Provided appropriate solution", "description": "Performed logical troubleshooting steps."}
-                    ]
-                }
-            ],
-            "auto_fail_rules": [
-                {"name": "Discourtesy", "description": "Profanity, impatience, sarcasm"},
-                {"name": "Call Avoidance", "description": "Rejecting or prematurely ending call without resolution"}
-            ]
-        }
-    return criteria.raw_json
+    if criteria and criteria.raw_json and criteria.raw_json.get("category_weights"):
+        return criteria.raw_json
+
+    # Check if there is an uploaded document to extract criteria from
+    doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
+    if doc and doc.raw_markdown:
+        separation_result = separate_criteria_and_policies(doc.raw_markdown)
+        criteria_json = separation_result.get("criteria", {})
+        if criteria_json and criteria_json.get("category_weights"):
+            # Save it for future queries
+            crit = CriteriaConfig(
+                tenant_id=tenant_id,
+                channel="All",
+                category_weights=criteria_json.get("category_weights", {}),
+                auto_fail_rules=criteria_json.get("auto_fail_rules", []),
+                raw_json=criteria_json
+            )
+            db.add(crit)
+            db.commit()
+            return criteria_json
+
+    # Return empty when no document has been uploaded for this company
+    return {
+        "has_criteria": False,
+        "category_weights": {},
+        "categories": [],
+        "auto_fail_rules": []
+    }
 
 
 @app.get("/api/tenants/{tenant_id}/policies")
