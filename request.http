@@ -1,0 +1,124 @@
+### ====================================================================
+### GEMMA QA ANALYSIS SERVICE - REST API REQUEST COLLECTION
+### Use with VS Code REST Client extension, IntelliJ, or Postman
+### ====================================================================
+
+@baseUrl = http://localhost:8000
+@tenantId = S-NET
+
+### --------------------------------------------------------------------
+### 1. HEALTH CHECK & MAIN DASHBOARD
+### --------------------------------------------------------------------
+
+### Get Main Web Application Dashboard
+GET {{baseUrl}}/
+Accept: text/html
+
+### Get Queue Dashboard Page
+GET {{baseUrl}}/queue
+Accept: text/html
+
+### --------------------------------------------------------------------
+### 2. SYNCHRONOUS CALL ANALYSIS
+### --------------------------------------------------------------------
+
+### Analyze Call Transcript (Synchronous)
+POST {{baseUrl}}/analyze
+Content-Type: application/json
+
+{
+  "transcript": "[00:00] Client: Hello, my internet has been completely down since this morning!\n[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:12] Client: The internet light on my router is flashing red and I need this fixed for work.\n[00:18] Agent: I am sorry to hear that. Let me run a line diagnostic right now to check your connection.\n[00:30] Agent: I can see a line fault on our end. I will arrange a technician visit at no extra cost to you.\n[00:45] Client: Thank you, that is very helpful.\n[00:50] Agent: You are welcome. Thank you for Choosing S-NET and have a great day."
+}
+
+### --------------------------------------------------------------------
+### 3. ASYNCHRONOUS JOB QUEUE
+### --------------------------------------------------------------------
+
+### Submit Analysis Job to Async Queue
+# @name submitJob
+POST {{baseUrl}}/jobs
+Content-Type: application/json
+
+{
+  "transcript": "[00:00] Client: I was charged twice for my subscription this month.\n[00:06] Agent: Thank you for calling S-NET Communications. My name is Sam, how can I assist you?\n[00:14] Client: You took two payments of $50 from my bank account.\n[00:22] Agent: I apologize for the mistake. I can see the duplicate charge and I will refund $50 right now.\n[00:35] Agent: The refund will reflect in 3 to 5 business days. Is there anything else I can help with?\n[00:42] Client: No, that is all. Thanks.\n[00:48] Agent: Thank you for Choosing S-NET and have a great day."
+}
+
+###
+
+@jobId = {{submitJob.response.body.job_id}}
+
+### Get Status of Specific Job
+GET {{baseUrl}}/jobs/{{jobId}}
+
+### List All Submitted Jobs
+GET {{baseUrl}}/jobs
+
+### --------------------------------------------------------------------
+### 4. SCORING WEIGHTS CONFIGURATION
+### --------------------------------------------------------------------
+
+### Fetch Current Scoring Weights
+GET {{baseUrl}}/weights
+
+### Update Custom Scoring Weights
+POST {{baseUrl}}/weights
+Content-Type: application/json
+
+{
+  "agent": 0.50,
+  "accuracy": 0.20,
+  "compliance": 0.15,
+  "conversation": 0.10,
+  "response_time": 0.05
+}
+
+### Reset Scoring Weights to Code Defaults
+POST {{baseUrl}}/weights
+Content-Type: application/json
+
+{
+  "agent": 0.45,
+  "accuracy": 0.20,
+  "compliance": 0.20,
+  "conversation": 0.10,
+  "response_time": 0.05
+}
+
+### --------------------------------------------------------------------
+### 5. PDF REPORT GENERATION
+### --------------------------------------------------------------------
+
+### Generate & Download PDF Report
+POST {{baseUrl}}/report
+Content-Type: application/json
+
+{
+  "transcript": "[00:00] Client: My wifi connection keeps dropping every few minutes.\n[00:08] Agent: Thank you for calling S-NET Communications. My name is Jordan, how can I help you today?\n[00:16] Client: I keep losing signal while working.\n[00:24] Agent: Let me run a stability test on your line. If the router is faulty, we will replace it free of charge.\n[00:40] Agent: Thank you for Choosing S-NET and have a great day."
+}
+
+### --------------------------------------------------------------------
+### 6. MULTI-TENANT ENTERPRISE QA ENDPOINTS (NEW ARCHITECTURE)
+### --------------------------------------------------------------------
+
+### Upload & Ingest Company Guidelines PDF
+POST {{baseUrl}}/tenants/{{tenantId}}/ingest-pdf
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="QA_Form_Guideline.pdf"
+Content-Type: application/pdf
+
+< ./docs/QA_Form_Guideline.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Get Extracted Tenant Criteria Schema
+GET {{baseUrl}}/tenants/{{tenantId}}/criteria
+
+### Perform Multi-Tenant RAG QA Evaluation
+POST {{baseUrl}}/tenants/{{tenantId}}/evaluate
+Content-Type: application/json
+
+{
+  "channel": "Call",
+  "transcript": "[00:00] Client: I need to speak to your manager right now!\n[00:05] Agent: Supervisors do not take these calls. You are better off hanging up.\n[00:12] Client: That is unacceptable and rude.\n[00:18] Agent: Whatever, I don't have time for this."
+}
