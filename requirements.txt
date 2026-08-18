@@ -5,3 +5,4 @@ uvicorn
 pydantic
 sentence-transformers
 reportlab
+pypdf
