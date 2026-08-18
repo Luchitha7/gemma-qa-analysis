@@ -678,9 +678,11 @@ def delete_tenant_document(tenant_id: str, document_id: int, db: Session = Depen
     db.delete(doc)
     db.commit()
     
-    # If no documents remain for tenant, clean up vector policies too
+    # If no documents remain for tenant, clean up criteria configs & vector policies too
     remaining = db.query(Document).filter(Document.tenant_id == tenant_id).count()
     if remaining == 0:
+        db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).delete()
+        db.commit()
         delete_tenant_policies(tenant_id)
         
     return {"status": "deleted", "document_id": document_id, "filename": filename}
@@ -712,29 +714,35 @@ def get_tenant_markdown(tenant_id: str, db: Session = Depends(get_db)):
 @app.get("/api/tenants/{tenant_id}/criteria")
 def get_tenant_criteria(tenant_id: str, db: Session = Depends(get_db)):
     """Retrieve the latest parsed criteria JSON for the given tenant."""
+    # Strictly check if an uploaded document exists for this tenant
+    doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
+    if not doc or not doc.raw_markdown:
+        return {
+            "has_criteria": False,
+            "category_weights": {},
+            "categories": [],
+            "auto_fail_rules": []
+        }
+
     criteria = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
     if criteria and criteria.raw_json and criteria.raw_json.get("category_weights"):
         return criteria.raw_json
 
-    # Check if there is an uploaded document to extract criteria from
-    doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
-    if doc and doc.raw_markdown:
-        separation_result = separate_criteria_and_policies(doc.raw_markdown)
-        criteria_json = separation_result.get("criteria", {})
-        if criteria_json and criteria_json.get("category_weights"):
-            # Save it for future queries
-            crit = CriteriaConfig(
-                tenant_id=tenant_id,
-                channel="All",
-                category_weights=criteria_json.get("category_weights", {}),
-                auto_fail_rules=criteria_json.get("auto_fail_rules", []),
-                raw_json=criteria_json
-            )
-            db.add(crit)
-            db.commit()
-            return criteria_json
+    # Extract dynamically from the uploaded document's markdown
+    separation_result = separate_criteria_and_policies(doc.raw_markdown)
+    criteria_json = separation_result.get("criteria", {})
+    if criteria_json and criteria_json.get("category_weights"):
+        crit = CriteriaConfig(
+            tenant_id=tenant_id,
+            channel="All",
+            category_weights=criteria_json.get("category_weights", {}),
+            auto_fail_rules=criteria_json.get("auto_fail_rules", []),
+            raw_json=criteria_json
+        )
+        db.add(crit)
+        db.commit()
+        return criteria_json
 
-    # Return empty when no document has been uploaded for this company
     return {
         "has_criteria": False,
         "category_weights": {},
@@ -744,8 +752,11 @@ def get_tenant_criteria(tenant_id: str, db: Session = Depends(get_db)):
 
 
 @app.get("/api/tenants/{tenant_id}/policies")
-def get_tenant_policy_chunks(tenant_id: str):
+def get_tenant_policy_chunks(tenant_id: str, db: Session = Depends(get_db)):
     """Retrieve stored policy knowledge chunks from Vector DB for the tenant."""
+    doc = db.query(Document).filter(Document.tenant_id == tenant_id).first()
+    if not doc:
+        return []
     return get_tenant_policies(tenant_id)
 
 
