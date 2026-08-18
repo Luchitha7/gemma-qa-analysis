@@ -6,3 +6,4 @@ pydantic
 sentence-transformers
 reportlab
 pypdf
+json-repair
