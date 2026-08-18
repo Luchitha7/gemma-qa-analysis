@@ -632,6 +632,55 @@ async def upload_pdf_guideline(tenant_id: str, file: UploadFile = File(...), db:
     }
 
 
+@app.get("/api/tenants/{tenant_id}/documents")
+def list_tenant_documents(tenant_id: str, db: Session = Depends(get_db)):
+    """List all uploaded PDF documents for the given tenant."""
+    docs = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).all()
+    return [
+        {
+            "id": d.id,
+            "filename": d.filename,
+            "page_count": d.page_count,
+            "char_count": len(d.raw_markdown),
+            "uploaded_at": d.uploaded_at
+        }
+        for d in docs
+    ]
+
+
+@app.delete("/api/tenants/{tenant_id}/documents/{document_id}")
+def delete_tenant_document(tenant_id: str, document_id: int, db: Session = Depends(get_db)):
+    """Delete a single document and remove its record from PostgreSQL."""
+    doc = db.query(Document).filter(Document.tenant_id == tenant_id, Document.id == document_id).first()
+    if not doc:
+        raise HTTPException(status_code=404, detail="Document not found.")
+    
+    filename = doc.filename
+    db.delete(doc)
+    db.commit()
+    
+    # If no documents remain for tenant, clean up vector policies too
+    remaining = db.query(Document).filter(Document.tenant_id == tenant_id).count()
+    if remaining == 0:
+        delete_tenant_policies(tenant_id)
+        
+    return {"status": "deleted", "document_id": document_id, "filename": filename}
+
+
+@app.delete("/api/tenants/{tenant_id}/knowledge-base")
+def clear_tenant_knowledge_base(tenant_id: str, db: Session = Depends(get_db)):
+    """Clear all documents, criteria configs, and vector policy chunks for a tenant."""
+    # Delete documents
+    db.query(Document).filter(Document.tenant_id == tenant_id).delete()
+    # Delete criteria configs
+    db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).delete()
+    db.commit()
+    
+    # Delete vector store policies
+    delete_tenant_policies(tenant_id)
+    return {"status": "cleared", "tenant_id": tenant_id, "message": "All documents, criteria, and vector policies cleared."}
+
+
 @app.get("/api/tenants/{tenant_id}/markdown")
 def get_tenant_markdown(tenant_id: str, db: Session = Depends(get_db)):
     """Retrieve the latest converted Markdown document for the given tenant."""

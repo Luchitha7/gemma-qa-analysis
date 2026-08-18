@@ -38,6 +38,15 @@ Content-Type: application/pdf
 < ./sample_guideline.pdf
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+### List Uploaded Documents for a Tenant
+GET {{baseUrl}}/api/tenants/{{tenantId}}/documents
+
+### Delete a Specific Document by ID
+DELETE {{baseUrl}}/api/tenants/{{tenantId}}/documents/1
+
+### Clear Entire Company Knowledge Base (Deletes Docs & Vector Chunks)
+DELETE {{baseUrl}}/api/tenants/{{tenantId}}/knowledge-base
+
 ### Get Converted Lossless Markdown (.md)
 GET {{baseUrl}}/api/tenants/{{tenantId}}/markdown
 
@@ -58,7 +67,7 @@ Content-Type: application/json
 {
   "channel": "Call",
   "agent_name": "Alex",
-  "transcript": "[00:00] Client: Hello, my internet has been completely down since this morning!\n[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:12] Client: The router light is red and blinking. My account name is John Doe at 104 Main St.\n[00:18] Agent: Thank you for confirming, John. Let me check the line status and run a remote test right now.\n[00:25] Agent: I can see a line fault on our side. Since you rent the router from us, I will arrange a technician visit at no extra cost to you.\n[00:40] Client: That sounds great, thank you so much!\n[00:45] Agent: You are very welcome. I will transfer you to our quick 1-question survey. Thank you for Choosing S-NET and have a great day."
+  "transcript": "[00:00] Client: Hello, my internet connection is completely down and I work from home!\n[00:04] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:10] Client: The internet light on my router is blinking red. My account is John Doe, Acme Corp at 104 North Avenue.\n[00:18] Agent: Thank you for verifying your name and account details, John. I understand your internet is down and you have a blinking red light on the router. Let me run a line diagnostic right now.\n[00:28] Agent: Please allow me 2 minutes to run a stability test on your line. May I put you on hold?\n[00:32] Client: Sure, go ahead.\n[00:35] [Hold: 1m 20s]\n[01:55] Agent: Thank you for patiently waiting on the line. I found a line fault on our exchange side. Since you rent the router from S-NET, I will dispatch a technician at no cost to you today between 2 PM and 4 PM.\n[02:15] Client: That is very fast and helpful, thank you so much!\n[02:20] Agent: You are very welcome. I will transfer you to our brief 1-question survey regarding your call experience today. Thank you for Choosing S-NET and have a great day."
 }
 
 ### Evaluate Auto-Fail Call Transcript (Profanity / Avoidance)
@@ -68,7 +77,7 @@ Content-Type: application/json
 {
   "channel": "Call",
   "agent_name": "BadAgent",
-  "transcript": "[00:00] Client: Why was I charged an extra $60 fee on my internet bill this month?\n[00:05] Agent: You probably didn't read your contract properly.\n[00:10] Client: Excuse me? I want to speak to your supervisor right now.\n[00:15] Agent: Supervisors do not take these calls. You are better off just hanging up.\n[00:22] Client: This is outrageous! I am canceling my service.\n[00:28] Agent: Whatever, get lost then."
+  "transcript": "[00:00] Client: Why was I charged an extra $75 fee on my S-NET bill this month?\n[00:05] Agent: You clearly didn't read your contract terms.\n[00:10] Client: Excuse me? That is completely unacceptable. I want to speak to your supervisor right now!\n[00:16] Agent: Supervisors do not take these calls, and asking for a manager will not change anything.\n[00:24] Client: I am going to cancel my entire company subscription.\n[00:29] Agent: Whatever, get lost then. I don't have time for this."
 }
 
 ### --------------------------------------------------------------------
@@ -77,21 +86,3 @@ Content-Type: application/json
 
 ### List All Past QA Evaluations
 GET {{baseUrl}}/api/evaluations?tenant_id={{tenantId}}
-
-### --------------------------------------------------------------------
-### 5. ORIGINAL LEGACY ENDPOINTS (STILL SUPPORTED)
-### --------------------------------------------------------------------
-
-### Synchronous /analyze
-POST {{baseUrl}}/analyze
-Content-Type: application/json
-
-{
-  "transcript": "[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:05] Client: I was charged twice this month.\n[00:10] Agent: I apologize, I will refund the charge immediately.\n[00:20] Agent: Thank you for Choosing S-NET and have a great day."
-}
-
-### Get Queue Status
-GET {{baseUrl}}/queue
-
-### Get Scoring Weights
-GET {{baseUrl}}/weights

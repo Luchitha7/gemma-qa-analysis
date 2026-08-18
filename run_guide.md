@@ -81,7 +81,7 @@ npm run dev
 Open your web browser and navigate to:
 👉 **[http://localhost:5173](http://localhost:5173)**
 
-### 📍 Test 1: Uploading a Company Guideline PDF & Viewing Markdown
+### 📍 Test 1: Uploading, Managing & Deleting Company Guidelines
 1. In the top navigation bar, click on **PDF & Markdown**.
 2. Select your active company (e.g. **S-NET**) or click **+ New Company** to add a new company namespace.
 3. Drag & drop or click the upload box to upload a company QA Form Guideline PDF.
@@ -90,7 +90,10 @@ Open your web browser and navigate to:
    - Save the raw Markdown in the PostgreSQL `documents` table.
    - Use Gemma 3 4B to separate the document into **Criteria JSON** and **Policy Knowledge Chunks**.
    - Embed and store the policy chunks into the Vector DB.
-5. Inspect the converted `.md` document in the live **Converted Markdown Viewer**. You can click **Copy MD** to copy the markdown text.
+5. **Managing & Deleting Files**:
+   - Under **Uploaded Company Documents**, you can view all uploaded PDF files and click the **Delete File (Trash)** button to delete a specific guideline.
+   - Click **Clear Knowledge Base** to completely wipe all documents and vector embeddings for that company.
+6. Inspect the converted `.md` document in the live **Converted Markdown Viewer**. You can click **Copy MD** to copy the markdown text.
 
 ---
 
@@ -104,12 +107,15 @@ Open your web browser and navigate to:
 
 ---
 
-### 📍 Test 3: Running a Live Call QA Evaluation
+### 📍 Test 3: Running Live QA Evaluations with Sample Transcripts
 1. Click on the **Live QA Test** tab.
 2. Select your channel: **Call**, **Email**, or **Chat**.
-3. Load a sample interaction:
-   - Click **✓ Compliant Call** to load a full compliant transcript with greeting and closing spiels.
-   - Or click **⚠ Auto-Fail Call** to load a transcript containing rude behavior.
+3. Choose from 5 realistic preset interaction transcripts:
+   - 📞 **Call: 100% Compliant**: Complete greeting, hold procedure with expectation & thanks, ARE troubleshooting, closing & survey IVR spiel.
+   - 📞 **Call: Hold & Dead Air Violation**: Agent leaves customer on hold > 4 mins with no refresh, 35s dead air.
+   - ⚠ **Call: Auto-Fail Breach**: Agent uses rude language, dismisses customer, refuses supervisor escalation.
+   - ✉️ **Email: 10m SLA & Template Compliant**: Professional email greeting, account validation, clear ARE action steps, brand signature.
+   - 💬 **Chat: Fast Response & Verification**: 1st response < 30s, correct customer verification, L1 troubleshooting.
 4. Click **Run Dynamic QA Analysis**.
 5. Inspect the evaluation results:
    - **Overall Score Banner**: Shows final score (0–100) or **AUTO-FAIL TRIGGERED (0.0 / 100)** if a violation occurred.

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   FileText, Upload, CheckCircle, AlertTriangle, XCircle, 
   Sparkles, Layers, ShieldAlert, BookOpen, Clock, Activity, 
-  Database, RefreshCw, Plus, ChevronRight, Download, Copy, Play, Check
+  Database, RefreshCw, Plus, ChevronRight, Download, Copy, Play, Check, Trash2, FileMinus
 } from 'lucide-react';
 
 const API_BASE = 'http://localhost:8000';
@@ -15,6 +15,7 @@ export default function App() {
   const [uploadStatus, setUploadStatus] = useState(null);
   
   // Data states
+  const [documents, setDocuments] = useState([]);
   const [markdownData, setMarkdownData] = useState({ markdown: '', filename: '' });
   const [criteriaData, setCriteriaData] = useState(null);
   const [policiesData, setPoliciesData] = useState([]);
@@ -34,12 +35,12 @@ export default function App() {
   // Initial load
   useEffect(() => {
     fetchTenants();
-    fetchHistory();
   }, []);
 
   // When tenant changes, fetch its data
   useEffect(() => {
     if (selectedTenant) {
+      fetchDocuments();
       fetchMarkdown();
       fetchCriteria();
       fetchPolicies();
@@ -57,6 +58,16 @@ export default function App() {
       }
     } catch (e) {
       console.error('Failed to fetch tenants:', e);
+    }
+  };
+
+  const fetchDocuments = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/tenants/${selectedTenant}/documents`);
+      const data = await res.json();
+      setDocuments(data);
+    } catch (e) {
+      console.error('Failed to fetch documents:', e);
     }
   };
 
@@ -104,12 +115,11 @@ export default function App() {
     e.preventDefault();
     if (!newTenantId || !newTenantName) return;
     try {
-      const res = await fetch(`${API_BASE}/api/tenants`, {
+      await fetch(`${API_BASE}/api/tenants`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: newTenantId.trim(), name: newTenantName.trim() }),
       });
-      const data = await res.json();
       await fetchTenants();
       setSelectedTenant(newTenantId.trim());
       setShowNewTenantModal(false);
@@ -137,7 +147,8 @@ export default function App() {
       });
       const result = await res.json();
       if (res.ok) {
-        setUploadStatus(`Success! Converted ${result.page_count} pages. Extracted criteria & indexed ${result.policy_chunks_count} policy chunks into Vector DB.`);
+        setUploadStatus(`Success! Converted ${result.page_count} pages. Extracted criteria & indexed ${result.policy_chunks_count} policy chunks.`);
+        fetchDocuments();
         fetchMarkdown();
         fetchCriteria();
         fetchPolicies();
@@ -151,32 +162,117 @@ export default function App() {
     }
   };
 
+  const handleDeleteDocument = async (docId, filename) => {
+    if (!window.confirm(`Are you sure you want to delete "${filename}"?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/tenants/${selectedTenant}/documents/${docId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        fetchDocuments();
+        fetchMarkdown();
+        fetchCriteria();
+        fetchPolicies();
+      }
+    } catch (err) {
+      alert('Delete failed: ' + err.message);
+    }
+  };
+
+  const handleClearKnowledgeBase = async () => {
+    if (!window.confirm(`Are you sure you want to completely CLEAR all documents and Vector KB for "${selectedTenant}"?`)) return;
+    try {
+      const res = await fetch(`${API_BASE}/api/tenants/${selectedTenant}/knowledge-base`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        fetchDocuments();
+        fetchMarkdown();
+        fetchCriteria();
+        fetchPolicies();
+        alert('Knowledge base cleared successfully.');
+      }
+    } catch (err) {
+      alert('Clear failed: ' + err.message);
+    }
+  };
+
   const loadSample = (type) => {
-    if (type === 'compliant') {
+    if (type === 'compliant_call') {
+      setChannel('Call');
       setTranscript(
-`[00:00] Client: Hello, my internet has been completely down since this morning!
-[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?
-[00:12] Client: The router light is red and blinking. My account name is John Doe at 104 Main St.
-[00:18] Agent: Thank you for confirming, John. Let me check the line status and run a remote test right now.
-[00:25] Agent: I can see a line fault on our side. Since you rent the router from us, I'll arrange a technician visit at no extra cost to you.
-[00:40] Client: That sounds great, thank you so much!
-[00:45] Agent: You are very welcome. I will transfer you to our quick 1-question survey. Thank you for Choosing S-NET and have a great day.`
+`[00:00] Client: Hello, my internet connection is completely down and I work from home!
+[00:04] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?
+[00:10] Client: The internet light on my router is blinking red. My account is John Doe, Acme Corp at 104 North Avenue.
+[00:18] Agent: Thank you for verifying your name and account details, John. I understand your internet is down and you have a blinking red light on the router. Let me run a line diagnostic right now.
+[00:28] Agent: Please allow me 2 minutes to run a stability test on your line. May I put you on hold?
+[00:32] Client: Sure, go ahead.
+[00:35] [Hold: 1m 20s]
+[01:55] Agent: Thank you for patiently waiting on the line. I found a line fault on our exchange side. Since you rent the router from S-NET, I will dispatch a technician at no cost to you today between 2 PM and 4 PM.
+[02:15] Client: That is very fast and helpful, thank you so much!
+[02:20] Agent: You are very welcome. I will transfer you to our brief 1-question survey regarding your call experience today. Thank you for Choosing S-NET and have a great day.`
       );
-    } else if (type === 'autofail') {
+    } else if (type === 'hold_violation_call') {
+      setChannel('Call');
       setTranscript(
-`[00:00] Client: Why was I charged an extra $60 fee on my internet bill this month?
-[00:05] Agent: You probably didn't read your contract properly.
-[00:10] Client: Excuse me? I want to speak to your supervisor right now.
-[00:15] Agent: Supervisors do not take these calls. You are better off just hanging up.
-[00:22] Client: This is outrageous! I am canceling my service.
-[00:28] Agent: Whatever, get lost then.`
+`[00:00] Client: Hi, I need help with my phone bill.
+[00:08] Agent: What is your number?
+[00:12] Client: It is 555-0199.
+[00:15] Agent: Hold on.
+[00:20] [Hold: 4m 45s without any refresh or update]
+[05:05] Agent: Okay, your bill is $95.
+[05:10] [Dead Air: 35 seconds]
+[05:45] Client: Hello? Are you still there?
+[05:50] Agent: Yeah, you have to pay by Friday. Bye.`
       );
-    } else {
+    } else if (type === 'autofail_call') {
+      setChannel('Call');
       setTranscript(
-`[00:00] Client: I need to know how to reset my wifi password.
-[00:04] Agent: Thank you for calling S-NET Communications. My name is Sam. You can log into 192.168.1.1 to change it.
-[00:15] Client: Okay, is there anything else I need to do?
-[00:20] Agent: No, that is all. Thank you for Choosing S-NET and have a great day.`
+`[00:00] Client: Why was I charged an extra $75 fee on my S-NET bill this month?
+[00:05] Agent: You clearly didn't read your contract terms.
+[00:10] Client: Excuse me? That is completely unacceptable. I want to speak to your supervisor right now!
+[00:16] Agent: Supervisors do not take these calls, and asking for a manager will not change anything.
+[00:24] Client: I am going to cancel my entire company subscription.
+[00:29] Agent: Whatever, get lost then. I don't have time for this.`
+      );
+    } else if (type === 'compliant_email') {
+      setChannel('Email');
+      setTranscript(
+`[10:00] Customer Email:
+To: support@snet.com
+Subject: Cannot access Zoho integration from office location
+
+Hi Support,
+Our team cannot connect to the Zoho phone integration since this morning. Error code 403.
+Account: Acme Corp, Location: Chicago Office.
+Contact: Sarah Miller (sarah@acme.com, 555-3211)
+
+[10:08] Agent Response Email:
+Dear Sarah Miller,
+
+Thank you for reaching out to S-NET Communications Support.
+
+I understand that your Chicago office team is unable to connect to the Zoho phone integration and is encountering Error 403. I have verified your account and location in our system.
+
+I have refreshed your API token and whitelisted your Chicago office IP range per our standard ARE process. Please ask your team to restart the Zoho integration widget.
+
+Ticket #SNET-88492 has been generated for tracking. We will follow up within 2 hours to ensure full resolution.
+
+Thank you for Choosing S-NET and have a great day!
+
+Best regards,
+S-NET Technical Support Team`
+      );
+    } else if (type === 'compliant_chat') {
+      setChannel('Chat');
+      setTranscript(
+`[00:00] Customer: Hi, our desk phones are not receiving incoming calls.
+[00:18] Agent: Thank you for contacting S-NET Communications. My name is Sam, how can I assist you today?
+[00:26] Customer: We are TechCorp, account #4992. I am David Brown (david@techcorp.com).
+[00:40] Agent: Hello David, thank you for confirming TechCorp and your contact details. I understand your desk phones are not receiving inbound calls. Let me check the call forwarding rules right now.
+[01:10] Agent: I found that call forwarding was accidentally toggled on to an inactive extension. I have restored standard routing. Could you test an inbound call now?
+[01:35] Customer: Tested now and it rings on all desk phones! Thanks!
+[01:45] Agent: Excellent! I will email your ticket reference #SNET-94812 shortly. Thank you for Choosing S-NET and have a great day!`
       );
     }
   };
@@ -307,12 +403,17 @@ export default function App() {
                   <FileText className="text-teal-400" /> Lossless PDF to Markdown Ingestion
                 </h2>
                 <p className="text-sm text-slate-400">
-                  Upload company QA guideline PDF (e.g. S-NET Form Guideline). PyMuPDF converts tables and spiels losslessly, then Gemma 3 4B extracts Criteria & indexes Policies into Vector DB.
+                  Upload company QA guideline PDF. Tables and spiels are extracted losslessly into Markdown, criteria is parsed to JSON, and policies are indexed into Vector DB.
                 </p>
               </div>
-              <span className="text-xs px-3 py-1 bg-slate-800 border border-slate-700 rounded-lg text-slate-300">
-                Tenant: <strong className="text-teal-400">{selectedTenant}</strong>
-              </span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleClearKnowledgeBase}
+                  className="flex items-center gap-1.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 rounded-lg px-3 py-1.5 text-xs font-semibold transition"
+                >
+                  <Trash2 size={14} /> Clear {selectedTenant} Knowledge Base
+                </button>
+              </div>
             </div>
 
             {/* Upload Box */}
@@ -330,9 +431,9 @@ export default function App() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-base">
-                    {loading ? 'Processing Document...' : 'Click or Drag & Drop Company QA Guideline PDF'}
+                    {loading ? 'Processing Document...' : `Click or Drag & Drop QA Guideline PDF for ${selectedTenant}`}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1">Supports multi-page PDFs with tables, categories, and SLAs</p>
+                  <p className="text-xs text-slate-400 mt-1">Supports multi-page PDFs with tables, category weights, and SLAs</p>
                 </div>
               </div>
             </div>
@@ -348,13 +449,40 @@ export default function App() {
               </div>
             )}
 
+            {/* Uploaded Documents List */}
+            {documents.length > 0 && (
+              <div className="bg-[#131b2e] border border-[#24324f] rounded-2xl p-5">
+                <h3 className="font-bold text-sm text-white mb-3 flex items-center gap-2">
+                  <BookOpen size={16} className="text-teal-400" /> Uploaded Company Documents ({documents.length})
+                </h3>
+                <div className="divide-y divide-[#24324f]">
+                  {documents.map((doc) => (
+                    <div key={doc.id} className="py-3 flex justify-between items-center gap-4 text-xs">
+                      <div>
+                        <strong className="text-white block text-sm">{doc.filename}</strong>
+                        <span className="text-slate-400">
+                          {doc.page_count} page(s) · {doc.char_count.toLocaleString()} characters · Uploaded {new Date(doc.uploaded_at).toLocaleString()}
+                        </span>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteDocument(doc.id, doc.filename)}
+                        className="flex items-center gap-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-3 py-1.5 rounded-lg text-xs font-semibold transition"
+                      >
+                        <Trash2 size={13} /> Delete File
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Converted Markdown Viewer */}
             <div className="bg-[#131b2e] border border-[#24324f] rounded-2xl overflow-hidden shadow-xl">
               <div className="bg-[#1c273e] px-6 py-3 border-b border-[#24324f] flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <BookOpen size={16} className="text-teal-400" />
                   <span className="font-bold text-sm text-white">
-                    Converted Markdown ({markdownData.filename || 'No file yet'})
+                    Converted Markdown ({markdownData.filename || 'No document selected'})
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -497,43 +625,61 @@ export default function App() {
             </div>
 
             {/* Presets & Channel Picker */}
-            <div className="flex flex-wrap justify-between items-center gap-3 bg-[#131b2e] p-4 rounded-xl border border-[#24324f]">
-              <div className="flex items-center gap-3">
-                <label className="text-xs font-semibold text-slate-400">Channel:</label>
-                <div className="flex gap-1 bg-[#0b0f17] p-1 rounded-lg border border-slate-800">
-                  {['Call', 'Email', 'Chat'].map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setChannel(c)}
-                      className={`px-3 py-1 rounded text-xs font-semibold transition ${
-                        channel === c ? 'bg-teal-500 text-black shadow' : 'text-slate-400 hover:text-white'
-                      }`}
-                    >
-                      {c}
-                    </button>
-                  ))}
+            <div className="space-y-3 bg-[#131b2e] p-4 rounded-xl border border-[#24324f]">
+              <div className="flex flex-wrap justify-between items-center gap-3">
+                <div className="flex items-center gap-3">
+                  <label className="text-xs font-semibold text-slate-400">Channel:</label>
+                  <div className="flex gap-1 bg-[#0b0f17] p-1 rounded-lg border border-slate-800">
+                    {['Call', 'Email', 'Chat'].map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => setChannel(c)}
+                        className={`px-3 py-1 rounded text-xs font-semibold transition ${
+                          channel === c ? 'bg-teal-500 text-black shadow' : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-slate-400 font-medium">Quick Preset Transcripts:</span>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-400 font-medium">Load Sample:</span>
+              {/* Sample Buttons Grid */}
+              <div className="flex flex-wrap gap-2 pt-1 border-t border-[#24324f]">
                 <button
-                  onClick={() => loadSample('compliant')}
-                  className="bg-slate-800 hover:bg-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-700 text-slate-300 font-medium"
+                  onClick={() => loadSample('compliant_call')}
+                  className="bg-emerald-950/40 hover:bg-emerald-900/60 text-xs px-3 py-1.5 rounded-lg border border-emerald-500/30 text-emerald-300 font-medium transition"
                 >
-                  ✓ Compliant Call
+                  📞 Call: 100% Compliant (Verbatim Spiels & SLA)
                 </button>
                 <button
-                  onClick={() => loadSample('autofail')}
-                  className="bg-rose-950/40 hover:bg-rose-900/60 text-xs px-2.5 py-1.5 rounded border border-rose-500/30 text-rose-300 font-medium"
+                  onClick={() => loadSample('hold_violation_call')}
+                  className="bg-amber-950/40 hover:bg-amber-900/60 text-xs px-3 py-1.5 rounded-lg border border-amber-500/30 text-amber-300 font-medium transition"
                 >
-                  ⚠ Auto-Fail Call
+                  📞 Call: Hold & Dead Air Violation
                 </button>
                 <button
-                  onClick={() => loadSample('general')}
-                  className="bg-slate-800 hover:bg-slate-700 text-xs px-2.5 py-1.5 rounded border border-slate-700 text-slate-300 font-medium"
+                  onClick={() => loadSample('autofail_call')}
+                  className="bg-rose-950/40 hover:bg-rose-900/60 text-xs px-3 py-1.5 rounded-lg border border-rose-500/30 text-rose-300 font-medium transition"
                 >
-                  General Interaction
+                  ⚠ Call: Auto-Fail Breach (Discourtesy/Escalation Refusal)
+                </button>
+                <button
+                  onClick={() => loadSample('compliant_email')}
+                  className="bg-sky-950/40 hover:bg-sky-900/60 text-xs px-3 py-1.5 rounded-lg border border-sky-500/30 text-sky-300 font-medium transition"
+                >
+                  ✉️ Email: 10m SLA & Template Compliant
+                </button>
+                <button
+                  onClick={() => loadSample('compliant_chat')}
+                  className="bg-purple-950/40 hover:bg-purple-900/60 text-xs px-3 py-1.5 rounded-lg border border-purple-500/30 text-purple-300 font-medium transition"
+                >
+                  💬 Chat: Fast Response & Verification
                 </button>
               </div>
             </div>
@@ -544,7 +690,7 @@ export default function App() {
                 value={transcript}
                 onChange={(e) => setTranscript(e.target.value)}
                 placeholder="Paste transcript here (e.g., [00:00] Agent: Thank you for calling S-NET... / [00:05] Client: Hi...)"
-                rows={9}
+                rows={10}
                 className="w-full bg-[#0b0f17] border border-[#2e3d5b] rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none focus:border-teal-400"
               />
               <div className="flex justify-between items-center mt-3">
