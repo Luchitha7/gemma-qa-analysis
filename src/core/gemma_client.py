@@ -19,7 +19,7 @@ import urllib.error
 import urllib.request
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "gemma3:1b"
+MODEL = "gemma3:4b"
 
 # Running tally of tokens used since the last reset.
 _usage = {"input": 0, "output": 0, "calls": []}

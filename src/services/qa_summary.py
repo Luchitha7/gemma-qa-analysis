@@ -5,8 +5,18 @@ One small Gemma request -- just the summary, nothing else (keeps tokens low).
     python qa_summary.py
 """
 
-from gemma_client import gemma
-from sample_call import TRANSCRIPT
+import os
+import sys
+
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.core.gemma_client import gemma
+from tests.sample_call import TRANSCRIPT
 
 
 def format_transcript(transcript):

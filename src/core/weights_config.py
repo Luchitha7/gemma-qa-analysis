@@ -16,8 +16,16 @@ That fallback means the system can never end up with no weights.
 
 import json
 import os
+import sys
 
-from qa_agent import FINAL_WEIGHTS as DEFAULT_WEIGHTS
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.services.qa_agent import FINAL_WEIGHTS as DEFAULT_WEIGHTS
 
 # The override file sits next to this script.
 WEIGHTS_FILE = os.path.join(os.path.dirname(__file__), "weights.json")

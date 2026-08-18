@@ -71,7 +71,7 @@ def roberta_score(text):
 def gemma_score(text):
     prompt = GEMMA_PROMPT_TEMPLATE.format(line=text)
     result = subprocess.run(
-        ["ollama", "run", "gemma3:1b", prompt],
+        ["ollama", "run", "gemma3:4b", prompt],
         capture_output=True,
         text=True,
         timeout=60,

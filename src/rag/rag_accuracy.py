@@ -12,10 +12,19 @@ show exactly which points the agent covered and which they missed.
     python rag_accuracy.py
 """
 
+import os
+import sys
 import re
 
-from rag import retrieve, max_similarity
-from sample_call import TRANSCRIPT
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.rag.rag import retrieve, max_similarity
+from tests.sample_call import TRANSCRIPT
 
 # A client line must match a known question at least this well to be judged.
 RETRIEVAL_THRESHOLD = 0.35

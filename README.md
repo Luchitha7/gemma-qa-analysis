@@ -18,7 +18,7 @@ project folder. Requires macOS and Python 3.11.
 # 1. Install Ollama and pull the language model (one-time)
 brew install ollama
 brew services start ollama
-ollama pull gemma3:1b
+ollama pull gemma3:4b
 
 # 2. Create the virtual environment and install dependencies (one-time)
 python3 -m venv venv
@@ -112,7 +112,7 @@ to edit:
   ```bash
   brew install ollama
   brew services start ollama
-  ollama pull gemma3:1b
+  ollama pull gemma3:4b
   ```
 
 ## Setup

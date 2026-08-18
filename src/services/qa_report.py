@@ -10,17 +10,27 @@ Runs every part and prints a single report for a call:
     python qa_report.py
 """
 
-from gemma_client import gemma, reset_token_usage, get_token_usage
-from qa_intensity import analyze
-from qa_agent import (
+import os
+import sys
+
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.core.gemma_client import gemma, reset_token_usage, get_token_usage
+from src.services.qa_intensity import analyze
+from src.services.qa_agent import (
     PARAMETERS, RATING_SCORES, agent_harsh_lines, apply_tone_penalty,
     build_prompt, conversation_score, final_qa_score, parse_ratings,
 )
-from qa_summary import SUMMARY_PROMPT
-from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
-from rag_accuracy import check_accuracy
-from rag_compliance import check_compliance
-from sample_call import TRANSCRIPT
+from src.services.qa_summary import SUMMARY_PROMPT
+from src.services.qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
+from src.rag.rag_accuracy import check_accuracy
+from src.rag.rag_compliance import check_compliance
+from tests.sample_call import TRANSCRIPT
 
 
 def format_transcript(transcript):

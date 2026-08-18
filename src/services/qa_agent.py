@@ -14,11 +14,20 @@ Produces three scores (0-100): agent score, conversation score, final QA score.
     python qa_agent.py
 """
 
+import os
+import sys
 import re
 
-from gemma_client import gemma
-from qa_intensity import analyze, INTENSITY_THRESHOLD  # RoBERTa sentiment + intensity
-from sample_call import TRANSCRIPT
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.core.gemma_client import gemma
+from src.services.qa_intensity import analyze, INTENSITY_THRESHOLD  # RoBERTa sentiment + intensity
+from tests.sample_call import TRANSCRIPT
 
 # ---- The QA parameters (edit these freely) --------------------------------
 PARAMETERS = [

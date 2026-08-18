@@ -13,12 +13,21 @@ database needed for a POC -- the knowledge base is tiny, so we compare in memory
 """
 
 import os
+import sys
+
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 
 from sentence_transformers import SentenceTransformer, util
 
-from knowledge_base import QA_PAIRS
+from src.rag.knowledge_base import QA_PAIRS
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 

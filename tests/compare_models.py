@@ -12,13 +12,21 @@ skipped, so this never invents numbers for a model that isn't installed.
 """
 
 import json
+import os
 import sys
 import time
 import urllib.request
 
-from gemma_client import gemma, reset_token_usage, get_token_usage
-from qa_summary import SUMMARY_PROMPT
-from sample_call import TRANSCRIPT
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.core.gemma_client import gemma, reset_token_usage, get_token_usage
+from src.services.qa_summary import SUMMARY_PROMPT
+from tests.sample_call import TRANSCRIPT
 
 DEFAULT_MODELS = ["gemma3:1b", "gemma4:1b"]
 RUNS = 3  # runs per model; we average to smooth out noise

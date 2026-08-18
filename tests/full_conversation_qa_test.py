@@ -79,7 +79,7 @@ def roberta_score(text):
 
 def gemma(prompt, timeout=120):
     result = subprocess.run(
-        ["ollama", "run", "gemma3:1b", prompt],
+        ["ollama", "run", "gemma3:4b", prompt],
         capture_output=True, text=True, timeout=timeout,
     )
     return result.stdout.strip()

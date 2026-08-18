@@ -36,7 +36,7 @@ def roberta_label(text):
 
 def gemma(prompt, timeout=60):
     out = subprocess.run(
-        ["ollama", "run", "gemma3:1b", prompt],
+        ["ollama", "run", "gemma3:4b", prompt],
         capture_output=True, text=True, timeout=timeout,
     )
     return out.stdout.strip()

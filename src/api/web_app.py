@@ -12,29 +12,38 @@ here, it's just a web front-end over the parts we already built.
 Requires Ollama running ('brew services start ollama') and the venv active.
 """
 
+import os
+import sys
 import re
+
+# Bootstrapping sys.path for modular folder structure
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel
 
-import job_queue
-
-from gemma_client import gemma, reset_token_usage, get_token_usage
-from qa_intensity import analyze
-from qa_agent import (
+from src.api import job_queue
+from src.core.gemma_client import gemma, reset_token_usage, get_token_usage
+from src.services.qa_intensity import analyze
+from src.services.qa_agent import (
     RATING_SCORES, agent_harsh_lines, apply_tone_penalty, build_prompt,
     conversation_score, final_qa_score, parse_ratings,
 )
-from qa_summary import SUMMARY_PROMPT
-from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
-from rag_accuracy import check_accuracy
-from rag_compliance import check_compliance
-from response_time import (
+from src.services.qa_summary import SUMMARY_PROMPT
+from src.services.qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
+from src.rag.rag_accuracy import check_accuracy
+from src.rag.rag_compliance import check_compliance
+from src.services.response_time import (
     leading_time_seconds, response_delays, response_time_score,
 )
-from weights_config import load_weights, save_weights
-from report_pdf import build_report
+from src.core.weights_config import load_weights, save_weights
+from src.core.report_pdf import build_report
 
 app = FastAPI()
 

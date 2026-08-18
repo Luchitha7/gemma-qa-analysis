@@ -10,9 +10,19 @@ This uses local embeddings only, so it costs NO LLM tokens.
     python rag_compliance.py
 """
 
-from rag import max_similarity
-from knowledge_base import COMPLIANCE_RULES
-from sample_call import TRANSCRIPT
+import os
+import sys
+
+_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+_SRC = os.path.join(_ROOT, "src")
+_TESTS = os.path.join(_ROOT, "tests")
+for _path in [_ROOT, _SRC, _TESTS]:
+    if _path not in sys.path:
+        sys.path.insert(0, _path)
+
+from src.rag.rag import max_similarity
+from src.rag.knowledge_base import COMPLIANCE_RULES
+from tests.sample_call import TRANSCRIPT
 
 # An agent line counts as breaking a rule if it's at least this close in meaning
 # to one of that rule's violation examples.
