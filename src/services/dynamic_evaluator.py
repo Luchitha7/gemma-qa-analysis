@@ -18,12 +18,89 @@ from src.services.response_time import (
 RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
 
 
+def preview_evaluation_prompt(
+    transcript_text: str,
+    criteria_data: Dict[str, Any],
+    tenant_id: str,
+    channel: str = "Call"
+) -> Dict[str, Any]:
+    """Construct and preview the exact LLM prompt without executing evaluation."""
+    # 1. Parse turns
+    turns = []
+    for line in transcript_text.strip().splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        line = re.sub(r"^[\[\(]\s*\d{1,2}:\d{2}(?::\d{2})?\s*[\]\)]\s*", "", line)
+        if ":" in line:
+            spk, txt = line.split(":", 1)
+            turns.append((spk.strip(), txt.strip()))
+
+    if not turns:
+        turns = [("Agent", transcript_text)]
+
+    # 2. RoBERTa Tone & Intensity Analysis
+    sentiment_rows = analyze(turns)
+    intense_moments = [r for r in sentiment_rows if r.get("intense")]
+    harsh_agent_lines = [
+        r for r in sentiment_rows
+        if r.get("speaker", "").lower() == "agent" and r.get("sentiment", 0) <= INTENSITY_THRESHOLD
+    ]
+
+    # 3. Vector RAG Policy Search
+    client_queries = [txt for spk, txt in turns if spk.lower() in {"client", "customer", "caller"}]
+    combined_query = " ".join(client_queries[:3]) if client_queries else transcript_text[:300]
+    matched_policies = search_policies(tenant_id, combined_query, top_k=3)
+
+    # 4. Extract Criteria Line Items and Weights
+    categories = criteria_data.get("categories", [])
+    category_weights = criteria_data.get("category_weights", {})
+    auto_fail_rules = criteria_data.get("auto_fail_rules", [])
+
+    if not categories:
+        categories = [
+            {
+                "name": "General Handling",
+                "weight_percentage": 100.0,
+                "line_items": [
+                    {"name": "Professionalism & Tone", "description": "Polite, respectful, no discourtesy."},
+                    {"name": "Accuracy & Knowledge", "description": "Provided correct solution according to policy."},
+                    {"name": "Ownership & Resolution", "description": "Took ownership and resolved the issue."}
+                ]
+            }
+        ]
+        category_weights = {"General Handling": 1.0}
+
+    # 5. Build Dynamic Scorecard Prompt
+    scorecard_prompt = build_dynamic_prompt(
+        transcript_text=transcript_text,
+        categories=categories,
+        auto_fail_rules=auto_fail_rules,
+        matched_policies=matched_policies,
+        intense_moments=intense_moments,
+        harsh_lines=harsh_agent_lines,
+        channel=channel
+    )
+
+    return {
+        "prompt": scorecard_prompt,
+        "matched_policies": matched_policies,
+        "intense_moments": intense_moments,
+        "harsh_agent_lines": harsh_agent_lines,
+        "categories_count": len(categories),
+        "line_items_count": sum(len(c.get("line_items", [])) for c in categories),
+        "channel": channel,
+        "tenant_id": tenant_id
+    }
+
+
 def evaluate_interaction(
     transcript_text: str,
     criteria_data: Dict[str, Any],
     tenant_id: str,
     channel: str = "Call",
-    times: Optional[List[Optional[int]]] = None
+    times: Optional[List[Optional[int]]] = None,
+    custom_prompt: Optional[str] = None
 ) -> Dict[str, Any]:
     """Execute dynamic QA evaluation for a customer interaction."""
     # 1. Parse turns
@@ -53,7 +130,6 @@ def evaluate_interaction(
     ]
 
     # 3. Vector RAG Policy Search
-    # Find client questions/concerns and search company policy chunks
     client_queries = [txt for spk, txt in turns if spk.lower() in {"client", "customer", "caller"}]
     combined_query = " ".join(client_queries[:3]) if client_queries else transcript_text[:300]
     matched_policies = search_policies(tenant_id, combined_query, top_k=3)
@@ -63,7 +139,6 @@ def evaluate_interaction(
     category_weights = criteria_data.get("category_weights", {})
     auto_fail_rules = criteria_data.get("auto_fail_rules", [])
 
-    # If no categories provided, use standard default
     if not categories:
         categories = [
             {
@@ -78,8 +153,8 @@ def evaluate_interaction(
         ]
         category_weights = {"General Handling": 1.0}
 
-    # 5. Build Dynamic Scorecard Prompt
-    scorecard_prompt = build_dynamic_prompt(
+    # 5. Use custom_prompt if supplied by user approval, otherwise build it
+    scorecard_prompt = custom_prompt if custom_prompt else build_dynamic_prompt(
         transcript_text=transcript_text,
         categories=categories,
         auto_fail_rules=auto_fail_rules,
@@ -129,21 +204,35 @@ def build_dynamic_prompt(
     harsh_lines: List[Dict[str, Any]],
     channel: str
 ) -> str:
-    """Construct dynamic LLM prompt tailored to tenant criteria."""
+    """Construct dynamic LLM prompt tailored to tenant criteria with explicit weights and sanitized formatting."""
+    # 1. Category Weights Section
+    weights_list = []
+    for cat in categories:
+        c_name = re.sub(r"<\s*br\s*/?\s*>", " ", cat.get("name", "Category"), flags=re.IGNORECASE).strip()
+        w_pct = cat.get("weight_percentage", 25.0)
+        weights_list.append(f"• {c_name}: {w_pct}% of total QA score")
+    weights_str = "\n".join(weights_list)
+
+    # 2. Evaluation Line Items with category and percentage tags
     items_list = []
     for cat in categories:
-        cat_name = cat.get("name", "Category")
+        cat_name = re.sub(r"<\s*br\s*/?\s*>", " ", cat.get("name", "Category"), flags=re.IGNORECASE).strip()
+        w_pct = cat.get("weight_percentage", 25.0)
         for item in cat.get("line_items", []):
-            name = item.get("name", "Item")
-            desc = item.get("description", "")
+            name = re.sub(r"<\s*br\s*/?\s*>", " ", item.get("name", "Item"), flags=re.IGNORECASE).strip()
+            name = re.sub(r"\s+", " ", name)
+            desc = re.sub(r"<\s*br\s*/?\s*>", " ", item.get("description", ""), flags=re.IGNORECASE).strip()
+            desc = re.sub(r"\s+", " ", desc)
             spiels = item.get("verbatim_spiels", [])
-            spiel_txt = f" [Required Spiels: {', '.join(spiels)}]" if spiels else ""
-            items_list.append(f"- [{cat_name}] {name}: {desc}{spiel_txt}")
+            clean_spiels = [re.sub(r"<\s*br\s*/?\s*>", " ", s, flags=re.IGNORECASE).strip() for s in spiels]
+            spiel_txt = f" [Required Spiels: {', '.join(clean_spiels)}]" if clean_spiels else ""
+            items_list.append(f"- [{cat_name} ({w_pct}%)] {name}: {desc}{spiel_txt}")
 
     criteria_str = "\n".join(items_list)
     
     policies_str = "\n".join(
-        f"• {p['title']}: {p['content'][:300]}" for p in matched_policies
+        f"• {re.sub(r'<\s*br\s*/?\s*>', ' ', p['title'], flags=re.IGNORECASE)}: {re.sub(r'<\s*br\s*/?\s*>', ' ', p['content'][:300], flags=re.IGNORECASE)}" 
+        for p in matched_policies
     ) or "• No specific policy override found."
 
     intense_str = "\n".join(
@@ -155,7 +244,10 @@ def build_dynamic_prompt(
     ) or "- (none)"
 
     return f"""You are a STRICT Call Quality Assurance Auditor evaluating a {channel} interaction.
-Your task is to judge the AGENT against each specific evaluation line item.
+Your task is to judge the AGENT against each specific evaluation line item according to company weights and policies.
+
+COMPANY EVALUATION CATEGORIES & WEIGHTS:
+{weights_str}
 
 RATING CRITERIA:
 - PASS: Agent met all requirements, was polite, helpful, and followed required spiels/policies.
@@ -165,7 +257,7 @@ RATING CRITERIA:
 COMPANY POLICY CONTEXT (Retrieved from Knowledge Base):
 {policies_str}
 
-EVALUATION LINE ITEMS TO RATE:
+EVALUATION LINE ITEMS TO RATE (Grouped by Category & Weight):
 {criteria_str}
 
 FLAGGED TENSE MOMENTS:

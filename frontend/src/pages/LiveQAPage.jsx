@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTenant } from '../context/TenantContext';
-import { Sparkles, FileCode, Upload, Play, RefreshCw, Database } from 'lucide-react';
+import { Sparkles, FileCode, Upload, Play, RefreshCw, Database, Eye, Cpu, CheckCircle } from 'lucide-react';
+import PromptPreviewModal from '../components/PromptPreviewModal';
 
 export default function LiveQAPage() {
   const { selectedTenant, API_BASE } = useTenant();
@@ -13,6 +14,11 @@ export default function LiveQAPage() {
   const [transcript, setTranscript] = useState('');
   const [evalResult, setEvalResult] = useState(null);
   const [evalLoading, setEvalLoading] = useState(false);
+
+  // Prompt Preview State
+  const [previewData, setPreviewData] = useState(null);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
 
   const fetchSamples = async () => {
     try {
@@ -59,7 +65,33 @@ export default function LiveQAPage() {
     reader.readAsText(file);
   };
 
-  const handleEvaluate = async () => {
+  const handlePreviewPrompt = async () => {
+    if (!transcript.trim()) {
+      alert('Please enter or select a transcript first.');
+      return;
+    }
+    setPreviewLoading(true);
+    try {
+      const res = await fetch(`${API_BASE}/api/tenants/${selectedTenant}/preview-prompt`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          transcript: transcript,
+          channel: channel,
+          agent_name: agentName
+        }),
+      });
+      const data = await res.json();
+      setPreviewData(data);
+      setIsPromptModalOpen(true);
+    } catch (err) {
+      alert('Failed to build prompt preview: ' + err.message);
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
+
+  const handleEvaluate = async (customPrompt = null) => {
     if (!transcript.trim()) return;
     setEvalLoading(true);
     setEvalResult(null);
@@ -71,11 +103,13 @@ export default function LiveQAPage() {
         body: JSON.stringify({
           transcript: transcript,
           channel: channel,
-          agent_name: agentName
+          agent_name: agentName,
+          custom_prompt: customPrompt
         }),
       });
       const data = await res.json();
       setEvalResult(data);
+      setIsPromptModalOpen(false);
     } catch (err) {
       alert('Evaluation error: ' + err.message);
     } finally {
@@ -171,20 +205,43 @@ export default function LiveQAPage() {
           rows={10}
           className="w-full bg-slate-50 border border-slate-200 rounded-lg p-4 text-xs font-mono text-slate-900 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500"
         />
-        <div className="flex justify-between items-center mt-4">
+        <div className="flex flex-wrap justify-between items-center gap-4 mt-4">
           <span className="text-xs text-slate-500">
-            Target Company: <strong className="text-slate-800">{selectedTenant}</strong> · Evaluator: <strong className="text-slate-800">Gemma 3 4B</strong>
+            Target Company: <strong className="text-slate-800">{selectedTenant}</strong> · Model: <strong className="text-slate-800">Gemma 3 4B</strong>
           </span>
-          <button
-            onClick={handleEvaluate}
-            disabled={evalLoading || !transcript.trim()}
-            className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold px-6 py-2.5 rounded-lg text-xs shadow transition cursor-pointer"
-          >
-            {evalLoading ? <RefreshCw className="animate-spin" size={15} /> : <Play size={15} />}
-            {evalLoading ? 'Evaluating with Gemma & RAG...' : 'Run Dynamic QA Analysis'}
-          </button>
+
+          <div className="flex items-center gap-2.5">
+            {/* Preview Prompt Button */}
+            <button
+              onClick={handlePreviewPrompt}
+              disabled={previewLoading || !transcript.trim()}
+              className="flex items-center gap-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 disabled:opacity-50 font-semibold px-4 py-2.5 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+            >
+              {previewLoading ? <RefreshCw className="animate-spin" size={14} /> : <Eye size={14} />}
+              {previewLoading ? 'Building Prompt...' : 'Preview Built Prompt'}
+            </button>
+
+            {/* Direct Run Button */}
+            <button
+              onClick={() => handleEvaluate(null)}
+              disabled={evalLoading || !transcript.trim()}
+              className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-semibold px-5 py-2.5 rounded-lg text-xs shadow transition cursor-pointer"
+            >
+              {evalLoading ? <RefreshCw className="animate-spin" size={14} /> : <Play size={14} />}
+              {evalLoading ? 'Evaluating...' : 'Run QA Directly'}
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Prompt Preview & Approval Modal */}
+      <PromptPreviewModal
+        isOpen={isPromptModalOpen}
+        onClose={() => setIsPromptModalOpen(false)}
+        previewData={previewData}
+        onApproveAndRun={(approvedPrompt) => handleEvaluate(approvedPrompt)}
+        evalLoading={evalLoading}
+      />
 
       {/* Evaluation Results Breakdown */}
       {evalResult && (
@@ -198,70 +255,73 @@ export default function LiveQAPage() {
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Overall QA Score</span>
-                {evalResult.is_auto_fail && (
-                  <span className="px-2 py-0.5 rounded-full bg-rose-600 text-white font-bold text-[10px]">
-                    AUTO-FAIL TRIGGERED
-                  </span>
-                )}
-              </div>
-              <div className="text-4xl font-extrabold mt-1 flex items-baseline gap-2">
-                <span className={evalResult.is_auto_fail ? 'text-rose-600' : 'text-slate-900'}>
-                  {evalResult.final_score}
+                <span className={`px-2.5 py-0.5 rounded-full font-bold text-xs ${
+                  evalResult.is_auto_fail 
+                    ? 'bg-rose-600 text-white' 
+                    : evalResult.final_score >= 80 
+                    ? 'bg-emerald-600 text-white' 
+                    : 'bg-amber-600 text-white'
+                }`}>
+                  {evalResult.is_auto_fail ? 'AUTO-FAIL' : evalResult.final_score >= 80 ? 'PASSED' : 'NEEDS IMPROVEMENT'}
                 </span>
-                <span className="text-sm text-slate-400 font-normal">/ 100</span>
               </div>
-              {evalResult.auto_fail_reason && (
-                <p className="text-xs text-rose-700 mt-2 font-medium">
-                  ⚠ {evalResult.auto_fail_reason}
+              <div className="text-4xl font-extrabold mt-1 text-slate-900">
+                {evalResult.final_score} <span className="text-base font-normal text-slate-400">/ 100</span>
+              </div>
+              {evalResult.is_auto_fail && evalResult.auto_fail_reason && (
+                <p className="text-xs text-rose-700 font-semibold mt-1">
+                  Triggered: {evalResult.auto_fail_reason}
                 </p>
               )}
             </div>
 
-            {/* Category Scores */}
+            {/* Category Breakdown Badges */}
             {evalResult.category_scores && (
               <div className="flex flex-wrap gap-3">
                 {Object.entries(evalResult.category_scores).map(([cat, score]) => (
-                  <div key={cat} className="bg-slate-50 px-4 py-2.5 rounded-lg border border-slate-200 text-center">
-                    <span className="text-[11px] text-slate-500 block font-medium">{cat}</span>
-                    <span className="text-sm font-bold text-slate-900">{score} / 100</span>
+                  <div key={cat} className="bg-white border border-slate-200 px-4 py-2 rounded-lg shadow-2xs text-center">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block">{cat}</span>
+                    <span className="text-base font-extrabold text-slate-900">{score}%</span>
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* Scorecard Table */}
-          <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-            <h3 className="font-bold text-sm text-slate-900 mb-4">Gemma 3 4B Scorecard Breakdown</h3>
+          {/* Line by Line Scorecard */}
+          <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+              <h3 className="font-bold text-sm text-slate-900">Line-by-Line Criteria Evaluation</h3>
+            </div>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-200 text-slate-500 font-semibold bg-slate-50">
-                    <th className="p-3">Line Item</th>
-                    <th className="p-3">Category</th>
-                    <th className="p-3">Rating</th>
-                    <th className="p-3">Score</th>
-                    <th className="p-3">Audit Reason & Evidence</th>
+                  <tr className="bg-slate-50/50 text-slate-500 font-semibold border-b border-slate-200">
+                    <th className="p-3.5">Line Item</th>
+                    <th className="p-3.5">Category</th>
+                    <th className="p-3.5">Verdict</th>
+                    <th className="p-3.5">Points</th>
+                    <th className="p-3.5">Audit Findings & Reasoning</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
-                  {(evalResult.scorecard || []).map((item, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50/80">
-                      <td className="p-3 font-semibold text-slate-900">{item.name}</td>
-                      <td className="p-3 text-slate-500">{item.category}</td>
-                      <td className="p-3">
+                  {(evalResult.scorecard || []).map((line, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50/40">
+                      <td className="p-3.5 font-semibold text-slate-900">{line.name}</td>
+                      <td className="p-3.5 text-slate-500">{line.category}</td>
+                      <td className="p-3.5">
                         <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] ${
-                          item.rating === 'PASS' 
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : item.rating === 'PARTIAL'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                          line.rating === 'PASS' 
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
+                            : line.rating === 'PARTIAL' 
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200' 
                             : 'bg-rose-50 text-rose-700 border border-rose-200'
                         }`}>
-                          {item.rating}
+                          {line.rating}
                         </span>
                       </td>
-                      <td className="p-3 font-bold text-slate-900">{item.score}</td>
-                      <td className="p-3 text-slate-700">{item.reason}</td>
+                      <td className="p-3.5 font-bold text-slate-900">{line.score}</td>
+                      <td className="p-3.5 text-slate-700 leading-relaxed">{line.reason}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -269,42 +329,34 @@ export default function LiveQAPage() {
             </div>
           </div>
 
-          {/* Summary & Suggestions Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">Interaction Summary</h3>
-              <p className="text-xs text-slate-700 leading-relaxed">{evalResult.summary}</p>
-            </div>
-
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">Agent Coaching Suggestions</h3>
-              <div className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed">
-                {evalResult.suggestions}
-              </div>
-            </div>
-          </div>
-
-          {/* RAG Matched Policies */}
+          {/* RAG Matched Policies Evidence */}
           {evalResult.matched_policies && evalResult.matched_policies.length > 0 && (
-            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-2">
-                <Database size={15} className="text-blue-600" /> RAG Retrieved Policies for Context
+            <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-3">
+              <h3 className="font-bold text-xs uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <Database size={14} className="text-blue-600" /> RAG Retrieved Company Policy Evidence
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {evalResult.matched_policies.map((p, idx) => (
-                  <div key={idx} className="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
-                    <div className="flex justify-between items-center mb-1">
-                      <strong className="text-slate-900 font-semibold">{p.title}</strong>
-                      <span className="text-[10px] text-blue-700 font-mono bg-blue-50 border border-blue-100 px-1.5 py-0.5 rounded">
-                        Sim: {p.similarity}
-                      </span>
-                    </div>
-                    <p className="text-slate-600">{p.content}</p>
+                  <div key={idx} className="bg-slate-50 border border-slate-200 p-3.5 rounded-lg text-xs">
+                    <strong className="text-slate-900 block mb-1 font-semibold">{p.title}</strong>
+                    <p className="text-slate-600 leading-relaxed text-[11px]">{p.content}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
+
+          {/* Coaching Summary & Suggestions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">Interaction Summary</h4>
+              <p className="text-xs text-slate-700 leading-relaxed">{evalResult.summary}</p>
+            </div>
+            <div className="bg-white border border-slate-200 p-5 rounded-xl shadow-sm">
+              <h4 className="font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">Coaching Recommendations</h4>
+              <p className="text-xs text-slate-700 whitespace-pre-wrap leading-relaxed">{evalResult.suggestions}</p>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -54,7 +54,7 @@ from src.db.models import Tenant, Document, CriteriaConfig, EvaluationReport
 from src.rag.pdf_parser import convert_pdf_bytes_to_markdown
 from src.rag.llm_separator import separate_criteria_and_policies
 from src.rag.vector_store import add_policy_chunks, get_tenant_policies, search_policies, delete_tenant_policies
-from src.services.dynamic_evaluator import evaluate_interaction
+from src.services.dynamic_evaluator import evaluate_interaction, preview_evaluation_prompt
 
 app = FastAPI(title="Multi-Tenant QA Service API")
 
@@ -83,6 +83,7 @@ class EvaluateRequest(BaseModel):
     transcript: str
     channel: Optional[str] = "Call"
     agent_name: Optional[str] = "Agent"
+    custom_prompt: Optional[str] = None
 
 
 class TranscriptIn(BaseModel):
@@ -760,19 +761,43 @@ def get_tenant_policy_chunks(tenant_id: str, db: Session = Depends(get_db)):
     return get_tenant_policies(tenant_id)
 
 
+@app.post("/api/tenants/{tenant_id}/preview-prompt")
+def preview_tenant_prompt(tenant_id: str, req: EvaluateRequest, db: Session = Depends(get_db)):
+    """Build and preview the exact LLM prompt without executing evaluation."""
+    criteria_record = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
+    criteria_data = criteria_record.raw_json if criteria_record else {}
+    if not criteria_data:
+        doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
+        if doc and doc.raw_markdown:
+            criteria_data = separate_criteria_and_policies(doc.raw_markdown).get("criteria", {})
+
+    preview = preview_evaluation_prompt(
+        transcript_text=req.transcript,
+        criteria_data=criteria_data,
+        tenant_id=tenant_id,
+        channel=req.channel or "Call"
+    )
+    return preview
+
+
 @app.post("/api/tenants/{tenant_id}/evaluate")
 def evaluate_tenant_transcript(tenant_id: str, req: EvaluateRequest, db: Session = Depends(get_db)):
     """Run dynamic QA analysis on a transcript using tenant's custom criteria and Vector RAG."""
     # 1. Fetch criteria
     criteria_record = db.query(CriteriaConfig).filter(CriteriaConfig.tenant_id == tenant_id).order_by(CriteriaConfig.created_at.desc()).first()
     criteria_data = criteria_record.raw_json if criteria_record else {}
+    if not criteria_data:
+        doc = db.query(Document).filter(Document.tenant_id == tenant_id).order_by(Document.uploaded_at.desc()).first()
+        if doc and doc.raw_markdown:
+            criteria_data = separate_criteria_and_policies(doc.raw_markdown).get("criteria", {})
 
-    # 2. Run Dynamic Evaluation
+    # 2. Run Dynamic Evaluation (supporting custom_prompt if approved/edited by user)
     result = evaluate_interaction(
         transcript_text=req.transcript,
         criteria_data=criteria_data,
         tenant_id=tenant_id,
-        channel=req.channel or "Call"
+        channel=req.channel or "Call",
+        custom_prompt=req.custom_prompt
     )
 
     # 3. Save Evaluation in PostgreSQL

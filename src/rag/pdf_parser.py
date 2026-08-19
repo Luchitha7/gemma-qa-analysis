@@ -36,16 +36,21 @@ def convert_pdf_bytes_to_markdown(pdf_bytes: bytes, filename: str = "document.pd
                 if tabs.tables and len(tabs.tables) > 0:
                     for tab in tabs.tables:
                         table_md = tab.to_markdown()
+                        # Clean HTML break tags inside markdown tables
+                        table_md = re.sub(r"<\s*br\s*/?\s*>", " ", table_md, flags=re.IGNORECASE)
                         markdown_pages.append(table_md)
                     # Also include any remaining text
                     text = page.get_text("text")
                     if text and len(text.strip()) > 50:
+                        text = re.sub(r"<\s*br\s*/?\s*>", " ", text, flags=re.IGNORECASE)
                         markdown_pages.append(text)
                 else:
                     text = page.get_text("text")
+                    text = re.sub(r"<\s*br\s*/?\s*>", " ", text, flags=re.IGNORECASE)
                     markdown_pages.append(text)
             except Exception:
                 text = page.get_text("text")
+                text = re.sub(r"<\s*br\s*/?\s*>", " ", text, flags=re.IGNORECASE)
                 markdown_pages.append(text)
 
             markdown_pages.append(f"\n<!-- PAGE {page_num} END -->\n")

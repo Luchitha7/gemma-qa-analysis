@@ -12,6 +12,15 @@ import re
 from typing import Dict, Any, List, Tuple
 
 
+def sanitize_text(s: str) -> str:
+    """Clean HTML break tags and redundant whitespace from extracted strings."""
+    if not s:
+        return ""
+    s = re.sub(r"<\s*br\s*/?\s*>", " ", s, flags=re.IGNORECASE)
+    s = re.sub(r"\s+", " ", s)
+    return s.strip()
+
+
 def separate_criteria_and_policies(markdown_text: str) -> Dict[str, Any]:
     """Parse Markdown guidelines and extract Criteria JSON and Policy Knowledge Chunks."""
     parsed_data = parse_guideline_markdown(markdown_text)
@@ -137,27 +146,29 @@ def parse_guideline_markdown(md: str) -> Dict[str, Any]:
 
         # Process Auto-Fail Row
         if in_auto_fail_section:
-            rule_name = re.sub(r"^[0-9\.\-\*\s]+", "", col1_clean).strip()
+            rule_name = sanitize_text(re.sub(r"^[0-9\.\-\*\s]+", "", col1_clean))
+            rule_desc = sanitize_text(col2_clean)
             # Filter out page markers and noise
-            if rule_name and not rule_name.startswith("<!--") and "PAGE" not in rule_name and len(rule_name) > 2 and len(rule_name) < 45:
+            if rule_name and not rule_name.startswith("<!--") and "PAGE" not in rule_name.upper() and len(rule_name) > 2 and len(rule_name) < 45:
                 if not any(r["name"] == rule_name for r in auto_fail_rules):
                     auto_fail_rules.append({
                         "name": rule_name,
-                        "description": col2_clean if col2_clean else "Immediate automatic failure on violation",
+                        "description": rule_desc if rule_desc else "Immediate automatic failure on violation",
                         "trigger": f"Automatic 0 score on {rule_name.lower()}"
                     })
             continue
 
         # Process Standard Line Item Row
-        line_item_name = re.sub(r"^[0-9\.\-\*\s]+", "", col1_clean).strip()
+        line_item_name = sanitize_text(re.sub(r"^[0-9\.\-\*\s]+", "", col1_clean))
+        line_item_desc = sanitize_text(col2_clean)
         # Filter out noise
-        if line_item_name and not line_item_name.startswith("<!--") and "PAGE" not in line_item_name and len(line_item_name) > 2 and len(line_item_name) < 60:
+        if line_item_name and not line_item_name.startswith("<!--") and "PAGE" not in line_item_name.upper() and len(line_item_name) > 2 and len(line_item_name) < 60:
             # Extract verbatim spiels from definition
             quotes = re.findall(r'"([^"\n]{10,140})"', col2_clean)
             
             line_item_obj = {
                 "name": line_item_name,
-                "description": col2_clean[:250] if col2_clean else f"Adhered to {line_item_name} standard.",
+                "description": line_item_desc[:250] if line_item_desc else f"Adhered to {line_item_name} standard.",
                 "verbatim_spiels": quotes if quotes else []
             }
 
