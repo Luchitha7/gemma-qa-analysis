@@ -1,11 +1,38 @@
+# Virtual Environments
 venv/
+.venv/
+env/
+
+# Python Cache & Bytecode
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+
+# Node / Frontend Build Outputs
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Database & Persistent Vector Data
+vector_data/
+*.sqlite
+*.sqlite3
+
+# Operating System & Editors
 .DS_Store
-
-# Runtime state: weights saved from the frontend. The defaults live in code
-# (qa_agent.py FINAL_WEIGHTS), so this file is a local override, not source.
-weights.json
-
-# Local editor / preview tool config, not project source.
+Thumbs.db
+.vscode/
+.idea/
 .claude/
+
+# Runtime Overrides
+weights.json

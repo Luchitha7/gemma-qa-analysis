@@ -15,11 +15,16 @@ used. `gemma()` still returns a plain string, so nothing else has to change:
 """
 
 import json
+import os
 import urllib.error
 import urllib.request
+from dotenv import load_dotenv
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "gemma3:4b"
+load_dotenv()
+
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+OLLAMA_URL = os.getenv("OLLAMA_URL", f"{OLLAMA_HOST.rstrip('/')}/api/generate")
+MODEL = os.getenv("GEMMA_MODEL", "gemma3:4b")
 
 # Running tally of tokens used since the last reset.
 _usage = {"input": 0, "output": 0, "calls": []}

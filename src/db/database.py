@@ -5,6 +5,9 @@ from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DB_USER = os.getenv("DB_USERNAME", "postgres")
 DB_PASS = os.getenv("DB_PASSWORD", "root")
@@ -12,7 +15,10 @@ DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "qa_database")
 
-DATABASE_URL = f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    f"postgresql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+)
 
 Base = declarative_base()
 

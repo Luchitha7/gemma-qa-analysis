@@ -22,6 +22,9 @@ os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 
 import logging
 import warnings
+from dotenv import load_dotenv
+
+load_dotenv()
 
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
@@ -30,13 +33,13 @@ from transformers import pipeline
 
 from tests.sample_call import TRANSCRIPT
 
-CONFIDENCE_THRESHOLD = 0.6
-# A line counts as an "intense moment" when sentiment is strongly negative.
-INTENSITY_THRESHOLD = -0.7
+CONFIDENCE_THRESHOLD = float(os.getenv("SENTIMENT_CONFIDENCE_THRESHOLD", "0.6"))
+INTENSITY_THRESHOLD = float(os.getenv("SENTIMENT_INTENSITY_THRESHOLD", "-0.7"))
+SENTIMENT_MODEL = os.getenv("SENTIMENT_MODEL", "cardiffnlp/twitter-roberta-base-sentiment-latest")
 
 classifier = pipeline(
     task="sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest",
+    model=SENTIMENT_MODEL,
     top_k=None,
 )
 

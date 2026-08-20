@@ -15,6 +15,12 @@ if TESTS_DIR not in sys.path:
 
 if __name__ == "__main__":
     import uvicorn
-    print("Starting Gemma QA Analysis Web Server on http://localhost:8000...")
+    from dotenv import load_dotenv
+    load_dotenv()
+    
+    host = os.getenv("SERVER_HOST", "0.0.0.0")
+    port = int(os.getenv("SERVER_PORT", "8000"))
+    
+    print(f"Starting Gemma QA Analysis Web Server on http://{host}:{port}...")
     from api.web_app import app
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host=host, port=port)

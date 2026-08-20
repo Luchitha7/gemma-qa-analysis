@@ -9,11 +9,15 @@ import json
 from typing import List, Dict, Any, Optional
 from sentence_transformers import SentenceTransformer, util
 import torch
+from dotenv import load_dotenv
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+load_dotenv()
+
+MODEL_NAME = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 _embed_model = SentenceTransformer(MODEL_NAME)
 
-STORE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "vector_data")
+_default_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "vector_data")
+STORE_DIR = os.getenv("CHROMA_PERSIST_DIR", _default_dir)
 os.makedirs(STORE_DIR, exist_ok=True)
 STORE_FILE = os.path.join(STORE_DIR, "tenant_policies.json")
 
