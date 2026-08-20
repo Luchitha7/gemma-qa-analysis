@@ -1,0 +1,287 @@
+{
+  "info": {
+    "name": "Multi-Tenant QA Service API",
+    "description": "Enterprise Automated QA Intelligence API Collection for Gemma 3 4B & Multi-Tenant Evaluation",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "tenantId",
+      "value": "S-NET",
+      "type": "string"
+    },
+    {
+      "key": "evalId",
+      "value": "8e96e628-e43d-45e3-a95e-b266e1fa5503",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Tenant Management",
+      "item": [
+        {
+          "name": "List All Tenants",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants"]
+            }
+          }
+        },
+        {
+          "name": "Create New Tenant",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"BrightWave\",\n  \"name\": \"BrightWave Retail\",\n  \"description\": \"E-Commerce Customer Experience & Retail Support\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Guideline & Knowledge Base",
+      "item": [
+        {
+          "name": "Upload Guideline PDF",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/upload-pdf",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "upload-pdf"]
+            }
+          }
+        },
+        {
+          "name": "Get Converted Lossless Markdown",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/markdown",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "markdown"]
+            }
+          }
+        },
+        {
+          "name": "Get Extracted Criteria JSON",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/criteria",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "criteria"]
+            }
+          }
+        },
+        {
+          "name": "Get Stored Vector Policies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/policies",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "policies"]
+            }
+          }
+        },
+        {
+          "name": "List Uploaded Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "documents"]
+            }
+          }
+        },
+        {
+          "name": "Delete Guideline Document by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/documents/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "documents", "1"]
+            }
+          }
+        },
+        {
+          "name": "Clear All Tenant Knowledge Base",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/knowledge-base",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "knowledge-base"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Live QA & Prompt Builder",
+      "item": [
+        {
+          "name": "List Sample Interaction Files",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/samples",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "samples"]
+            }
+          }
+        },
+        {
+          "name": "Preview Built Prompt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"Call\",\n  \"agent_name\": \"Alex\",\n  \"transcript\": \"[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex how can I help you today?\\n[00:05] Client: I need help with my account bill.\\n[00:08] Agent: I can help with that. May I verify your full name and company?\\n[00:15] Client: John Doe, Acme Corp.\\n[00:20] Agent: Thank you John. Your balance is $100.\\n[00:25] Client: Thanks Alex!\\n[00:28] Agent: Thank you for Choosing S-NET and have a great day.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/preview-prompt",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "preview-prompt"]
+            }
+          }
+        },
+        {
+          "name": "Evaluate Interaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"Call\",\n  \"agent_name\": \"Alex\",\n  \"transcript\": \"[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex how can I help you today?\\n[00:05] Client: I need help with my account bill.\\n[00:08] Agent: I can help with that. May I verify your full name and company?\\n[00:15] Client: John Doe, Acme Corp.\\n[00:20] Agent: Thank you John. Your balance is $100.\\n[00:25] Client: Thanks Alex!\\n[00:28] Agent: Thank you for Choosing S-NET and have a great day.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tenants/{{tenantId}}/evaluate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tenants", "{{tenantId}}", "evaluate"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Audit History & Evaluations",
+      "item": [
+        {
+          "name": "List Tenant Evaluations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/evaluations?tenant_id={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "evaluations"],
+              "query": [
+                {
+                  "key": "tenant_id",
+                  "value": "{{tenantId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Evaluation Detail by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/evaluations/{{evalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "evaluations", "{{evalId}}"]
+            }
+          }
+        },
+        {
+          "name": "Delete Single Evaluation by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/evaluations/{{evalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "evaluations", "{{evalId}}"]
+            }
+          }
+        },
+        {
+          "name": "Clear All Evaluations for Tenant",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/evaluations?tenant_id={{tenantId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "evaluations"],
+              "query": [
+                {
+                  "key": "tenant_id",
+                  "value": "{{tenantId}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

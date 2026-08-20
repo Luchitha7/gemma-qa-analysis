@@ -1,33 +1,40 @@
-### ====================================================================
-### MULTI-TENANT QA SERVICE & RAG REST API ENDPOINTS
-### Compatible with VS Code REST Client / IntelliJ HTTP Client / Postman
-### ====================================================================
-
 @baseUrl = http://localhost:8000
 @tenantId = S-NET
+@evalId = 8e96e628-e43d-45e3-a95e-b266e1fa5503
 
-### --------------------------------------------------------------------
-### 1. TENANT MANAGEMENT (POSTGRESQL)
-### --------------------------------------------------------------------
-
-### List All Companies / Tenants
+### 1. List All Registered Tenants
 GET {{baseUrl}}/api/tenants
 
-### Create a New Tenant
+# Response:
+# [
+#   {
+#     "id": "S-NET",
+#     "name": "S-NET Communications",
+#     "description": "Telecommunications & Enterprise IT Support",
+#     "created_at": "2026-08-18T10:00:00"
+#   }
+# ]
+
+### 2. Create a New Tenant
 POST {{baseUrl}}/api/tenants
 Content-Type: application/json
 
 {
-  "id": "AcmeCorp",
-  "name": "Acme Corporation Support",
-  "description": "Global SaaS and Cloud Services Customer Support"
+  "id": "BrightWave",
+  "name": "BrightWave Retail",
+  "description": "E-Commerce Customer Experience & Retail Support"
 }
 
-### --------------------------------------------------------------------
-### 2. PDF UPLOAD, MARKDOWN CONVERSION & RAG INDEXING
-### --------------------------------------------------------------------
+# Response:
+# {
+#   "status": "created",
+#   "tenant": {
+#     "id": "BrightWave",
+#     "name": "BrightWave Retail"
+#   }
+# }
 
-### Upload Guideline PDF (Converts to Markdown & Indexes into Vector DB)
+### 3. Upload Guideline PDF (Lossless Markdown & Vector DB Indexing)
 POST {{baseUrl}}/api/tenants/{{tenantId}}/upload-pdf
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -38,51 +45,253 @@ Content-Type: application/pdf
 < ./sample_guideline.pdf
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-### List Uploaded Documents for a Tenant
-GET {{baseUrl}}/api/tenants/{{tenantId}}/documents
+# Response:
+# {
+#   "status": "success",
+#   "tenant_id": "S-NET",
+#   "document_id": 1,
+#   "filename": "sample_guideline.pdf",
+#   "page_count": 8,
+#   "criteria": {
+#     "category_weights": { "Soft Skills": 0.25, "Technical Knowledge": 0.50, "Process Knowledge": 0.25 }
+#   },
+#   "policies_indexed": 6
+# }
 
-### Delete a Specific Document by ID
-DELETE {{baseUrl}}/api/tenants/{{tenantId}}/documents/1
-
-### Clear Entire Company Knowledge Base (Deletes Docs & Vector Chunks)
-DELETE {{baseUrl}}/api/tenants/{{tenantId}}/knowledge-base
-
-### Get Converted Lossless Markdown (.md)
+### 4. Get Converted Lossless Markdown
 GET {{baseUrl}}/api/tenants/{{tenantId}}/markdown
 
-### Get Parsed Criteria JSON (Categories, Weights, Line Items, Auto-Fails)
+# Response:
+# {
+#   "markdown": "# QA Form Guideline - S-NET Communications\n\n| CALL LINE ITEMS | DEFINITION |...",
+#   "filename": "sample_guideline.pdf",
+#   "uploaded_at": "2026-08-18T10:05:00"
+# }
+
+### 5. Get Extracted Criteria JSON (Weights, Line Items & Auto-Fails)
 GET {{baseUrl}}/api/tenants/{{tenantId}}/criteria
 
-### Get Vector DB Knowledge Chunks (RAG Policies)
+# Response:
+# {
+#   "category_weights": {
+#     "Soft Skills": 0.25,
+#     "Technical Knowledge": 0.50,
+#     "Process Knowledge": 0.25
+#   },
+#   "categories": [
+#     {
+#       "name": "Soft Skills",
+#       "weight_percentage": 25.0,
+#       "line_items": [
+#         {
+#           "name": "Branding and Survey",
+#           "description": "Adhered to verbatim greeting and closing spiels within SLA.",
+#           "verbatim_spiels": [
+#             "Thank you for calling S-NET Communications. My name is _____ how can I help you today?",
+#             "Thank you for Choosing S-NET and have a great day."
+#           ]
+#         }
+#       ]
+#     }
+#   ],
+#   "auto_fail_rules": [
+#     {
+#       "name": "Discourtesy",
+#       "description": "Support displayed profanity, bashing, impatience, sarcasm."
+#     }
+#   ]
+# }
+
+### 6. Get Stored Policy Knowledge Chunks (Vector RAG)
 GET {{baseUrl}}/api/tenants/{{tenantId}}/policies
 
-### --------------------------------------------------------------------
-### 3. LIVE MULTI-TENANT QA EVALUATION (RAG + GEMMA + SCORING)
-### --------------------------------------------------------------------
+# Response:
+# [
+#   {
+#     "title": "S-NET Communications - Hold & Silence Management SLA",
+#     "content": "S-NET Communications Policy: Hold times must NOT exceed 3 minutes. Dead air max 20 seconds. 5 seconds grace period allowed."
+#   },
+#   {
+#     "title": "S-NET Communications - Customer Verification & Identification Standard",
+#     "content": "S-NET Communications Standard: All 4 details must be validated: Caller full name, Company name, Email address, Callback number."
+#   }
+# ]
 
-### Evaluate Compliant Call Transcript
+### 7. List Uploaded Documents for Tenant
+GET {{baseUrl}}/api/tenants/{{tenantId}}/documents
+
+# Response:
+# [
+#   {
+#     "id": 1,
+#     "filename": "snet_qa_guideline.pdf",
+#     "page_count": 8,
+#     "uploaded_at": "2026-08-18T10:05:00"
+#   }
+# ]
+
+### 8. Delete a Single Guideline Document by ID
+DELETE {{baseUrl}}/api/tenants/{{tenantId}}/documents/1
+
+# Response:
+# {
+#   "status": "deleted",
+#   "document_id": 1,
+#   "filename": "snet_qa_guideline.pdf"
+# }
+
+### 9. Clear All Tenant Knowledge Base (Documents, Criteria & Vector Chunks)
+DELETE {{baseUrl}}/api/tenants/{{tenantId}}/knowledge-base
+
+# Response:
+# {
+#   "status": "cleared",
+#   "tenant_id": "S-NET",
+#   "message": "All documents, criteria, and vector policies cleared."
+# }
+
+### 10. List Modular Sample Interaction JSON Files
+GET {{baseUrl}}/api/samples
+
+# Response:
+# [
+#   {
+#     "filename": "01_call_compliant.json",
+#     "title": "Compliant Customer Call",
+#     "channel": "Call",
+#     "agent_name": "Alex",
+#     "description": "Agent adheres to greeting, verification, hold refresh SLA, and survey spiel."
+#   },
+#   {
+#     "filename": "02_call_hold_violation.json",
+#     "title": "Hold & Dead Air SLA Violation",
+#     "channel": "Call",
+#     "agent_name": "Jordan",
+#     "description": "Agent leaves customer on unannounced 4m45s hold and 35s dead air."
+#   }
+# ]
+
+### 11. Assemble & Preview LLM Prompt (Prompt Builder Inspection)
+POST {{baseUrl}}/api/tenants/{{tenantId}}/preview-prompt
+Content-Type: application/json
+
+{
+  "channel": "Call",
+  "agent_name": "Alex",
+  "transcript": "[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex how can I help you today?\n[00:05] Client: I need help with my account bill.\n[00:08] Agent: I can help with that. May I verify your full name and company?\n[00:15] Client: John Doe, Acme Corp.\n[00:20] Agent: Thank you John. Your balance is $100.\n[00:25] Client: Thanks Alex!\n[00:28] Agent: Thank you for Choosing S-NET and have a great day."
+}
+
+# Response:
+# {
+#   "prompt": "You are a STRICT Call Quality Assurance Auditor evaluating a Call interaction...\n\nCOMPANY EVALUATION CATEGORIES & WEIGHTS:\n• Soft Skills: 25.0% of total QA score...",
+#   "matched_policies": [
+#     {
+#       "title": "S-NET Communications - Customer Verification & Identification Standard",
+#       "content": "S-NET Communications Standard: All 4 details must be validated...",
+#       "similarity": 0.72
+#     }
+#   ],
+#   "intense_moments": [],
+#   "harsh_agent_lines": [],
+#   "categories_count": 3,
+#   "line_items_count": 18,
+#   "channel": "Call",
+#   "tenant_id": "S-NET"
+# }
+
+### 12. Run Dynamic QA Analysis (Optionally with Custom Approved Prompt)
 POST {{baseUrl}}/api/tenants/{{tenantId}}/evaluate
 Content-Type: application/json
 
 {
   "channel": "Call",
   "agent_name": "Alex",
-  "transcript": "[00:00] Client: Hello, my internet connection is completely down and I work from home!\n[00:04] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?\n[00:10] Client: The internet light on my router is blinking red. My account is John Doe, Acme Corp at 104 North Avenue.\n[00:18] Agent: Thank you for verifying your name and account details, John. I understand your internet is down and you have a blinking red light on the router. Let me run a line diagnostic right now.\n[00:28] Agent: Please allow me 2 minutes to run a stability test on your line. May I put you on hold?\n[00:32] Client: Sure, go ahead.\n[00:35] [Hold: 1m 20s]\n[01:55] Agent: Thank you for patiently waiting on the line. I found a line fault on our exchange side. Since you rent the router from S-NET, I will dispatch a technician at no cost to you today between 2 PM and 4 PM.\n[02:15] Client: That is very fast and helpful, thank you so much!\n[02:20] Agent: You are very welcome. I will transfer you to our brief 1-question survey regarding your call experience today. Thank you for Choosing S-NET and have a great day."
+  "transcript": "[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex how can I help you today?\n[00:05] Client: I need help with my account bill.\n[00:08] Agent: I can help with that. May I verify your full name and company?\n[00:15] Client: John Doe, Acme Corp.\n[00:20] Agent: Thank you John. Your balance is $100.\n[00:25] Client: Thanks Alex!\n[00:28] Agent: Thank you for Choosing S-NET and have a great day."
 }
 
-### Evaluate Auto-Fail Call Transcript (Profanity / Avoidance)
-POST {{baseUrl}}/api/tenants/{{tenantId}}/evaluate
-Content-Type: application/json
+# Response:
+# {
+#   "final_score": 96.0,
+#   "is_auto_fail": false,
+#   "auto_fail_reason": null,
+#   "category_scores": {
+#     "Soft Skills": 100.0,
+#     "Technical Knowledge": 94.4,
+#     "Process Knowledge": 95.0
+#   },
+#   "scorecard": [
+#     {
+#       "category": "Soft Skills",
+#       "name": "Branding and Survey",
+#       "rating": "PASS",
+#       "score": 100,
+#       "reason": "Agent delivered verbatim greeting and closing branding scripts within SLA."
+#     }
+#   ],
+#   "matched_policies": [
+#     {
+#       "title": "S-NET Communications - Customer Verification & Identification Standard",
+#       "content": "S-NET Communications Standard: All 4 details must be validated..."
+#     }
+#   ],
+#   "summary": "The customer called regarding their account balance. The agent verified caller identity and confirmed the balance promptly.",
+#   "suggestions": "1. Offer satisfaction survey transfer before ending call.\n2. Keep up professional tone.",
+#   "evaluation_id": "8e96e628-e43d-45e3-a95e-b266e1fa5503",
+#   "created_at": "2026-08-20T11:30:00"
+# }
 
-{
-  "channel": "Call",
-  "agent_name": "BadAgent",
-  "transcript": "[00:00] Client: Why was I charged an extra $75 fee on my S-NET bill this month?\n[00:05] Agent: You clearly didn't read your contract terms.\n[00:10] Client: Excuse me? That is completely unacceptable. I want to speak to your supervisor right now!\n[00:16] Agent: Supervisors do not take these calls, and asking for a manager will not change anything.\n[00:24] Client: I am going to cancel my entire company subscription.\n[00:29] Agent: Whatever, get lost then. I don't have time for this."
-}
-
-### --------------------------------------------------------------------
-### 4. AUDIT & EVALUATION HISTORY
-### --------------------------------------------------------------------
-
-### List All Past QA Evaluations
+### 13. List All Evaluation Reports for Tenant
 GET {{baseUrl}}/api/evaluations?tenant_id={{tenantId}}
+
+# Response:
+# [
+#   {
+#     "id": "8e96e628-e43d-45e3-a95e-b266e1fa5503",
+#     "tenant_id": "S-NET",
+#     "channel": "Call",
+#     "agent_name": "Alex",
+#     "final_score": 96.0,
+#     "is_auto_fail": false,
+#     "created_at": "2026-08-20T11:30:00",
+#     "summary": "The customer called regarding their account balance..."
+#   }
+# ]
+
+### 14. Get In-Depth Evaluation Breakdown by ID
+GET {{baseUrl}}/api/evaluations/{{evalId}}
+
+# Response:
+# {
+#   "id": "8e96e628-e43d-45e3-a95e-b266e1fa5503",
+#   "tenant_id": "S-NET",
+#   "channel": "Call",
+#   "agent_name": "Alex",
+#   "transcript": "[00:00] Agent: Thank you for calling S-NET...",
+#   "final_score": 96.0,
+#   "is_auto_fail": false,
+#   "scorecard": [ ... ],
+#   "sentiment_analysis": { "rows": [ ... ], "intense_moments": [] },
+#   "matched_policies": [ ... ],
+#   "summary": "The customer called regarding their account balance...",
+#   "suggestions": "1. Offer satisfaction survey transfer...",
+#   "created_at": "2026-08-20T11:30:00"
+# }
+
+### 15. Delete Single Evaluation Record by ID
+DELETE {{baseUrl}}/api/evaluations/{{evalId}}
+
+# Response:
+# {
+#   "status": "deleted",
+#   "evaluation_id": "8e96e628-e43d-45e3-a95e-b266e1fa5503"
+# }
+
+### 16. Clear All Evaluation Logs for Tenant
+DELETE {{baseUrl}}/api/evaluations?tenant_id={{tenantId}}
+
+# Response:
+# {
+#   "status": "cleared",
+#   "deleted_count": 12,
+#   "tenant_id": "S-NET"
+# }

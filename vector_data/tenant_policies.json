@@ -50,5 +50,31 @@
       "title": "BrightWave Retail - Automatic Fail Breach Triggers",
       "content": "BrightWave Retail Zero-Tolerance Rules: Rudeness/profanity, Interaction avoidance (staying on line >3m after closing or >6m off-topic), Escalation refusal, Improper disconnect without logging dropped-call protocol, Misrepresentation/fraud, and Case abandonment result in an instant 0/100 score."
     }
+  ],
+  "postman-test": [
+    {
+      "title": "S-NET Communications - Hold & Silence Management SLA",
+      "content": "S-NET Communications Policy: Hold time and Dead Air|(1) Follow proper hold procedure: Inform the customer that they will be put on hold,set expectations on how long they will be on hold & Thank the customer after waiting in the line (2) Support did not exceed 3-minute hold times. If the agent needs more time, go back to the customer and set the expectation. If the tech has already gone back to the customer 2x to let them know"
+    },
+    {
+      "title": "S-NET Communications - Customer Verification & Identification Standard",
+      "content": "S-NET Communications Standard: Verified customer|(1) Support was able to get/validate the correct name of the customer. Unable to create a Contact properly due to failure to verify the caller's last name or complete name. (2) Validated the company name (even for existing tickets or repeat callers) (3) Failure to speak with the customer via outbound call because a callback number was not captured. (4) All details must be validat"
+    },
+    {
+      "title": "S-NET Communications - Supervisor Escalation & Case Ownership Protocol",
+      "content": "S-NET Communications Procedure: Took ownership of the problem|(1) Exhausted all resources to provide a resolution/update to the customer. Asked to contact the impacted user or device, which is in a different location, with the caller. (Failed to use the customer's available contact numbers from the account; should be a markdown on outbound call procedure - do not double ding in this line item). (2) Offered assistance or attempte"
+    },
+    {
+      "title": "S-NET Communications - Response SLA & Channel Etiquette Standard",
+      "content": "S-NET Communications Standard: Branding and Survey|The support adhered to the verbatim greeting spiel > Company Name (Branding) and support's Name, within 10 seconds \"Thank you for calling S-NET Communications. My name is _____how can I help you today?\" The support adhered to the verbatim closing spiel \"Thank you for Choosing S-NET and have a great day.\" The support adhered to the survey spiel for all resolved issues/tickets (i"
+    },
+    {
+      "title": "S-NET Communications - Case Documentation & CRM Tagging Standards",
+      "content": "S-NET Communications Compliance: Case Notes/Documentat ion|(1) Complete and Correct notes. (2) Incomplete documentation of all important details (ex., changes \"from\" to\", error messages, inbound vs outbound, callback numbers). (3) Attached screenshots in the notes (ex., screenshot of the operation hours). (4) Followed the suggested notes format (accountability on whom the ticket was escalated to). (5) Irrelevant/Unnecessary notes"
+    },
+    {
+      "title": "S-NET Communications - Automatic Fail Disciplinary Triggers",
+      "content": "S-NET Communications Zero-Tolerance Rules: AUTO FAIL CATEGORY|Col2| |---|---| |Discourtesy|(1) Support displayed profanity, bashing, impatience, sarcasm, and all other displeasing behavior towards the customer, with or without him noticing or reacting to it. (2) The customer expresses displeasure with the agent’s attitude, and/or tone of voice, or choices of words for non-voice.| |Call/Ticket Avoidance|(1) Support did not respond at the beginning of the call until the call ended. (2) Supp"
+    }
   ]
 }
