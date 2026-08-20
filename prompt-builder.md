@@ -8,23 +8,7 @@ This document explains the technical architecture, mathematical mechanics, and r
 
 The system uses a **7-Stage Dynamic Rule-Based Assembly Pipeline** before sending any prompt to Gemma 3 4B:
 
-```mermaid
-flowchart TD
-    A[Raw Transcript Input] --> B[1. Turn Normalization & Timing Parser]
-    B --> C[2. RoBERTa Sentiment & Intensity Analyzer]
-    B --> D[3. ChromaDB Vector Policy Semantic Search]
-    E[PostgreSQL Dynamic Tenant Criteria JSON] --> F[4. Dynamic Criteria, Weights & Verbatim Spiels Injector]
-    E --> K[5. Dynamic Auto-Fail Zero-Tolerance Injector]
-    
-    C --> G[6. Prompt Assembly Engine]
-    D --> G
-    F --> G
-    K --> G
-    
-    G --> H[7. Prompt Preview & Approval UI Modal]
-    H -->|User Approves / Modifies| I[Gemma 3 4B LLM Inference]
-    I --> J[Deterministic Mathematical Scorecard Engine]
-```
+![Prompt Builder Overview](resources/prompt-builder-overview.png)
 
 ---
 

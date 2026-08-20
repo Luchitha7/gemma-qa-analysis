@@ -14,7 +14,7 @@
 - [Step-by-Step Installation & Setup](#-step-by-step-installation--setup)
 - [How to Run the Application](#-how-to-run-the-application)
 - [REST API Reference](#-rest-api-reference)
-- [Dynamic Prompt Builder & Verification](#-dynamic-prompt-builder--verification)
+- [Dynamic Prompt Builder Pipeline](#-dynamic-prompt-builder-pipeline)
 - [Automated Testing & Code Verification](#-automated-testing--code-verification)
 
 ---
@@ -23,33 +23,7 @@
 
 The platform uses a layered microservice-ready architecture separating document ingestion, semantic search, sentiment modeling, dynamic prompt synthesis, and deterministic mathematical scoring:
 
-```mermaid
-flowchart TD
-    subgraph Ingestion Layer
-        A[Company Guideline PDF] --> B[PyMuPDF / pdf_parser.py]
-        B --> C[Lossless Markdown Document]
-        C --> D[Layout-Aware llm_separator.py]
-        D --> E[(PostgreSQL: criteria_configs)]
-        D --> F[(ChromaDB: Policy Vector Store)]
-    end
-
-    subgraph Evaluation Layer
-        G[Customer Interaction Transcript] --> H[Turn Normalization & Timing]
-        H --> I[RoBERTa Sentiment Model: qa_intensity.py]
-        H --> J[ChromaDB Semantic Vector Search: vector_store.py]
-        E --> K[Dynamic Prompt Assembly: dynamic_evaluator.py]
-        I --> K
-        J --> K
-        K --> L[UI Prompt Inspection & User Approval Modal]
-        L -->|Approved Prompt| M[Gemma 3 4B LLM: gemma_client.py]
-        M --> N[Mathematical Scoring Engine & Circuit Breakers]
-        N --> O[(PostgreSQL: evaluation_reports)]
-    end
-
-    subgraph Presentation Layer
-        O --> P[React 18 + Vite Executive Dashboard]
-    end
-```
+![Architectural Overview](resources/architectural-overview.png)
 
 ---
 
@@ -89,6 +63,10 @@ gemma-qa-analysis/
 ├── run_guide.md                     # Step-by-step operational setup guide
 ├── request.http                     # VS Code / Postman HTTP API request collection
 │
+├── resources/                       # Architectural diagrams & assets
+│   ├── architectural-overview.png   # Full system end-to-end architecture diagram
+│   └── prompt-builder-overview.png  # 7-stage prompt assembly pipeline diagram
+│
 ├── inputs/                          # Modular sample interaction files (JSON)
 │   ├── 01_call_compliant.json       # Compliant phone call sample
 │   ├── 02_call_hold_violation.json  # Call sample with hold time SLA violation
@@ -96,25 +74,21 @@ gemma-qa-analysis/
 │   ├── 04_email_compliant.json      # Compliant email support interaction
 │   └── 05_chat_compliant.json       # Compliant live chat support interaction
 │
-├── src/                             # Core Python Backend
+├── src/                             # Core Python Backend (Namespace Packages)
 │   ├── api/
-│   │   ├── __init__.py
 │   │   ├── web_app.py               # Main FastAPI application with REST endpoints & CORS
 │   │   └── job_queue.py             # Asynchronous task and analysis worker queue
 │   │
 │   ├── core/
-│   │   ├── __init__.py
 │   │   ├── gemma_client.py          # Ollama Gemma 3 4B client wrapper & token counter
 │   │   ├── report_pdf.py            # PDF report generator (FPDF2)
 │   │   └── weights_config.py        # Static weights loader/persister
 │   │
 │   ├── db/
-│   │   ├── __init__.py
 │   │   ├── database.py              # PostgreSQL engine and session factory (SQLAlchemy)
 │   │   └── models.py                # PostgreSQL ORM models (Tenant, Document, CriteriaConfig, EvaluationReport)
 │   │
 │   ├── rag/
-│   │   ├── __init__.py
 │   │   ├── pdf_parser.py            # PyMuPDF lossless PDF-to-Markdown table parser
 │   │   ├── llm_separator.py         # Rule-based dynamic Criteria & Policy chunk extractor
 │   │   ├── vector_store.py          # ChromaDB Vector Store client & semantic search
@@ -122,7 +96,6 @@ gemma-qa-analysis/
 │   │   └── rag_compliance.py        # Semantic compliance violation detector
 │   │
 │   └── services/
-│       ├── __init__.py
 │       ├── dynamic_evaluator.py     # Orchestrates Prompt Builder, Gemma inference & math scorecard
 │       ├── qa_intensity.py          # RoBERTa sentiment intensity analyzer
 │       ├── qa_agent.py              # Legacy agent scorecard evaluator
@@ -278,7 +251,11 @@ npm run dev
 
 ---
 
-## 🔍 Dynamic Prompt Builder & Verification
+## 🔍 Dynamic Prompt Builder Pipeline
+
+The prompt builder follows a rigorous 7-stage assembly pipeline combining company criteria, verbatim spiels, RAG policy context, and tone intensity markers:
+
+![Prompt Builder Overview](resources/prompt-builder-overview.png)
 
 For a complete breakdown of how prompts are assembled dynamically from company criteria, RoBERTa tone markers, and ChromaDB policy chunks, see:
 
