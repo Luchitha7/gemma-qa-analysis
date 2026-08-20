@@ -197,85 +197,95 @@ def parse_guideline_markdown(md: str) -> Dict[str, Any]:
 
 
 def generate_distinct_rag_policies(md: str, company_name: str) -> List[Dict[str, Any]]:
-    """Extract and build rich, distinct company operating procedures for Vector RAG."""
+    """Extract and build rich, dynamic operating procedures for Vector RAG from document text."""
     policies = []
 
-    # 1. Hold Time & Silence Management Policy
-    hold_match = re.search(r"Hold.*?Management|Hold time and Dead Air.*?(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)", md, re.IGNORECASE | re.DOTALL)
-    if "BrightWave" in company_name or "2-minute" in md or "15 seconds" in md:
+    # Helper to clean text
+    clean_md = re.sub(r"<\s*br\s*/?\s*>", " ", md, flags=re.IGNORECASE)
+
+    # 1. Hold Time & Dead Air / Silence Management Policy
+    hold_match = re.search(
+        r"(?:Hold\s*(?:time\s*and\s*Dead\s*Air|&\s*Silence\s*Management|Procedure)|Hold\s*SLA)[\s\S]*?(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if hold_match:
+        hold_text = sanitize_text(hold_match.group(0))
+        # Keep concise policy chunk
         policies.append({
             "title": f"{company_name} - Hold & Silence Management SLA",
-            "content": f"{company_name} Policy: Notify customer before placing on hold and give estimated wait. Hold segments must NOT exceed 2 minutes. After 2 check-ins, subsequent holds may extend up to 8 minutes max (anything beyond 8 mins is a violation). Silence/dead air must not exceed 15 seconds. A 4-second grace allowance applies (one occurrence only)."
-        })
-    elif "S-NET" in company_name or "3-minute" in md or "20 seconds" in md:
-        policies.append({
-            "title": f"{company_name} - Hold Time & Dead Air Protocol",
-            "content": f"{company_name} Policy: Inform customer, set expectations, and thank customer upon return. Hold times must NOT exceed 3 minutes. After 2 check-ins, subsequent holds can extend up to 10 minutes max (>10 mins is a callout). Dead air must not exceed 20 seconds. 5 seconds grace period allowed."
+            "content": f"{company_name} Policy: {hold_text[:400]}"
         })
     else:
+        # Fallback dynamic rule
         policies.append({
-            "title": f"{company_name} - Hold & Silence SLA Policy",
-            "content": f"Notify customer prior to hold. Refresh customer every 2-3 minutes. Silence and dead air must be minimized within SLA limits."
+            "title": f"{company_name} - Hold & Silence Management SLA",
+            "content": f"{company_name} Policy: Follow proper hold notification, refresh cadence, and dead air limits per operating guidelines."
         })
 
     # 2. Customer Identification & Verification Policy
-    if "BrightWave" in company_name or "order/case number" in md:
+    veri_match = re.search(
+        r"(?:Verified\s*customer|Identity\s*&\s*Order\s*Verification|Customer\s*Verification)[\s\S]*?(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if veri_match:
+        veri_text = sanitize_text(veri_match.group(0))
         policies.append({
-            "title": f"{company_name} - Identity & Order Verification Standard",
-            "content": f"{company_name} Standard: 4 fields must ALL be verified on every contact: (1) Full customer name (spell back for accuracy), (2) Email address, (3) Phone number, (4) Order or Case number. Verification may only be skipped if same customer, same case, same day, same agent."
-        })
-    elif "S-NET" in company_name or "Zoho" in md or "Company name, Caller" in md:
-        policies.append({
-            "title": f"{company_name} - Customer & Account Validation Standard",
-            "content": f"{company_name} Standard: All 4 details must be validated: (1) Caller's full name, (2) Company name, (3) Email address, (4) Contact callback number. Required for contact creation in Zoho CRM."
+            "title": f"{company_name} - Customer Verification & Identification Standard",
+            "content": f"{company_name} Standard: {veri_text[:400]}"
         })
 
     # 3. Supervisor Escalation & Retention Protocol
-    if "BrightWave" in company_name:
+    esc_match = re.search(
+        r"(?:Escalation|Supervisor\s*Escalation|Took\s*ownership)[\s\S]*?(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if esc_match:
+        esc_text = sanitize_text(esc_match.group(0))
         policies.append({
-            "title": f"{company_name} - Supervisor Escalation & Membership Retention",
-            "content": f"{company_name} Escalation Protocol: If a customer requests a supervisor or threatens to cancel membership/account, support MUST perform a warm/supervised transfer to a lead. Refusing supervisor escalation is an immediate Automatic Fail."
-        })
-    else:
-        policies.append({
-            "title": f"{company_name} - Escalation & Supervisor Procedure",
-            "content": f"{company_name} Procedure: Attempt L1 troubleshooting within scope. If customer insists on supervisor or threatens cancellation, perform a supervised transfer or arrange a priority callback."
-        })
-
-    # 4. Email SLA, Thread Trimming & Template Policy
-    if "15 minutes" in md or "BrightWave" in company_name:
-        policies.append({
-            "title": f"{company_name} - Email SLA & Thread Trimming Rules",
-            "content": f"{company_name} Email Standard: Respond to assigned cases within 15 minutes. Trim redundant email history before sending replies. Include BrightWave brand signature and satisfaction survey on outbound resolutions."
-        })
-    elif "10 minutes" in md or "S-NET" in company_name:
-        policies.append({
-            "title": f"{company_name} - Email Response SLA & Template Rules",
-            "content": f"{company_name} Email Standard: Initial email response required within 10 minutes of assignment. Update open tickets daily. Paraphrase customer issue and provide initial troubleshooting in first reply."
+            "title": f"{company_name} - Supervisor Escalation & Case Ownership Protocol",
+            "content": f"{company_name} Procedure: {esc_text[:400]}"
         })
 
-    # 5. Case Documentation & CRM Tagging Policy
-    if "BrightWave" in company_name or "20 minutes" in md:
+    # 4. Outbound / Email / Chat Response SLA & Etiquette
+    comm_match = re.search(
+        r"(?:(?:Handled\s*call/ticket|Timeliness\s*of\s*Handling|Chat\s*Response\s*Time|Branding\s*and\s*Survey)[\s\S]*?)(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if comm_match:
+        comm_text = sanitize_text(comm_match.group(0))
         policies.append({
-            "title": f"{company_name} - Case Notes & Tagging Compliance",
-            "content": f"{company_name} Compliance: Complete notes must be submitted within 20 minutes of interaction end. Correctly tag Store/Region, Issue Category, Self-QA checkboxes, and Channel. Link duplicate/parent-child cases."
-        })
-    else:
-        policies.append({
-            "title": f"{company_name} - Zoho CRM Case Tagging & Notes Compliance",
-            "content": f"{company_name} Compliance: Document all changes, callback numbers, and screenshots. Tag Location, Account, Request Type, Self-QA checkboxes, and Ticket Status. Late documentation (>30 mins) is a violation."
+            "title": f"{company_name} - Response SLA & Channel Etiquette Standard",
+            "content": f"{company_name} Standard: {comm_text[:400]}"
         })
 
-    # 6. Automatic Fail Triggers Policy
-    if "BrightWave" in company_name:
+    # 5. Case Documentation & CRM Tagging Standards
+    doc_match = re.search(
+        r"(?:Case\s*Notes|Case\s*Tagging|Provided\s*ticket\s*number)[\s\S]*?(?=\|[A-Z\s]{4,}CATEGORY|\n##|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if doc_match:
+        doc_text = sanitize_text(doc_match.group(0))
         policies.append({
-            "title": f"{company_name} - Automatic Fail Breach Triggers",
-            "content": f"{company_name} Zero-Tolerance Rules: Rudeness/profanity, Interaction avoidance (staying on line >3m after closing or >6m off-topic), Escalation refusal, Improper disconnect without logging dropped-call protocol, Misrepresentation/fraud, and Case abandonment result in an instant 0/100 score."
+            "title": f"{company_name} - Case Documentation & CRM Tagging Standards",
+            "content": f"{company_name} Compliance: {doc_text[:400]}"
         })
-    else:
+
+    # 6. Automatic Fail Zero-Tolerance Breaches
+    af_match = re.search(
+        r"AUTO(?:MATIC)?\s+FAIL\s+CATEGORY[\s\S]*?(?=\n##\s*Page|\Z)",
+        clean_md,
+        re.IGNORECASE
+    )
+    if af_match:
+        af_text = sanitize_text(af_match.group(0))
         policies.append({
-            "title": f"{company_name} - Auto-Fail Disciplinary Triggers",
-            "content": f"{company_name} Zero-Tolerance Rules: Discourtesy (profanity/bashing/sarcasm), Call/Ticket avoidance, Refusing supervisor escalation, Unreported line release, Fraud/misrepresentation, and Ticket abandonment trigger an instant 0/100 score."
+            "title": f"{company_name} - Automatic Fail Disciplinary Triggers",
+            "content": f"{company_name} Zero-Tolerance Rules: {af_text[:450]}"
         })
 
     return policies

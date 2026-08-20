@@ -1,89 +1,109 @@
-# 🛠️ Dynamic LLM Prompt Builder Guide
+# 🛠️ Dynamic LLM Prompt Builder Guide (Rule-Based & Data-Driven)
 
-This document explains the step-by-step architecture and engineering behind how **Automated QA Intelligence** dynamically constructs context-rich, guardrailed prompts for **Gemma 3 4B** to perform multi-tenant call, email, and chat evaluations.
+This document explains the technical architecture, mathematical mechanics, and rule-based algorithms behind how **Automated QA Intelligence** dynamically constructs context-rich, guardrailed prompts for **Gemma 3 4B** to perform multi-tenant call, email, and chat evaluations with **zero hardcoding**.
 
 ---
 
 ## 🏗️ Prompt Construction Pipeline Overview
 
-The system uses a **7-Stage Dynamic Assembly Pipeline** before sending any prompt to Gemma 3 4B:
+The system uses a **7-Stage Dynamic Rule-Based Assembly Pipeline** before sending any prompt to Gemma 3 4B:
 
 ```mermaid
 flowchart TD
     A[Raw Transcript Input] --> B[1. Turn Normalization & Timing Parser]
     B --> C[2. RoBERTa Sentiment & Intensity Analyzer]
     B --> D[3. ChromaDB Vector Policy Semantic Search]
-    E[PostgreSQL Tenant Criteria JSON] --> F[4. Dynamic Criteria & Verbatim Spiels Injector]
+    E[PostgreSQL Dynamic Tenant Criteria JSON] --> F[4. Dynamic Criteria, Weights & Verbatim Spiels Injector]
+    E --> K[5. Dynamic Auto-Fail Zero-Tolerance Injector]
     
-    C --> G[5. Prompt Assembly Engine]
+    C --> G[6. Prompt Assembly Engine]
     D --> G
     F --> G
+    K --> G
     
-    G --> H[6. Prompt Preview & Approval UI Modal]
-    H -->|User Approves / Modifies| I[7. Gemma 3 4B LLM Inference]
-    I --> J[Deterministic Mathematical Scorecard]
+    G --> H[7. Prompt Preview & Approval UI Modal]
+    H -->|User Approves / Modifies| I[Gemma 3 4B LLM Inference]
+    I --> J[Deterministic Mathematical Scorecard Engine]
 ```
 
 ---
 
-## 📑 The 7 Stages of Prompt Construction
+## 📑 The 7 Stages of the Rule-Based Dynamic Algorithm
 
 ### 1. Speaker & Turn Normalization
-- **Purpose**: Converts varied transcripts (e.g. `[00:05] Agent:`, `(01:20) Support:`, `Caller:`, `Bot:`) into consistent, structured `(Speaker, Text)` dialogue turns.
-- **Timing Extraction**: Parses timestamps (e.g. `[00:15]`) into elapsed seconds to track hold durations and conversational latency.
+- **Algorithm**: Regular expression matching standardizes dialogue prefixes (`[00:05] Agent:`, `(01:20) Support:`, `Caller:`, `Customer:`) into clean `(Speaker, Text)` tuples.
+- **Latency & Hold Timing**: Extracts ISO/clock timestamps (e.g. `[04:45]`) to compute hold duration and silence/dead-air delays without manual intervention.
 
-### 2. RoBERTa Emotion & Tone Marker Injection
+### 2. RoBERTa Emotion & Tone Intensity Injection
 - **Model**: `cardiffnlp/twitter-roberta-base-sentiment-latest`
-- **Purpose**: Detects conversational tension, customer frustration, and agent harshness per turn.
-- **Injected Prompt Block**:
-  - `FLAGGED TENSE MOMENTS`: Turns where customer negative emotion exceeds the intensity threshold.
-  - `HARSH/NEGATIVE AGENT LINES`: Turns where agent statements scored low sentiment (used as strict evidence for tone penalties).
+- **Algorithm**: Analyzes polarity and negative intensity per turn.
+- **Dynamic Injections**:
+  - `FLAGGED TENSE MOMENTS`: Dialogue turns where customer frustration exceeds the dynamic threshold (\(\le -0.4\)).
+  - `HARSH/NEGATIVE AGENT LINES`: Turns where agent statements exhibit negative sentiment, injected as strict evidence for tone penalties.
 
-### 3. Vector RAG Policy Evidence Injection
-- **Database**: ChromaDB Vector Store with `all-MiniLM-L6-v2` embeddings.
-- **Purpose**: Dynamically searches the company's indexed guideline policies (Hold SLAs, Verification standards, Escalation protocols) based on customer queries in the transcript.
-- **Injected Prompt Block**:
+### 3. ChromaDB Vector RAG Policy Evidence Injection
+- **Model**: `all-MiniLM-L6-v2` dense embeddings with cosine similarity.
+- **Algorithm**: Dynamically queries the vector store using customer inquiries to retrieve only the relevant company SOP chunks (e.g., Hold SLA, Verification standards, Supervisor Escalation).
+- **Format**:
   ```text
   COMPANY POLICY CONTEXT (Retrieved from Knowledge Base):
-  • S-NET Communications - Hold Time & Dead Air Protocol: Inform customer, set expectations... Hold max 3 mins...
-  • S-NET Communications - Customer & Account Validation Standard: Validate Caller name, Company name, Email...
+  • S-NET Communications - Hold & Silence Management SLA: S-NET Communications Policy: Hold times must NOT exceed 3 minutes...
+  • S-NET Communications - Customer Verification Standard: S-NET Communications Standard: Validate Caller name, Company name, Email, Callback Phone...
   ```
 
-### 4. Dynamic Criteria & Verbatim Spiels Injection
-- **Source**: Extracted losslessly from the company's uploaded PDF/Markdown guideline and stored in PostgreSQL `criteria_configs`.
-- **Purpose**: Supplies the exact line items, category groupings, and verbatim quotes required for the specific company and channel.
-- **Injected Prompt Block**:
+### 4. Dynamic Category Weights & Line Items Injection
+- **Source**: Dynamically retrieved from PostgreSQL `criteria_configs` (derived from the company's uploaded Markdown document).
+- **Zero-Hardcoding**: Category weights, line items, and required verbatim spiels are injected dynamically based on the active company:
   ```text
-  EVALUATION LINE ITEMS TO RATE:
-  - [Soft Skills] Branding and Survey: Adhered to greeting/closing [Required Spiels: "Thank you for calling S-NET Communications...", "Thank you for Choosing S-NET and have a great day."]
-  - [Technical Knowledge] Verified customer: Validated name, company, email, contact number.
-  - [Process Knowledge] Case Tagging: Correct contact, location, and issue type tagging.
+  COMPANY EVALUATION CATEGORIES & WEIGHTS:
+  • Soft Skills: 25.0% of total QA score
+  • Technical Knowledge: 50.0% of total QA score
+  • Process Knowledge: 25.0% of total QA score
+
+  EVALUATION LINE ITEMS TO RATE (Grouped by Category & Weight):
+  - [Soft Skills (25.0%)] Branding and Survey: Adhered to greeting and closing scripts [Required Spiels: "Thank you for calling...", "Thank you for Choosing..."]
+  - [Technical Knowledge (50.0%)] Verified customer: Validated all required fields.
+  - [Process Knowledge (25.0%)] Case Tagging: Correct contact, location, and issue type tagging.
   ```
 
-### 5. Strict Role & Rating Criteria Definition
-- **System Persona**: Informs the LLM that it is acting as a *Strict Quality Assurance Auditor* for the specified channel (`Call`, `Email`, or `Chat`).
-- **Standardized Rating Scale**:
-  - `PASS`: Complied with all policy requirements and mandatory scripts.
-  - `PARTIAL`: Minor deviation, slight delay, or partial script delivery.
-  - `FAIL`: Clear breach of procedure, missing required fields, or impolite tone.
-
-### 6. Strict Output Format Guardrail
-- **Instruction**: Instructs Gemma 3 4B to output deterministic, line-by-line verdicts:
+### 5. Dynamic Auto-Fail Zero-Tolerance Circuit Breakers
+- **Algorithm**: Injects the company's exact auto-fail triggers directly into the prompt so the LLM and auditor have complete visibility over instant failure conditions:
   ```text
-  OUTPUT FORMAT INSTRUCTIONS:
-  Reply with ONE line per line item in this exact format:
-  Line Item Name: PASS/PARTIAL/FAIL - Short specific audit reason.
+  COMPANY AUTO-FAIL ZERO-TOLERANCE CIRCUIT BREAKERS (Instant 0 Score):
+  • Discourtesy: Profanity, bashing, impatience, sarcasm
+  • Call/Ticket Avoidance: Rejecting or prematurely ending interaction without resolution
+  • Escalation Refusal: Refusing supervisor request upon customer demand
   ```
+
+### 6. Strict Auditor Persona & Guardrails
+- **Role**: Instructs Gemma 3 4B to operate as a *Strict Quality Assurance Auditor* evaluating against the company's specific weights and SLAs.
+- **Rating Scale**:
+  - `PASS` (100 pts): Fully compliant with policies and scripts.
+  - `PARTIAL` (50 pts): Minor omission or slight delay.
+  - `FAIL` (0 pts): Policy breach or unhelpful/impolite conduct.
+- **Output Guardrail**: Strict one-line-per-item format (`Line Item Name: PASS/PARTIAL/FAIL - Reason`).
+
+### 7. User Inspection, Editing & Approval Loop
+- **UI Integration**: In the **Live QA Test** page (`/test`), clicking **Preview Built Prompt** (👁️) generates the exact assembled prompt string.
+- **Interactive Control**: Users can review, edit, or copy the prompt before clicking **Approve & Run Analysis** to trigger Gemma evaluation.
 
 ---
 
-## 🔍 Full Example of a Built Prompt
-
-Below is a full example of an assembled prompt generated for **BrightWave Retail**:
+## 🔍 Full Example of a Built Dynamic Prompt
 
 ```text
 You are a STRICT Call Quality Assurance Auditor evaluating a Call interaction.
-Your task is to judge the AGENT against each specific evaluation line item.
+Your task is to judge the AGENT against each specific evaluation line item according to company weights and policies.
+
+COMPANY EVALUATION CATEGORIES & WEIGHTS:
+• Soft Skills: 25.0% of total QA score
+• Technical Knowledge: 50.0% of total QA score
+• Process Knowledge: 25.0% of total QA score
+
+COMPANY AUTO-FAIL ZERO-TOLERANCE CIRCUIT BREAKERS (Instant 0 Score):
+• Discourtesy: Support displayed profanity, bashing, impatience, sarcasm
+• Call/Ticket Avoidance: Support did not respond, rejected call, closed ticket without resolution
+• Escalation Refusal: Support refuses to escalate to a Supervisor at customer request
 
 RATING CRITERIA:
 - PASS: Agent met all requirements, was polite, helpful, and followed required spiels/policies.
@@ -91,31 +111,31 @@ RATING CRITERIA:
 - FAIL: Agent was rude, unhelpful, failed policy, or refused to help.
 
 COMPANY POLICY CONTEXT (Retrieved from Knowledge Base):
-• BrightWave Retail - Hold & Silence Management SLA: Notify customer before hold. Max 2-minute segments. Silence max 15s. Grace allowance 4s.
-• BrightWave Retail - Identity & Order Verification Standard: 4 fields must ALL be verified: Full name, Email, Phone, Order/Case #.
-• BrightWave Retail - Supervisor Escalation & Membership Retention: Warm transfer required on supervisor request or cancellation threat.
+• S-NET Communications - Hold & Silence Management SLA: S-NET Communications Policy: Hold times must NOT exceed 3 minutes. Dead air max 20 seconds.
+• S-NET Communications - Customer Verification & Identification Standard: S-NET Communications Standard: All 4 details must be validated (Caller name, Company name, Email, Callback Phone).
 
-EVALUATION LINE ITEMS TO RATE:
-- [Communication Skills] Greeting & Sign-off: The agent used the approved opening script [Required Spiels: "Thanks for calling BrightWave Retail, this is ____, how can I make your day better?", "Thanks again for shopping with BrightWave — have a wonderful day!"]
-- [Communication Skills] Hold & Silence Management: Hold segments max 2 mins, silence max 15s.
-- [Problem Resolution] Restated the Issue: Restated concern in own words.
-- [Problem Resolution] Identity & Order Verification: Confirmed 4 fields: full name, email, phone, order #.
-- [Compliance & Documentation] Case Notes: Complete and accurate notes submitted within 20 mins.
+EVALUATION LINE ITEMS TO RATE (Grouped by Category & Weight):
+- [Soft Skills (25.0%)] Branding and Survey: The support adhered to the verbatim greeting spiel [Required Spiels: "Thank you for calling S-NET Communications. My name is _____ how can I help you today?", "Thank you for Choosing S-NET and have a great day."]
+- [Soft Skills (25.0%)] Hold time and Dead Air: Support did not exceed 3-minute hold times. Dead air under 20s.
+- [Technical Knowledge (50.0%)] Verified customer: All 4 required details validated.
+- [Technical Knowledge (50.0%)] Provided appropriate solution: Performed logical troubleshooting steps.
+- [Process Knowledge (25.0%)] Case Documentation: Complete and correct notes.
+- [Process Knowledge (25.0%)] Case Tagging: Tagged Location, Account, Request Type, Self-QA checkboxes in Zoho.
 
 FLAGGED TENSE MOMENTS:
-- Turn 3 (Client): I was charged twice for my subscription this month and I want it fixed immediately.
+- (none flagged)
 
 HARSH/NEGATIVE AGENT LINES (Weigh heavily for tone):
 - (none)
 
 TRANSCRIPT:
-[00:00] Agent: Thanks for calling BrightWave Retail, this is Alex, how can I make your day better?
-[00:06] Client: I was charged twice for my subscription this month and I want it fixed immediately.
-[00:12] Agent: I completely understand, and I'm very sorry for the confusion. Let me pull up your account. May I confirm your full name, email, phone number, and order number?
-[00:22] Client: Sure, John Doe, john@example.com, 555-0199, order #BW-8821.
-[00:35] Agent: Thank you Mr. Doe. I see the duplicate charge and I have processed an immediate refund. It will reflect in 3-5 business days.
-[00:45] Client: Awesome, thank you so much Alex.
-[00:48] Agent: You're very welcome! Thanks again for shopping with BrightWave — have a wonderful day!
+[00:00] Agent: Thank you for calling S-NET Communications. My name is Alex how can I help you today?
+[00:05] Client: Hi, I need to check my invoice.
+[00:09] Agent: I can certainly help with that! May I confirm your full name, company name, and callback number?
+[00:18] Client: Sure, John Doe from Acme Corp, 555-0199.
+[00:25] Agent: Thank you John. Your current invoice balance is $150 and is due on the 30th.
+[00:33] Client: Perfect, thanks Alex!
+[00:36] Agent: You are very welcome! Thank you for Choosing S-NET and have a great day.
 
 OUTPUT FORMAT INSTRUCTIONS:
 Reply with ONE line per line item in this exact format:
@@ -124,10 +144,10 @@ Line Item Name: PASS/PARTIAL/FAIL - Short specific audit reason.
 
 ---
 
-## 🛡️ User Approval & Editing Loop in UI
+## 🧮 Mathematical Scoring Engine Formula
 
-1. On the **Live QA Test** page (`/test`), after selecting or pasting a transcript, click **"Preview Built Prompt"**.
-2. The **LLM Prompt Builder & Inspection Modal** opens:
-   - Displays all injected RAG policies, sentiment flags, and criteria line items.
-   - Allows copying the full prompt or **editing the prompt string directly** before inference.
-3. Clicking **"Approve & Run Analysis"** executes Gemma 3 4B evaluation with the verified prompt.
+$$\text{Category Score} = \frac{\sum_{i=1}^{N} \text{Score}_i}{N}$$
+
+$$\text{Final QA Score} = \sum_{c} \left( \text{Category Score}_c \times \frac{\text{Category Weight}_c}{\sum \text{Weights}} \right)$$
+
+* If any **Auto-Fail Rule** is triggered \(\rightarrow\) Final QA Score = **0.0 / 100**.

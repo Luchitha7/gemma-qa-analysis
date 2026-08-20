@@ -230,6 +230,14 @@ def build_dynamic_prompt(
 
     criteria_str = "\n".join(items_list)
     
+    # 3. Auto-Fail Zero-Tolerance Rules Section
+    auto_fail_list = []
+    for r in auto_fail_rules:
+        r_name = re.sub(r"<\s*br\s*/?\s*>", " ", r.get("name", "Auto-Fail"), flags=re.IGNORECASE).strip()
+        r_desc = re.sub(r"<\s*br\s*/?\s*>", " ", r.get("description", r.get("trigger", "Immediate 0 score")), flags=re.IGNORECASE).strip()
+        auto_fail_list.append(f"• {r_name}: {r_desc}")
+    auto_fail_str = "\n".join(auto_fail_list) if auto_fail_list else "• Discourtesy / Rudeness: Immediate 0 score on profanity or policy abandonment."
+
     policies_str = "\n".join(
         f"• {re.sub(r'<\s*br\s*/?\s*>', ' ', p['title'], flags=re.IGNORECASE)}: {re.sub(r'<\s*br\s*/?\s*>', ' ', p['content'][:300], flags=re.IGNORECASE)}" 
         for p in matched_policies
@@ -248,6 +256,9 @@ Your task is to judge the AGENT against each specific evaluation line item accor
 
 COMPANY EVALUATION CATEGORIES & WEIGHTS:
 {weights_str}
+
+COMPANY AUTO-FAIL ZERO-TOLERANCE CIRCUIT BREAKERS (Instant 0 Score):
+{auto_fail_str}
 
 RATING CRITERIA:
 - PASS: Agent met all requirements, was polite, helpful, and followed required spiels/policies.
