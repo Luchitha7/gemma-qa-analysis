@@ -40,6 +40,7 @@ def check_compliance(transcript):
         if broken:
             evidence = evidence_line
         results.append({
+            "name": rule.get("name", rule["rule"]),
             "rule": rule["rule"],
             "status": "BROKEN" if broken else "OK",
             "evidence": evidence,

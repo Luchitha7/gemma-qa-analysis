@@ -6,6 +6,8 @@ suggestions. Kept short on purpose.
     python qa_suggestions.py
 """
 
+import re
+
 from gemma_client import gemma
 from sample_call import TRANSCRIPT
 
@@ -33,6 +35,24 @@ def clean_suggestions(text):
         if filler and not is_bullet:
             lines.pop(0)
     return "\n".join(lines).strip()
+
+
+def suggestions_to_list(text):
+    """Turn the cleaned suggestions text into a flat list of point strings.
+
+    The frontend shows suggestions as separate numbered items, so we split the
+    text into individual points: heading lines (ending in ':') are dropped, and
+    bullet/number markers are stripped off the front of each point.
+    """
+    items = []
+    for line in text.splitlines():
+        s = line.replace("**", "").replace("__", "").strip()   # drop markdown bold
+        s = s.lstrip("-*•").strip()          # bullet marker
+        s = re.sub(r"^\d+[.)]\s*", "", s)    # leading "1." / "1)"
+        if not s or s.endswith(":"):         # blank line or a heading
+            continue
+        items.append(s)
+    return items
 
 
 SUGGESTIONS_PROMPT = """You are a call quality analyst. Read this customer service call and give a short, simple output with two parts:

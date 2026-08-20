@@ -27,7 +27,7 @@ from qa_agent import (
     conversation_score, final_qa_score, parse_ratings,
 )
 from qa_summary import SUMMARY_PROMPT
-from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
+from qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions, suggestions_to_list
 from rag_accuracy import check_accuracy
 from rag_compliance import check_compliance
 from response_time import (
@@ -200,7 +200,7 @@ def run_pipeline(transcript, times=None):
             }
             for r in intense
         ],
-        "suggestions": suggestions,
+        "suggestions": suggestions_to_list(suggestions),
         "compliance_score": compliance_score,
         "compliance": compliance_results,
         "response_time_score": rt_score,
@@ -210,6 +210,7 @@ def run_pipeline(transcript, times=None):
                 "delay": d["delay"],
                 "slow": d["slow"],
                 "client_text": d["client_text"],
+                "agent_text": d["agent_text"],
             }
             for d in delays
         ],
@@ -868,7 +869,8 @@ def index():
           document.getElementById('rtScore').textContent = (d.response_time_score==null)?'n/a':d.response_time_score;
 
           document.getElementById('summary').textContent = d.summary;
-          document.getElementById('suggestions').textContent = d.suggestions;
+          document.getElementById('suggestions').innerHTML =
+            (d.suggestions||[]).map(function(s){ return '<div class="sugg-item">'+esc(s)+'</div>'; }).join('');
 
           const warn = document.getElementById('warning');
           if (d.warning) { warn.textContent = d.warning; warn.style.display='block'; } else { warn.style.display='none'; }
