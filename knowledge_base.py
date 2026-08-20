@@ -25,6 +25,7 @@ are HomeNet's responsibility, not the customer's.
 # flags the rule if any agent line is close in meaning to one of these.
 COMPLIANCE_RULES = [
     {
+        "name": "Customer Blame",
         "rule": "Never blame the customer",
         "violations": [
             "you probably did it wrong",
@@ -34,6 +35,7 @@ COMPLIANCE_RULES = [
         ],
     },
     {
+        "name": "Respectful",
         "rule": "Stay polite and respectful (no rudeness or sarcasm)",
         "violations": [
             "there is no need to get an attitude with me",
@@ -43,6 +45,7 @@ COMPLIANCE_RULES = [
         ],
     },
     {
+        "name": "Equipment Fee",
         "rule": "Do not charge a fee for a fault in company equipment",
         "violations": [
             "you will have to pay a service fee for a visit",
@@ -51,6 +54,7 @@ COMPLIANCE_RULES = [
         ],
     },
     {
+        "name": "Escalation",
         "rule": "Allow escalation to a supervisor when asked",
         "violations": [
             "supervisors do not take these calls",
@@ -59,6 +63,7 @@ COMPLIANCE_RULES = [
         ],
     },
     {
+        "name": "Refusing Help",
         "rule": "Do not dismiss or refuse to help with the customer's request",
         "violations": [
             "I cannot help you if you refuse to follow my instructions",
