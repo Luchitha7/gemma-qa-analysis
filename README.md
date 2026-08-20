@@ -1,198 +1,299 @@
-# Gemma QA Analysis
+# 🎯 Multi-Tenant Automated QA Intelligence Platform
 
-Automated quality assurance for customer-service calls. Give it a transcript and
-it returns a full QA report: an overall score out of 100, an agent scorecard, a
-plain-language summary, the answer-accuracy and compliance checks, the tense
-moments of the call, and concrete suggestions for the agent.
+> **Production-grade AI-powered Quality Assurance platform for enterprise contact centers.**  
+> Automatically ingests company guideline PDFs into lossless Markdown, dynamically extracts custom category weights, verbatim spiels, and auto-fail rules, indexes operational policies into ChromaDB Vector RAG, and audits omni-channel customer interactions (Calls, Emails, Chats) using **Gemma 3 4B** and **RoBERTa Sentiment Analysis**.
 
-Everything runs locally. No transcripts leave the machine, and there are no API
-bills — the only language-model work is a small model served by Ollama on the
-same host.
+---
 
-## Quick start
+## 📑 Table of Contents
 
-From a fresh clone to the running web app. Run these once, in order, from the
-project folder. Requires macOS and Python 3.11.
+- [Architectural Overview](#-architectural-overview)
+- [Key Features](#-key-features)
+- [Directory Structure & File Manifest](#-directory-structure--file-manifest)
+- [Prerequisites](#-prerequisites)
+- [Step-by-Step Installation & Setup](#-step-by-step-installation--setup)
+- [How to Run the Application](#-how-to-run-the-application)
+- [REST API Reference](#-rest-api-reference)
+- [Dynamic Prompt Builder & Verification](#-dynamic-prompt-builder--verification)
+- [Automated Testing & Code Verification](#-automated-testing--code-verification)
+
+---
+
+## 🏗️ Architectural Overview
+
+The platform uses a layered microservice-ready architecture separating document ingestion, semantic search, sentiment modeling, dynamic prompt synthesis, and deterministic mathematical scoring:
+
+```mermaid
+flowchart TD
+    subgraph Ingestion Layer
+        A[Company Guideline PDF] --> B[PyMuPDF / pdf_parser.py]
+        B --> C[Lossless Markdown Document]
+        C --> D[Layout-Aware llm_separator.py]
+        D --> E[(PostgreSQL: criteria_configs)]
+        D --> F[(ChromaDB: Policy Vector Store)]
+    end
+
+    subgraph Evaluation Layer
+        G[Customer Interaction Transcript] --> H[Turn Normalization & Timing]
+        H --> I[RoBERTa Sentiment Model: qa_intensity.py]
+        H --> J[ChromaDB Semantic Vector Search: vector_store.py]
+        E --> K[Dynamic Prompt Assembly: dynamic_evaluator.py]
+        I --> K
+        J --> K
+        K --> L[UI Prompt Inspection & User Approval Modal]
+        L -->|Approved Prompt| M[Gemma 3 4B LLM: gemma_client.py]
+        M --> N[Mathematical Scoring Engine & Circuit Breakers]
+        N --> O[(PostgreSQL: evaluation_reports)]
+    end
+
+    subgraph Presentation Layer
+        O --> P[React 18 + Vite Executive Dashboard]
+    end
+```
+
+---
+
+## ✨ Key Features
+
+1. **Multi-Tenant Architecture & Company Switching**:
+   - Complete data isolation per tenant (e.g. S-NET Communications, BrightWave Retail, custom clients).
+   - Dedicated PostgreSQL schemas for guidelines, criteria configurations, and historical audits.
+2. **Lossless PDF-to-Markdown Ingestion**:
+   - Converts multi-page, multi-channel guideline PDFs into structured, searchable Markdown tables and sections.
+3. **Dynamic Rule-Based Criteria & Policy Separator**:
+   - **Zero hardcoding**: Extracts exact company percentage weights (e.g. `30%/45%/25%` vs `25%/50%/25%`), line items, and required verbatim greeting/closing scripts directly from document layout.
+   - Extracts Auto-Fail Zero-Tolerance rules directly into circuit breakers.
+4. **Vector Database Policy Knowledge Base (ChromaDB)**:
+   - Indexes company-specific operating procedures (Hold/Silence SLAs, Customer Verification protocols, Escalation paths, CRM documentation standards) with `all-MiniLM-L6-v2` dense embeddings.
+5. **RoBERTa Sentiment & Intensity Analyzer**:
+   - Identifies tense conversational moments and flags harsh agent statements to support objective tone deductions.
+6. **Dynamic LLM Prompt Builder & Approval Loop**:
+   - Constructs guardrailed prompts injecting company criteria, RAG policy evidence, and sentiment flags.
+   - **UI Prompt Preview Modal**: Allows auditors to inspect, copy, or edit the prompt before triggering analysis.
+7. **Deterministic Mathematical Scorecard Engine**:
+   - Enforces arithmetic formula scoring: \(\text{Final Score} = \sum (\text{Category Score} \times \text{Weight})\).
+   - Instant \(0 / 100\) score if any Auto-Fail circuit breaker is triggered.
+8. **In-Depth Historical QA Audits**:
+   - Historical evaluation logs in PostgreSQL with row-by-row inspection modal, per-record deletion, and bulk clear options.
+
+---
+
+## 📂 Directory Structure & File Manifest
+
+```text
+gemma-qa-analysis/
+├── main.py                          # Server launcher for FastAPI backend (port 8000)
+├── requirements.txt                 # Python dependencies
+├── prompt-builder.md                # Technical guide for the Prompt Builder pipeline (English)
+├── prompt-builder-sinhala.md        # Technical guide for the Prompt Builder pipeline (Sinhala)
+├── run_guide.md                     # Step-by-step operational setup guide
+├── request.http                     # VS Code / Postman HTTP API request collection
+│
+├── inputs/                          # Modular sample interaction files (JSON)
+│   ├── 01_call_compliant.json       # Compliant phone call sample
+│   ├── 02_call_hold_violation.json  # Call sample with hold time SLA violation
+│   ├── 03_call_autofail.json        # Call sample with auto-fail discourtesy violation
+│   ├── 04_email_compliant.json      # Compliant email support interaction
+│   └── 05_chat_compliant.json       # Compliant live chat support interaction
+│
+├── src/                             # Core Python Backend
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── web_app.py               # Main FastAPI application with REST endpoints & CORS
+│   │   └── job_queue.py             # Asynchronous task and analysis worker queue
+│   │
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── gemma_client.py          # Ollama Gemma 3 4B client wrapper & token counter
+│   │   ├── report_pdf.py            # PDF report generator (FPDF2)
+│   │   └── weights_config.py        # Static weights loader/persister
+│   │
+│   ├── db/
+│   │   ├── __init__.py
+│   │   ├── database.py              # PostgreSQL engine and session factory (SQLAlchemy)
+│   │   └── models.py                # PostgreSQL ORM models (Tenant, Document, CriteriaConfig, EvaluationReport)
+│   │
+│   ├── rag/
+│   │   ├── __init__.py
+│   │   ├── pdf_parser.py            # PyMuPDF lossless PDF-to-Markdown table parser
+│   │   ├── llm_separator.py         # Rule-based dynamic Criteria & Policy chunk extractor
+│   │   ├── vector_store.py          # ChromaDB Vector Store client & semantic search
+│   │   ├── rag_accuracy.py          # Semantic accuracy checker against reference Q&A
+│   │   └── rag_compliance.py        # Semantic compliance violation detector
+│   │
+│   └── services/
+│       ├── __init__.py
+│       ├── dynamic_evaluator.py     # Orchestrates Prompt Builder, Gemma inference & math scorecard
+│       ├── qa_intensity.py          # RoBERTa sentiment intensity analyzer
+│       ├── qa_agent.py              # Legacy agent scorecard evaluator
+│       ├── qa_summary.py            # Interaction executive summary prompt
+│       ├── qa_suggestions.py        # Actionable coaching recommendations prompt
+│       └── response_time.py         # Transcript timestamp parser & latency calculator
+│
+├── frontend/                        # React 18 + Vite Executive Frontend
+│   ├── index.html                   # HTML entry point
+│   ├── package.json                 # Node.js dependencies & scripts
+│   ├── vite.config.js               # Vite configuration
+│   └── src/
+│       ├── main.jsx                 # React root renderer with BrowserRouter
+│       ├── App.jsx                  # Main router view with Navigation & Layout
+│       ├── index.css                # Tailwind CSS styling (Executive Light Theme)
+│       ├── context/
+│       │   └── TenantContext.jsx    # Global active tenant context & API client state
+│       ├── components/
+│       │   ├── Navbar.jsx           # Top navigation bar with live tenant switcher
+│       │   ├── CreateTenantModal.jsx# Modal to register a new company tenant
+│       │   ├── AuditDetailModal.jsx # Full-page modal for in-depth QA evaluation breakdowns
+│       │   └── PromptPreviewModal.jsx# Inspection & approval modal for built LLM prompts
+│       └── pages/
+│           ├── UploadMarkdownPage.jsx # PDF upload, file list, delete, and lossless Markdown viewer
+│           ├── CriteriaPolicyPage.jsx # Category weights, line items, and RAG knowledge chunks
+│           ├── LiveQAPage.jsx       # Sample loader, JSON uploader, prompt preview & live QA
+│           └── AuditHistoryPage.jsx # Historical audit logs table with per-record deletion
+│
+└── tests/                           # Verification & Unit Tests
+    ├── test_both_companies.py       # Verifies distinct criteria extraction for multiple companies
+    └── test_full_separator.py       # Verifies table parsing, SLAs, and dynamic RAG policy chunks
+```
+
+---
+
+## ⚙️ Prerequisites
+
+Before running the project, ensure the following software is installed on your system:
+
+1. **Python 3.10+** (Tested on Python 3.11 / 3.12)
+2. **Node.js 18+** & **npm**
+3. **PostgreSQL 14+** running locally or remotely
+4. **Ollama** installed with **Gemma 3 4B**:
+   ```bash
+   ollama pull gemma3:4b
+   ```
+
+---
+
+## 🚀 Step-by-Step Installation & Setup
+
+### 1. Configure PostgreSQL Database
+
+Ensure PostgreSQL is running and credentials match your environment variables (or defaults):
 
 ```bash
-# 1. Install Ollama and pull the language model (one-time)
-brew install ollama
-brew services start ollama
-ollama pull gemma3:4b
+# Default credentials used:
+# Host: localhost:5432
+# Username: postgres
+# Password: root (or your local password via DB_PASSWORD environment variable)
+# Database: qa_database
+```
 
-# 2. Create the virtual environment and install dependencies (one-time)
-python3 -m venv venv
+You can set custom database credentials via environment variables:
+
+```bash
+export DB_USER="postgres"
+export DB_PASSWORD="your_password"
+export DB_HOST="localhost"
+export DB_PORT="5432"
+export DB_NAME="qa_database"
+```
+
+### 2. Backend Setup (Python Virtual Environment)
+
+```bash
+# 1. Navigate to project root
+cd gemma-qa-analysis
+
+# 2. Create virtual environment
+python -m venv venv
+
+# 3. Activate virtual environment
+# Windows PowerShell:
+.\venv\Scripts\Activate.ps1
+# Linux / macOS:
 source venv/bin/activate
-pip install -r requirements.txt
 
-# 3. Start the app
-python web_app.py
-```
-
-Then open **http://localhost:8000**, paste a call transcript (or click **Load
-Sample**), and click **Analyze Call**.
-
-Every time after that, you only need steps 3 again, with the environment active:
-
-```bash
-source venv/bin/activate   # if not already active
-python web_app.py
-```
-
-Make sure Ollama is running (`brew services start ollama`) whenever you use the
-app — the scoring needs it. The first analysis also downloads the RoBERTa and
-MiniLM models (~500 MB) and caches them; after that it works offline.
-
-The sections below explain how it works and cover the other ways to run it.
-
-## How it works
-
-The system leans on three components, each used only for what it is actually good
-at:
-
-- **RoBERTa** — [`cardiffnlp/twitter-roberta-base-sentiment-latest`](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest).
-  Scores sentiment line by line and flags the tense moments. Fast, consistent,
-  purpose-built for sentiment.
-- **Gemma 3 1B** — run locally through [Ollama](https://ollama.com). Reads the
-  whole call and makes the judgements a rule can't: the summary, the agent
-  scorecard, and the suggestions.
-- **Sentence embeddings** — [`all-MiniLM-L6-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2)
-  via sentence-transformers. Powers the retrieval (RAG) step that checks the
-  agent's answers against a knowledge base of ideal answers and compliance rules.
-  Matches on meaning, not exact words, and costs no tokens.
-
-```
-transcript
-  ├─ RoBERTa      sentiment per line → tense moments, conversation score
-  ├─ Gemma        summary · agent scorecard (PASS/PARTIAL/FAIL) · suggestions
-  ├─ embeddings   answer accuracy vs ideal answers · compliance rule checks
-  └─ timestamps   agent response time (if the transcript is timed)
-        → weighted final QA score (0–100)
-```
-
-The division of labour is deliberate. Gemma can read and reason over a full
-conversation but is unreliable when asked to produce numbers, so it only *judges*
-— PASS, PARTIAL, or FAIL against each parameter — and the surrounding Python does
-the arithmetic. That keeps the scores stable and reproducible while still letting
-a language model handle the parts that need genuine reading.
-
-## Scoring
-
-Each part produces a sub-score out of 100, and the final score is a weighted
-blend:
-
-| Sub-score          | Weight | Source                                   |
-| ------------------ | -----: | ---------------------------------------- |
-| Agent handling     |   0.45 | Gemma scorecard (5 parameters)           |
-| Answer accuracy    |   0.20 | Embeddings vs ideal answers (RAG)        |
-| Compliance         |   0.20 | Embeddings vs violation examples (RAG)   |
-| Conversation tone  |   0.10 | RoBERTa sentiment across the call        |
-| Response time      |   0.05 | Transcript timestamps                    |
-
-Accuracy and response time can be absent — a call may raise no question that
-matches the knowledge base, or carry no timestamps. When a part is missing its
-weight is dropped and the rest are re-balanced, so the remaining weights still
-sum to one and the score stays fair.
-
-The **agent scorecard** grades five parameters, defined in `qa_agent.py` and easy
-to edit:
-
-- **Compliance** — followed process, promised nothing that can't be delivered.
-- **Tone and respect** — polite throughout; no scolding, blaming, or dismissing.
-- **Responsiveness** — prompt and direct; no dodging or deflecting.
-- **Ownership** — took responsibility instead of shifting blame.
-- **Resolution** — actually resolved the issue and gave clear next steps.
-
-## Requirements
-
-- macOS (developed on Apple Silicon, CPU-only — no GPU required)
-- Python 3.11
-- [Ollama](https://ollama.com) with the Gemma model pulled:
-
-  ```bash
-  brew install ollama
-  brew services start ollama
-  ollama pull gemma3:4b
-  ```
-
-## Setup
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
+# 4. Install dependencies
 pip install -r requirements.txt
 ```
 
-The first run downloads the RoBERTa and MiniLM models (~500 MB combined) and
-caches them; subsequent runs are offline.
-
-## Usage
-
-Activate the virtual environment and make sure Ollama is running.
-
-### Full report (one command)
+### 3. Frontend Setup (React Vite Dashboard)
 
 ```bash
-python qa_report.py
+# 1. Navigate to frontend directory
+cd frontend
+
+# 2. Install dependencies
+npm install
+
+# 3. Build/verify production bundle
+npm run build
 ```
 
-Runs every stage and prints a single report for the call in `sample_call.py`,
-including a per-call breakdown of how many Gemma tokens it used.
+---
 
-### Web app
+## 🏃 How to Run the Application
+
+### Start the Backend Web Server
+
+From the project root with the virtual environment activated:
 
 ```bash
-python web_app.py
-# open http://localhost:8000
+python main.py
 ```
 
-Paste a transcript — one turn per line, each starting with `Agent:` or `Client:`
-— and click **Analyze Call** for the same report as a styled page. **Load
-sample** fills in an example to try it quickly.
+> Backend API server starts on **`http://localhost:8000`** with automatic OpenAPI documentation at **`http://localhost:8000/docs`**.
 
-### Your own call
+### Start the Frontend Dashboard
 
-Edit the `TRANSCRIPT` list in `sample_call.py`: one `("Agent", "...")` or
-`("Client", "...")` tuple per turn, then re-run any script. Add leading
-timestamps (`[00:15] Agent: ...`) if you want response-time scoring.
+In a separate terminal window:
 
-### Running stages individually
+```bash
+cd frontend
+npm run dev
+```
 
-Each stage runs on its own, which is how the project was built and how token use
-is kept low:
+> Frontend client starts on **`http://localhost:5173`**.
 
-| Script               | Stage                                                    |
-| -------------------- | -------------------------------------------------------- |
-| `qa_intensity.py`    | RoBERTa sentiment and tense-moment flagging              |
-| `qa_summary.py`      | Gemma call summary                                       |
-| `qa_agent.py`        | Gemma agent scorecard plus the scoring maths             |
-| `qa_suggestions.py`  | Gemma suggestions and follow-ups                         |
-| `rag_accuracy.py`    | Answer accuracy against the knowledge base (token-free)  |
-| `rag_compliance.py`  | Compliance checks against violation examples (token-free)|
-| `response_time.py`   | Response-time scoring from timestamps                    |
+---
 
-## Knowledge base
+## 🌐 REST API Reference
 
-`knowledge_base.py` holds the reference material the RAG step retrieves against:
+| Method   | Endpoint                               | Description                                                                 |
+| :------- | :------------------------------------- | :-------------------------------------------------------------------------- |
+| `GET`    | `/api/tenants`                         | List all registered company tenants                                         |
+| `POST`   | `/api/tenants`                         | Register a new company tenant (`{ id, name, description }`)                 |
+| `POST`   | `/api/tenants/{id}/upload-pdf`         | Upload company guideline PDF, convert to Markdown, and index into Vector DB |
+| `GET`    | `/api/tenants/{id}/markdown`           | Retrieve converted Markdown text for the active tenant                      |
+| `GET`    | `/api/tenants/{id}/criteria`           | Retrieve parsed Category Weights, Line Items, and Auto-Fails                |
+| `GET`    | `/api/tenants/{id}/policies`           | Retrieve indexed ChromaDB Vector policy chunks                              |
+| `GET`    | `/api/tenants/{id}/documents`          | List uploaded guideline documents with metadata                             |
+| `DELETE` | `/api/tenants/{id}/documents/{doc_id}` | Delete a single uploaded document and clean criteria                        |
+| `DELETE` | `/api/tenants/{id}/knowledge-base`     | Clear all documents, criteria, and vector embeddings for tenant             |
+| `GET`    | `/api/samples`                         | List all sample conversation JSON files in `inputs/`                        |
+| `POST`   | `/api/tenants/{id}/preview-prompt`     | Assemble and preview the exact LLM prompt without running inference         |
+| `POST`   | `/api/tenants/{id}/evaluate`           | Execute dynamic QA analysis with Gemma 3 4B & RoBERTa                       |
+| `GET`    | `/api/evaluations`                     | List historical evaluation reports (`?tenant_id=...`)                       |
+| `GET`    | `/api/evaluations/{eval_id}`           | Get in-depth QA audit breakdown for a specific evaluation                   |
+| `DELETE` | `/api/evaluations/{eval_id}`           | Delete an individual evaluation record from PostgreSQL                      |
+| `DELETE` | `/api/evaluations`                     | Clear all evaluation logs for a tenant                                      |
 
-- **QA pairs** — a known question, alternate phrasings, the must-say *key points*,
-  and an ideal answer. Accuracy is scored as the share of key points the agent's
-  reply actually covers, each point matched against the closest sentence of the
-  reply.
-- **Compliance rules** — each with example phrases of what breaking it sounds
-  like. An agent line close enough in meaning to a violation example flags the
-  rule, with the offending line kept as evidence.
+---
 
-Both are plain Python lists — extend them to fit a real call centre's answers and
-policies.
+## 🔍 Dynamic Prompt Builder & Verification
 
-## Research scripts
+For a complete breakdown of how prompts are assembled dynamically from company criteria, RoBERTa tone markers, and ChromaDB policy chunks, see:
 
-Background experiments that settled the design — why Gemma handles analysis while
-the scoring stays in code:
+- 📖 **[Prompt Builder Technical Documentation (English)](prompt-builder.md)**
 
-- `gemma_demo.py` — a step-by-step comparison of a language model against a
-  specialised model.
-- `long_call_test.py` — both models scored line by line on a 17-turn call.
-- `full_conversation_qa_test.py` — line-by-line versus whole-transcript scoring,
-  and the token-volume ceiling that makes full-call judgement a job for the LLM.
+---
+
+## 🧪 Automated Testing & Code Verification
+
+To verify criteria separation, layout parsing, and scoring across multiple companies, run the test suite:
+
+```bash
+# Run distinct company extraction test
+python tests/test_both_companies.py
+
+# Run full layout & RAG policy separator test
+python tests/test_full_separator.py
+```
