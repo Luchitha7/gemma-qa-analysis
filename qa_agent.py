@@ -21,21 +21,51 @@ from qa_intensity import analyze, INTENSITY_THRESHOLD  # RoBERTa sentiment + int
 from sample_call import TRANSCRIPT
 
 # ---- The QA parameters (edit these freely) --------------------------------
+# The scorecard line items come from the S-NET QA Form Guideline, grouped into
+# its Soft Skill (25%) and Technical Knowledge (50%) categories. Only items that
+# can be judged from a call transcript are included -- ticket/CRM items from the
+# Process Knowledge category (case notes, tagging, ticket numbers) are left out
+# because they are not observable in a transcript.
 PARAMETERS = [
-    ("Compliance",
-     "Did the agent follow proper process and rules, and avoid promising "
-     "anything they cannot deliver?"),
-    ("Tone and respect",
-     "Was the agent polite and respectful throughout, with no scolding, "
-     "blaming, or dismissing the client?"),
-    ("Responsiveness",
-     "Did the agent respond promptly and directly, without dodging questions "
-     "or deflecting?"),
-    ("Ownership",
-     "Did the agent take responsibility for the company's mistake instead of "
-     "shifting blame (for example, blaming the client's bank)?"),
-    ("Resolution",
-     "Did the agent actually resolve the issue and give clear next steps?"),
+    # --- Soft Skill category ---
+    ("Branding and Survey",
+     "Did the agent use the greeting spiel (company name and their own name) "
+     "promptly, the closing spiel, and offer the post-call survey?"),
+    ("Personalized the Call",
+     "Did the agent use the customer's correct name in the greeting or at least "
+     "once during the call?"),
+    ("Empathy and Acknowledgment",
+     "Did the agent empathize and acknowledge the customer's questions and "
+     "statements, instead of ignoring or brushing them off?"),
+    ("Rapport and Professionalism",
+     "Was the agent courteous and respectful, chose words that did not "
+     "aggravate the situation, matched the customer's pace, and did not "
+     "interrupt?"),
+    # --- Technical Knowledge category ---
+    ("Paraphrasing",
+     "Did the agent restate the customer's issue in their own words early on to "
+     "confirm they understood the concern?"),
+    ("Verified Customer",
+     "Did the agent validate the customer's name and their company or account "
+     "details?"),
+    ("Probing",
+     "Did the agent ask effective probing questions to identify the real "
+     "concern?"),
+    ("Set Proper Expectations",
+     "Did the agent give accurate and complete expectations about the "
+     "resolution and the next steps?"),
+    ("Provided the Solution",
+     "Did the agent perform logical troubleshooting and actually resolve the "
+     "issue the customer raised?"),
+    ("Took Ownership",
+     "Did the agent take responsibility and exhaust resources to help, instead "
+     "of deflecting or shifting blame?"),
+    ("Active Listening",
+     "Did the agent avoid asking for information the customer had already "
+     "provided?"),
+    ("Confirmed Resolution",
+     "Did the agent confirm the issue was resolved and offer further "
+     "assistance before closing?"),
 ]
 
 RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
@@ -143,7 +173,7 @@ def apply_tone_penalty(ratings, harsh_lines):
         return ratings
     note = f"RoBERTa flagged {len(harsh_lines)} harsh agent line(s)"
     for r in ratings:
-        if r["name"] == "Tone and respect" and r["rating"] == "PASS":
+        if r["name"] == "Rapport and Professionalism" and r["rating"] == "PASS":
             r["rating"] = "FAIL" if len(harsh_lines) >= 2 else "PARTIAL"
             r["reason"] = f"{r['reason']} [{note}]".strip() if r["reason"] else note
     return ratings

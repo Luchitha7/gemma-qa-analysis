@@ -23,7 +23,23 @@ are HomeNet's responsibility, not the customer's.
 # --- Compliance rules: what the agent must / must not do ----------------------
 # Each rule lists example phrases of what a VIOLATION sounds like. The checker
 # flags the rule if any agent line is close in meaning to one of these.
+# The compliance rules are the S-NET QA Form Guideline's AUTO FAIL items that can
+# be detected from what the agent SAYS in a transcript. Ticket/CRM auto-fails
+# (Fraud, Line Release, Abandonment, Non-First-Call-Resolution) are left out
+# because they cannot be judged from spoken words alone.
 COMPLIANCE_RULES = [
+    {
+        "name": "Discourtesy",
+        "rule": "Never be discourteous: no profanity, bashing, impatience, "
+                "or sarcasm toward the customer",
+        "violations": [
+            "that's a stupid question",
+            "are you even listening to me",
+            "I already told you this",
+            "calm down, there is no need to shout",
+            "whatever, I don't have time for this",
+        ],
+    },
     {
         "name": "Customer Blame",
         "rule": "Never blame the customer",
@@ -35,40 +51,24 @@ COMPLIANCE_RULES = [
         ],
     },
     {
-        "name": "Respectful",
-        "rule": "Stay polite and respectful (no rudeness or sarcasm)",
-        "violations": [
-            "there is no need to get an attitude with me",
-            "whatever, I'm sending you over",
-            "you are better off just hanging up",
-            "I don't have time for this",
-        ],
-    },
-    {
-        "name": "Equipment Fee",
-        "rule": "Do not charge a fee for a fault in company equipment",
-        "violations": [
-            "you will have to pay a service fee for a visit",
-            "there is a charge to send a technician",
-            "you need to pay for the callout",
-        ],
-    },
-    {
         "name": "Escalation",
-        "rule": "Allow escalation to a supervisor when asked",
+        "rule": "Escalate to a supervisor when the customer asks",
         "violations": [
             "supervisors do not take these calls",
             "asking for a manager will not change anything",
             "there is no one else you can speak to",
+            "I cannot transfer you to a supervisor",
         ],
     },
     {
-        "name": "Refusing Help",
-        "rule": "Do not dismiss or refuse to help with the customer's request",
+        "name": "Call Avoidance",
+        "rule": "Do not avoid the call: never refuse to help or push the "
+                "customer away without a valid reason",
         "violations": [
-            "I cannot help you if you refuse to follow my instructions",
             "we don't do that here",
             "that's not something I can look into",
+            "you'll have to call a different number",
+            "I cannot help you with this",
         ],
     },
 ]
