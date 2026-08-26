@@ -24,6 +24,13 @@ almost immediately and those show up as failures. For a pure performance
 test, run against a build with the limits relaxed or removed.
 """
 
+import os
+
+try:
+    import env_loader  # noqa: F401  (loads .env if src/ is importable)
+except ImportError:
+    pass
+
 from locust import HttpUser, task, tag, between
 
 # One turn per line; a small, realistic support call for /analyze.
@@ -57,8 +64,8 @@ SAMPLE_WEIGHTS = {
 class QAUser(HttpUser):
     """One simulated user of the QA API."""
 
-    # Default target; override with --host on the command line if needed.
-    host = "http://localhost:8000"
+    # Default target; override with APP_URL / .env, or --host on the CLI.
+    host = os.environ.get("APP_URL", "http://localhost:8000")
 
     # Wait 1 to 3 seconds between actions, like a real person clicking around.
     wait_time = between(1, 3)

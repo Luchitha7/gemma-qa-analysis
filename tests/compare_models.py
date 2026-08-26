@@ -12,17 +12,18 @@ skipped, so this never invents numbers for a model that isn't installed.
 """
 
 import json
+import os
 import sys
 import time
 import urllib.request
 
-from gemma_client import gemma, reset_token_usage, get_token_usage
+from gemma_client import gemma, reset_token_usage, get_token_usage  # also loads .env
 from qa_summary import SUMMARY_PROMPT
 from sample_call import TRANSCRIPT
 
 DEFAULT_MODELS = ["gemma3:1b", "gemma4:1b"]
 RUNS = 3  # runs per model; we average to smooth out noise
-TAGS_URL = "http://localhost:11434/api/tags"
+TAGS_URL = os.environ.get("OLLAMA_TAGS_URL", "http://localhost:11434/api/tags")
 
 
 def installed_models():

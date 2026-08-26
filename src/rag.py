@@ -16,11 +16,13 @@ import os
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 
+import env_loader  # noqa: F401  (loads .env into os.environ on import)
+
 from sentence_transformers import SentenceTransformer, util
 
 from knowledge_base import QA_PAIRS
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
 # How confident a match is, based on the similarity score.
 STRONG_MATCH = 0.55

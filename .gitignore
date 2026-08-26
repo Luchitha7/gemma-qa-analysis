@@ -6,6 +6,12 @@ __pycache__/
 # Node dependencies (frontend). Reinstalled from package.json, not source.
 node_modules/
 
+# Environment variables & secrets. The committed template is .env.example.
+.env
+.env.local
+.env.*.local
+!.env.example
+
 # Runtime state: weights saved from the frontend. The defaults live in code
 # (qa_agent.py FINAL_WEIGHTS), so this file is a local override, not source.
 weights.json

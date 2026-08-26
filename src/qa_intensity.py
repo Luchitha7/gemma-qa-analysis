@@ -14,6 +14,8 @@ os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 import logging
 import warnings
 
+import env_loader  # noqa: F401  (loads .env into os.environ on import)
+
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
@@ -25,9 +27,13 @@ CONFIDENCE_THRESHOLD = 0.6
 # A line counts as an "intense moment" when sentiment is strongly negative.
 INTENSITY_THRESHOLD = -0.7
 
+ROBERTA_MODEL = os.environ.get(
+    "ROBERTA_MODEL", "cardiffnlp/twitter-roberta-base-sentiment-latest"
+)
+
 classifier = pipeline(
     task="sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest",
+    model=ROBERTA_MODEL,
     top_k=None,
 )
 

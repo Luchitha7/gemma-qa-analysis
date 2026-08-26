@@ -15,11 +15,14 @@ used. `gemma()` still returns a plain string, so nothing else has to change:
 """
 
 import json
+import os
 import urllib.error
 import urllib.request
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "gemma3:1b"
+import env_loader  # noqa: F401  (loads .env into os.environ on import)
+
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
+MODEL = os.environ.get("GEMMA_MODEL", "gemma3:1b")
 
 # Running tally of tokens used since the last reset.
 _usage = {"input": 0, "output": 0, "calls": []}
@@ -42,13 +45,25 @@ def get_token_usage():
     }
 
 
-def gemma(prompt, model=MODEL, timeout=180, temperature=0.0, num_predict=320,
+def gemma(prompt, model=None, timeout=None, temperature=None, num_predict=None,
           label=None):
+    # Config comes from the environment (see .env.example) with the same
+    # defaults the code used before. An explicit argument still wins, so
+    # callers can override per-call.
     # num_predict caps how many tokens Gemma may generate, so it can't ramble
     # on and waste tokens. Our outputs (summary, scorecard, suggestions) all fit
     # comfortably under this. Lower it to save more; raise it if output is cut.
     # `label` is an optional name for this call (e.g. "summary") so the token
     # tally can show which step used what.
+    if model is None:
+        model = os.environ.get("GEMMA_MODEL", MODEL)
+    if timeout is None:
+        timeout = int(os.environ.get("GEMMA_TIMEOUT", "180"))
+    if temperature is None:
+        temperature = float(os.environ.get("GEMMA_TEMPERATURE", "0.0"))
+    if num_predict is None:
+        num_predict = int(os.environ.get("GEMMA_NUM_PREDICT", "320"))
+
     payload = json.dumps({
         "model": model,
         "prompt": prompt,

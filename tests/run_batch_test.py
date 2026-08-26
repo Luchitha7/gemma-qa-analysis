@@ -13,17 +13,27 @@ JSON response into batch_results/json/, and writes:
 
 import csv
 import json
+import os
 import re
 import sys
 import time
 from datetime import datetime
 from pathlib import Path
 
+try:
+    import env_loader  # noqa: F401  (loads .env if src/ is importable)
+except ImportError:
+    pass
+
 from docx import Document
 from docx.shared import Pt
 
-DOCX_PATH = Path("/Users/luchithajayawardena/Downloads/"
-                 "SignalQA_Test_Transcripts.docx")
+# Path to the .docx of test transcripts. Override with BATCH_DOCX_PATH so this
+# harness isn't tied to one machine's Downloads folder.
+DOCX_PATH = Path(os.environ.get(
+    "BATCH_DOCX_PATH",
+    "/Users/luchithajayawardena/Downloads/SignalQA_Test_Transcripts.docx",
+))
 RESULTS_DIR = Path(__file__).resolve().parent / "batch_results"
 JSON_DIR = RESULTS_DIR / "json"
 
