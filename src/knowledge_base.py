@@ -12,7 +12,6 @@ real deployment these would come from the company's own support playbook.
 All of this is checked with local embeddings, so it uses NO LLM tokens.
 """
 
-# --- Basic details about the agent / product (background context) ------------
 AGENT_INFO = """
 The agent works in customer support for HomeNet, an internet and subscription
 service. Agents help with billing issues, internet faults, and account changes
@@ -20,13 +19,6 @@ service. Agents help with billing issues, internet faults, and account changes
 are HomeNet's responsibility, not the customer's.
 """.strip()
 
-# --- Compliance rules: what the agent must / must not do ----------------------
-# Each rule lists example phrases of what a VIOLATION sounds like. The checker
-# flags the rule if any agent line is close in meaning to one of these.
-# The compliance rules are the S-NET QA Form Guideline's AUTO FAIL items that can
-# be detected from what the agent SAYS in a transcript. Ticket/CRM auto-fails
-# (Fraud, Line Release, Abandonment, Non-First-Call-Resolution) are left out
-# because they cannot be judged from spoken words alone.
 COMPLIANCE_RULES = [
     {
         "name": "Discourtesy",
@@ -73,14 +65,6 @@ COMPLIANCE_RULES = [
     },
 ]
 
-# --- Example Q&A, grouped by category ----------------------------------------
-# For each entry:
-#   category     : the type of issue (billing, technical, account, escalation).
-#   question     : the main way a client might ask this.
-#   variants     : other ways of asking the same thing (helps retrieval match).
-#   key_points   : the must-say facts a good answer MUST include. The agent is
-#                  scored on how many of these their reply actually covers.
-#   ideal_answer : a full model answer (shown as coaching / the "right" reply).
 QA_PAIRS = [
     {
         "category": "billing",

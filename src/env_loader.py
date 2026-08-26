@@ -21,7 +21,6 @@ def load_env():
                             continue
                         k, v = line.split("=", 1)
                         k, v = k.strip(), v.strip()
-                        # Strip surrounding quotes if present
                         if (v.startswith('"') and v.endswith('"')) or (v.startswith("'") and v.endswith("'")):
                             v = v[1:-1]
                         if k not in os.environ:
@@ -30,5 +29,4 @@ def load_env():
             except Exception:
                 pass
 
-# Run on import
 load_env()

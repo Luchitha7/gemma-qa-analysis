@@ -24,16 +24,13 @@ import env_loader
 OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/generate")
 MODEL = os.environ.get("GEMMA_MODEL", "gemma3:4b")
 
-# Running tally of tokens used since the last reset.
 _usage = {"input": 0, "output": 0, "calls": []}
-
 
 def reset_token_usage():
     """Clear the token tally (call this before analysing a call)."""
     _usage["input"] = 0
     _usage["output"] = 0
     _usage["calls"] = []
-
 
 def get_token_usage():
     """Return tokens used since the last reset, with a per-call breakdown."""
@@ -43,7 +40,6 @@ def get_token_usage():
         "total": _usage["input"] + _usage["output"],
         "calls": list(_usage["calls"]),
     }
-
 
 def gemma(prompt, model=None, timeout=None, temperature=None, num_predict=None,
           label=None):
@@ -80,7 +76,6 @@ def gemma(prompt, model=None, timeout=None, temperature=None, num_predict=None,
             f"Details: {exc}"
         )
 
-    # Record the exact token counts Ollama reports for this call.
     in_tokens = data.get("prompt_eval_count", 0) or 0
     out_tokens = data.get("eval_count", 0) or 0
     _usage["input"] += in_tokens

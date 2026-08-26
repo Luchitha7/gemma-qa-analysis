@@ -21,7 +21,6 @@ from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
 )
 
-
 def _register_fonts():
     """Embed a real TrueType font so the PDF renders in every viewer.
 
@@ -40,7 +39,6 @@ def _register_fonts():
         try:
             pdfmetrics.registerFont(TTFont("ReportFont", regular))
             pdfmetrics.registerFont(TTFont("ReportFont-Bold", bold))
-            # Register as a family so inline <b> markup maps to the bold face.
             pdfmetrics.registerFontFamily(
                 "ReportFont", normal="ReportFont", bold="ReportFont-Bold")
             return "ReportFont", "ReportFont-Bold"
@@ -48,16 +46,13 @@ def _register_fonts():
             continue
     return "Helvetica", "Helvetica-Bold"
 
-
 FONT, FONT_BOLD = _register_fonts()
 
-# Colours per band, so the header reads at a glance.
 BAND_COLORS = {
     "GOOD": colors.HexColor("#1a7f37"),
     "OKAY": colors.HexColor("#9a6700"),
     "NEEDS IMPROVEMENT": colors.HexColor("#b42318"),
 }
-# Colours for a PASS / PARTIAL / FAIL verdict.
 VERDICT_COLORS = {
     "PASS": colors.HexColor("#1a7f37"),
     "PARTIAL": colors.HexColor("#9a6700"),
@@ -69,11 +64,9 @@ MUTED = colors.HexColor("#57606a")
 LINE = colors.HexColor("#d0d7de")
 PANEL = colors.HexColor("#f6f8fa")
 
-
 def _hx(color):
     """'#rrggbb' string for a reportlab colour, for inline <font> markup."""
     return "#" + color.hexval()[2:]
-
 
 def _styles():
     """Paragraph styles used throughout the report."""
@@ -100,11 +93,9 @@ def _styles():
             textColor=MUTED),
     }
 
-
 def _fmt(score):
     """A sub-score number, or 'n/a' when the component was not available."""
     return "n/a" if score is None else f"{score:g}"
-
 
 def _as_lines(suggestions):
     """Normalise suggestions (a newline string or a list) into clean lines.
@@ -123,7 +114,6 @@ def _as_lines(suggestions):
         if text:
             lines.append(text)
     return lines
-
 
 def _header(result, st):
     """The top band: big final score, its band, and the date."""
@@ -151,7 +141,6 @@ def _header(result, st):
         ("BOTTOMPADDING", (0, 0), (-1, -1), 16),
     ]))
     return t
-
 
 def _subscores(result, st):
     """The five component sub-scores as a compact table."""
@@ -181,13 +170,11 @@ def _subscores(result, st):
     ]))
     return t
 
-
 def _verdict_para(rating, st):
     """A coloured PASS / PARTIAL / FAIL cell."""
     r = (rating or "UNRATED").upper()
     color = _hx(VERDICT_COLORS.get(r, MUTED))
     return Paragraph(f'<font color="{color}"><b>{r}</b></font>', st["cell"])
-
 
 def _scorecard(result, st):
     """The agent scorecard: parameter, verdict, reason."""
@@ -201,7 +188,6 @@ def _scorecard(result, st):
     t = Table(rows, colWidths=[1.5 * inch, 0.9 * inch, 4.1 * inch])
     t.setStyle(_table_style())
     return t
-
 
 def _compliance(result, st):
     """Compliance rules: rule, status, evidence."""
@@ -219,7 +205,6 @@ def _compliance(result, st):
     t.setStyle(_table_style())
     return t
 
-
 def _accuracy(result, st):
     """Answer accuracy: question, what was covered, what was missed."""
     rows = [["Question", "Covered", "Missed"]]
@@ -235,7 +220,6 @@ def _accuracy(result, st):
     t.setStyle(_table_style())
     return t
 
-
 def _table_style():
     """Shared header/grid style for the detail tables."""
     return TableStyle([
@@ -250,7 +234,6 @@ def _table_style():
         ("LEFTPADDING", (0, 0), (-1, -1), 8),
         ("RIGHTPADDING", (0, 0), (-1, -1), 8),
     ])
-
 
 def build_report(result):
     """Render a QA result dict to PDF bytes."""

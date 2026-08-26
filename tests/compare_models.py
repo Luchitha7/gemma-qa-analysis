@@ -24,9 +24,8 @@ from qa_summary import SUMMARY_PROMPT
 from sample_call import TRANSCRIPT
 
 DEFAULT_MODELS = [os.environ.get("GEMMA_MODEL", "gemma3:4b")]
-RUNS = 3  # runs per model; we average to smooth out noise
+RUNS = 3
 TAGS_URL = os.environ.get("OLLAMA_TAGS_URL", "http://localhost:11434/api/tags")
-
 
 def installed_models():
     """Names of models currently pulled in Ollama (empty on any failure)."""
@@ -36,7 +35,6 @@ def installed_models():
         return {m["name"] for m in data.get("models", [])}
     except Exception:
         return set()
-
 
 def benchmark(model, prompt):
     """Run the prompt RUNS times; return average timing/token stats."""
@@ -61,7 +59,6 @@ def benchmark(model, prompt):
         "tokens_per_sec": (avg_out / avg_time) if avg_time else 0.0,
         "sample": sample,
     }
-
 
 if __name__ == "__main__":
     models = sys.argv[1:] or DEFAULT_MODELS

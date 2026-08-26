@@ -17,17 +17,10 @@ Produces three scores (0-100): agent score, conversation score, final QA score.
 import re
 
 from gemma_client import gemma
-from qa_intensity import analyze, INTENSITY_THRESHOLD  # RoBERTa sentiment + intensity
+from qa_intensity import analyze, INTENSITY_THRESHOLD
 from sample_call import TRANSCRIPT
 
-# ---- The QA parameters (edit these freely) --------------------------------
-# The scorecard line items come from the S-NET QA Form Guideline, grouped into
-# its Soft Skill (25%) and Technical Knowledge (50%) categories. Only items that
-# can be judged from a call transcript are included -- ticket/CRM items from the
-# Process Knowledge category (case notes, tagging, ticket numbers) are left out
-# because they are not observable in a transcript.
 PARAMETERS = [
-    # --- Soft Skill category ---
     ("Branding and Survey",
      "Did the agent use the greeting spiel (company name and their own name) "
      "promptly, the closing spiel, and offer the post-call survey?"),
@@ -41,7 +34,6 @@ PARAMETERS = [
      "Was the agent courteous and respectful, chose words that did not "
      "aggravate the situation, matched the customer's pace, and did not "
      "interrupt?"),
-    # --- Technical Knowledge category ---
     ("Paraphrasing",
      "Did the agent restate the customer's issue in their own words early on to "
      "confirm they understood the concern?"),
@@ -70,23 +62,16 @@ PARAMETERS = [
 
 RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
 
-# How the final QA score is weighted between the two sub-scores.
-# (Kept for the older agent-only view; the full call score uses FINAL_WEIGHTS.)
 AGENT_WEIGHT = 0.7
 CONVERSATION_WEIGHT = 0.3
 
-# The full call score blends everything we measure. Answer accuracy and response
-# time can be missing (no matched question / no timestamps); when a part is
-# missing its weight is dropped and the rest are re-balanced so they still
-# add up. Weights sum to 1.0 when everything is present.
 FINAL_WEIGHTS = {
-    "agent": 0.45,          # how the agent handled the call (Gemma scorecard)
-    "accuracy": 0.20,       # did the agent give correct answers (RAG)
-    "compliance": 0.20,     # did the agent break any rules (RAG)
-    "conversation": 0.10,   # how the customer sounded overall (RoBERTa)
-    "response_time": 0.05,  # how fast the agent replied (timestamps)
+    "agent": 0.45,
+    "accuracy": 0.20,
+    "compliance": 0.20,
+    "conversation": 0.10,
+    "response_time": 0.05,
 }
-
 
 def final_qa_score(agent, conversation, accuracy=None,
                    compliance=None, response_time=None, weights=None):
@@ -114,17 +99,14 @@ def final_qa_score(agent, conversation, accuracy=None,
     blended = sum(v * weights[k] for k, v in available.items())
     return round(blended / total_weight, 1)
 
-
 def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
-
 
 def agent_harsh_lines(rows):
     """Agent's OWN lines that RoBERTa scored as harsh/negative (rude tone)."""
     return [r for r in rows
             if r["speaker"].lower() == "agent"
             and r["sentiment"] <= INTENSITY_THRESHOLD]
-
 
 def build_prompt(transcript_text, intense_moments, harsh_lines):
     criteria = "\n".join(f"- {name}: {desc}" for name, desc in PARAMETERS)
@@ -165,7 +147,6 @@ Transcript:
 {transcript_text}
 """
 
-
 def apply_tone_penalty(ratings, harsh_lines):
     """Data-based safety net: if RoBERTa shows the agent's own lines were harsh,
     the Tone rating cannot be a PASS (Gemma alone is too lenient)."""
@@ -178,13 +159,11 @@ def apply_tone_penalty(ratings, harsh_lines):
             r["reason"] = f"{r['reason']} [{note}]".strip() if r["reason"] else note
     return ratings
 
-
 def parse_ratings(reply):
     """Pull a PASS/PARTIAL/FAIL rating + reason for each parameter."""
     results = []
     for name, _ in PARAMETERS:
         rating, reason = None, ""
-        # find the line that mentions this criterion
         for line in reply.splitlines():
             if name.lower() in line.lower():
                 found = re.search(r"\b(PASS|PARTIAL|FAIL)\b", line, re.IGNORECASE)
@@ -196,15 +175,13 @@ def parse_ratings(reply):
         results.append({"name": name, "rating": rating, "reason": reason})
     return results
 
-
 def conversation_score(rows):
     """0-100 from how the CLIENT sounded overall (RoBERTa sentiment)."""
     client = [r["sentiment"] for r in rows if r["speaker"].lower() == "client"]
     if not client:
         return 50.0
-    avg = sum(client) / len(client)          # -1 .. +1
-    return round((avg + 1) / 2 * 100, 1)     # 0 .. 100
-
+    avg = sum(client) / len(client)
+    return round((avg + 1) / 2 * 100, 1)
 
 if __name__ == "__main__":
     transcript_text = format_transcript(TRANSCRIPT)

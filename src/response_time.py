@@ -13,14 +13,11 @@ This uses only the timestamps, so it costs NO LLM tokens.
 
 import re
 
-# A leading timestamp like [00:15], (00:15) or [01:02:03].
 _LEADING_TIME = re.compile(r"^[\[\(]\s*(\d{1,2}):(\d{2})(?::(\d{2}))?\s*[\]\)]")
 
-# Tuning (seconds). A reply within GOOD is great; beyond MAX scores zero.
-GOOD_SECONDS = 5      # replied within 5s -> full marks
-SLOW_SECONDS = 12     # 12s or more is flagged as "slow"
-MAX_SECONDS = 25      # 25s or more -> zero marks for that reply
-
+GOOD_SECONDS = 5
+SLOW_SECONDS = 12
+MAX_SECONDS = 25
 
 def leading_time_seconds(line):
     """Seconds from a leading timestamp on a line, or None if there isn't one."""
@@ -29,9 +26,8 @@ def leading_time_seconds(line):
         return None
     mins, secs, third = int(m.group(1)), int(m.group(2)), m.group(3)
     if third is None:
-        return mins * 60 + secs            # mm:ss
-    return mins * 3600 + secs * 60 + int(third)  # hh:mm:ss
-
+        return mins * 60 + secs
+    return mins * 3600 + secs * 60 + int(third)
 
 def response_delays(turns, times):
     """For each client turn, how long until the agent's next reply.
@@ -58,14 +54,12 @@ def response_delays(turns, times):
                 break
     return rows
 
-
 def _one_score(delay):
     if delay <= GOOD_SECONDS:
         return 1.0
     if delay >= MAX_SECONDS:
         return 0.0
     return (MAX_SECONDS - delay) / (MAX_SECONDS - GOOD_SECONDS)
-
 
 def response_time_score(delays):
     """Overall 0-100 from all the reply delays (None if no timed replies)."""
@@ -74,8 +68,6 @@ def response_time_score(delays):
     per = [_one_score(d["delay"]) for d in delays]
     return round(sum(per) / len(per) * 100, 1)
 
-
-# A small built-in demo transcript (timestamps with deliberate delays).
 _DEMO = [
     ("00:00", "Agent", "Thank you for calling HomeNet support, how can I help?"),
     ("00:06", "Client", "I was charged twice for my subscription this month."),
@@ -87,7 +79,6 @@ _DEMO = [
     ("00:44", "Client", "Great, thank you."),
     ("01:10", "Agent", "You're welcome, is there anything else?"),
 ]
-
 
 if __name__ == "__main__":
     turns = [(spk, txt) for _t, spk, txt in _DEMO]

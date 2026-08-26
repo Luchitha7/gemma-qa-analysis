@@ -25,7 +25,6 @@ from transformers import pipeline
 from sample_call import TRANSCRIPT
 
 CONFIDENCE_THRESHOLD = 0.6
-# A line counts as an "intense moment" when sentiment is strongly negative.
 INTENSITY_THRESHOLD = -0.7
 
 MODEL_NAME = os.environ.get("ROBERTA_MODEL", "cardiffnlp/twitter-roberta-base-sentiment-latest")
@@ -36,14 +35,12 @@ classifier = pipeline(
     top_k=None,
 )
 
-
 def signed_sentiment(text):
     """Return a score from -1 (negative) to +1 (positive), 0 if unsure."""
     scores = {row["label"]: row["score"] for row in classifier(text)[0]}
     if max(scores.values()) < CONFIDENCE_THRESHOLD:
         return 0.0
     return scores["positive"] - scores["negative"]
-
 
 def analyze(transcript):
     """Score every line and mark the intense (strongly negative) ones."""
@@ -59,7 +56,6 @@ def analyze(transcript):
             "intense": intense,
         })
     return rows
-
 
 if __name__ == "__main__":
     rows = analyze(TRANSCRIPT)

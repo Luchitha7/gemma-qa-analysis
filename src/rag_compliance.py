@@ -14,10 +14,7 @@ from rag import max_similarity
 from knowledge_base import COMPLIANCE_RULES
 from sample_call import TRANSCRIPT
 
-# An agent line counts as breaking a rule if it's at least this close in meaning
-# to one of that rule's violation examples.
 VIOLATION_THRESHOLD = 0.45
-
 
 def check_compliance(transcript):
     """Return (per-rule results, compliance score 0-100)."""
@@ -30,7 +27,6 @@ def check_compliance(transcript):
         broken = False
         evidence = ""
         best = 0.0
-        # best match of each agent line against this rule's violation examples
         for line, (score, _idx) in zip(agent_lines,
                                        max_similarity(agent_lines, examples)):
             if score > best:
@@ -50,7 +46,6 @@ def check_compliance(transcript):
     kept = sum(1 for r in results if r["status"] == "OK")
     score = round(kept / len(results) * 100, 1) if results else 100.0
     return results, score
-
 
 if __name__ == "__main__":
     results, score = check_compliance(TRANSCRIPT)

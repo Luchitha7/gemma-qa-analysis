@@ -41,24 +41,16 @@ from report_pdf import build_report
 
 app = FastAPI()
 
-
 class TranscriptIn(BaseModel):
     transcript: str
 
-
-# Different transcripts name the two sides differently. Map them to a
-# consistent "Agent" / "Client" so the rest of the pipeline works the same.
 AGENT_LABELS = {"agent", "ai", "bot", "assistant", "rep", "representative",
                 "support", "operator", "advisor"}
 CLIENT_LABELS = {"client", "customer", "caller", "user", "member", "subscriber"}
 
-# Leading timestamp like "[00:15]", "[00:15:03]" or "(00:15)".
 TIMESTAMP_RE = re.compile(r"^[\[\(]\s*\d{1,2}:\d{2}(?::\d{2})?\s*[\]\)]\s*")
-# A whole line that is just a bracketed note, e.g. "[Latency: 1.8s ...]".
 NOTE_LINE_RE = re.compile(r"^[\[\(].*[\]\)]$")
-# A leading stage-direction inside the text, e.g. "[Frustrated] No!".
 STAGE_DIR_RE = re.compile(r"^[\[\(][^\]\)]*[\]\)]\s*")
-
 
 def normalize_speaker(name):
     """Map a raw speaker label to 'Agent'/'Client', or keep it if unknown."""
@@ -68,7 +60,6 @@ def normalize_speaker(name):
     if key in CLIENT_LABELS:
         return "Client"
     return name.strip()
-
 
 def parse_transcript(raw):
     """Turn pasted text into [(speaker, text), ...].
@@ -82,37 +73,33 @@ def parse_transcript(raw):
     attached to the previous turn (so a wrapped sentence still works).
     """
     turns = []
-    times = []               # seconds (or None) for each turn, kept aligned
+    times = []
     for line in raw.splitlines():
         line = line.strip()
         if not line:
             continue
 
-        # read a leading timestamp (if any) BEFORE we strip it off
         t = leading_time_seconds(line)
         line = TIMESTAMP_RE.sub("", line).strip()
         if not line:
             continue
 
-        # a line that is only a bracketed note (e.g. "[Latency: ...]") is skipped
         if NOTE_LINE_RE.match(line):
             continue
 
         if ":" in line:
             speaker, text = line.split(":", 1)
             speaker, text = speaker.strip(), text.strip()
-            text = STAGE_DIR_RE.sub("", text).strip()  # drop "[Frustrated]" etc.
+            text = STAGE_DIR_RE.sub("", text).strip()
             if speaker and len(speaker) <= 20 and text:
                 turns.append((normalize_speaker(speaker), text))
                 times.append(t)
                 continue
 
-        # no clear speaker -> tack onto the previous turn
         if turns:
             prev_speaker, prev_text = turns[-1]
             turns[-1] = (prev_speaker, f"{prev_text} {line}".strip())
     return turns, times
-
 
 def band(score):
     if score >= 80:
@@ -121,10 +108,8 @@ def band(score):
         return "OKAY"
     return "NEEDS IMPROVEMENT"
 
-
 def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
-
 
 def run_pipeline(transcript, times=None):
     """Same steps as qa_report.py, returned as a dict for the web page."""
@@ -132,12 +117,9 @@ def run_pipeline(transcript, times=None):
     if times is None:
         times = [None] * len(transcript)
 
-    # RoBERTa: sentiment + tense moments
     rows = analyze(transcript)
     intense = [r for r in rows if r["intense"]]
 
-    # Gemma: three small calls. Reset the token tally first so we can measure
-    # exactly how many tokens this one report used.
     reset_token_usage()
     harsh = agent_harsh_lines(rows)
     summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text),
@@ -150,16 +132,11 @@ def run_pipeline(transcript, times=None):
               label="suggestions"))
     token_usage = get_token_usage()
 
-    # RAG: how accurate were the agent's answers vs the ideal answers?
     accuracy_results, accuracy_overall = check_accuracy(transcript)
-    # RAG: did the agent break any compliance rules? (token-free)
     compliance_results, compliance_score = check_compliance(transcript)
-    # Timestamps: how fast did the agent reply? (token-free)
     delays = response_delays(transcript, times)
     rt_score = response_time_score(delays)
 
-    # Scores. Load the current weights (the saved file if present, otherwise
-    # the code defaults) so a change made from the frontend takes effect here.
     weights = load_weights()
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
     agent = round(sum(rated) / len(rated), 1) if rated else 0.0
@@ -167,7 +144,6 @@ def run_pipeline(transcript, times=None):
     final = final_qa_score(agent, conv, accuracy_overall,
                            compliance_score, rt_score, weights=weights)
 
-    # How the transcript was read (so a mis-parse can't hide behind a score).
     agent_lines = sum(1 for s, _ in transcript if s.lower() == "agent")
     client_lines = sum(1 for s, _ in transcript if s.lower() == "client")
     warning = ""
@@ -233,7 +209,6 @@ def run_pipeline(transcript, times=None):
         ],
     }
 
-
 @app.post("/analyze")
 def analyze_call(payload: TranscriptIn):
     transcript, times = parse_transcript(payload.transcript)
@@ -244,7 +219,6 @@ def analyze_call(payload: TranscriptIn):
         return run_pipeline(transcript, times)
     except Exception as exc:
         raise HTTPException(status_code=502, detail=str(exc))
-
 
 def score_job(transcript_text):
     """Score one transcript. Run by the queue's workers, not by a request.
@@ -258,10 +232,7 @@ def score_job(transcript_text):
                          "'Client: ...' on separate lines.")
     return run_pipeline(transcript, times)
 
-
-# Start the fixed pool of workers that drain the queue. Done once, at import.
 job_queue.start_workers(score_job)
-
 
 @app.post("/jobs")
 def submit_job(payload: TranscriptIn):
@@ -291,7 +262,6 @@ def submit_job(payload: TranscriptIn):
         )
     return info
 
-
 @app.get("/jobs/{job_id}")
 def job_status(job_id: str):
     """Fetch a job by id: its status, and the result once it is done."""
@@ -300,12 +270,10 @@ def job_status(job_id: str):
         raise HTTPException(status_code=404, detail="No job with that id.")
     return job
 
-
 @app.get("/jobs")
 def list_jobs():
     """The whole queue at a glance: how many are waiting, running, and done."""
     return job_queue.snapshot()
-
 
 @app.get("/queue", response_class=HTMLResponse)
 def queue_monitor():
@@ -317,7 +285,6 @@ def queue_monitor():
     polite 'busy' rather than overloading.
     """
     return QUEUE_PAGE
-
 
 QUEUE_PAGE = """
 <html>
@@ -451,12 +418,10 @@ QUEUE_PAGE = """
 </html>
 """
 
-
 @app.get("/weights")
 def get_weights():
     """Return the weights currently in effect (saved file, or defaults)."""
     return load_weights()
-
 
 @app.post("/weights")
 def set_weights(payload: dict):
@@ -470,7 +435,6 @@ def set_weights(payload: dict):
     """
     saved = save_weights(payload)
     return {"status": "saved", "weights": saved}
-
 
 @app.post("/report")
 def report(payload: dict):
@@ -495,7 +459,6 @@ def report(payload: dict):
                  "attachment; filename=call_qa_report.pdf"},
     )
 
-
 SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
 [00:06] Client: I was charged twice for my subscription this month and I want it fixed.
 [00:09] Agent: I'm sorry to hear that. Let me pull up your account and take a look.
@@ -505,7 +468,6 @@ SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help
 [00:39] Agent: I've refunded the extra charge and it will show up in 3 to 5 business days.
 [00:43] Client: Alright, thank you.
 [01:09] Agent: Of course. Is there anything else I can help you with?"""
-
 
 @app.get("/", response_class=HTMLResponse)
 def index():
@@ -938,11 +900,9 @@ def index():
     </html>
     """.replace("%SAMPLE%", _sample_json())
 
-
 def _sample_json():
     import json
     return json.dumps(SAMPLE)
-
 
 if __name__ == "__main__":
     import uvicorn

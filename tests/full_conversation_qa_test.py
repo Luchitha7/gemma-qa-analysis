@@ -23,10 +23,6 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
 CONFIDENCE_THRESHOLD = 0.6
 
-# A representative ~5-minute support/account call between an employee (agent)
-# and a client. Deliberately mixed for QA purposes: the agent does some things
-# well (empathy, ownership, clear next steps) and some things poorly (a defensive
-# moment, a policy dodge), so there is something real to score.
 TRANSCRIPT = [
     ("Agent", "Good afternoon, thanks for calling, you're through to Daniel, how can I help today?"),
     ("Client", "Hi Daniel, yeah, I'm calling because I've been charged twice for my subscription this month."),
@@ -72,13 +68,11 @@ Examples:
 
 Sentence: "{line}\""""
 
-
 def roberta_score(text):
     scores = {row["label"]: row["score"] for row in classifier(text)[0]}
     if max(scores.values()) < CONFIDENCE_THRESHOLD:
         return 0.0
     return scores["positive"] - scores["negative"]
-
 
 def gemma(prompt, timeout=120):
     gemma_model = os.environ.get("GEMMA_MODEL", "gemma3:4b")
@@ -88,17 +82,12 @@ def gemma(prompt, timeout=120):
     )
     return result.stdout.strip()
 
-
 def gemma_line_score(text):
     raw = gemma(GEMMA_LINE_PROMPT.format(line=text))
     first = raw.splitlines()[0].strip() if raw else ""
     m = re.search(r"-?\d+\.?\d*", first)
     return (float(m.group()), raw) if m else (None, raw)
 
-
-# ---------------------------------------------------------------------------
-# 1. Quantify text volume
-# ---------------------------------------------------------------------------
 full_text = "\n".join(f"{speaker}: {line}" for speaker, line in TRANSCRIPT)
 words = full_text.split()
 word_count = len(words)
@@ -106,7 +95,6 @@ char_count = len(full_text)
 token_ids = tokenizer(full_text)["input_ids"]
 token_count = len(token_ids)
 
-# ~130 words/min is a normal conversational speaking pace
 est_minutes = word_count / 130
 
 print("=" * 78)
@@ -121,9 +109,6 @@ print(f"RoBERTa max input:           512 tokens  ->  transcript "
       f"{'EXCEEDS' if token_count > 512 else 'fits within'} it")
 print()
 
-# ---------------------------------------------------------------------------
-# 2. Approach A: line-by-line
-# ---------------------------------------------------------------------------
 print("=" * 78)
 print("APPROACH A: LINE-BY-LINE")
 print("=" * 78)
@@ -148,9 +133,6 @@ print(f"Gemma   line-by-line avg sentiment: {gemma_avg:+.3f} "
       f"({len(gemma_scores)}/{len(TRANSCRIPT)} parsed)")
 print()
 
-# ---------------------------------------------------------------------------
-# 3. Approach B: whole transcript at once (only the LLM can do this in one pass)
-# ---------------------------------------------------------------------------
 print("=" * 78)
 print("APPROACH B: WHOLE TRANSCRIPT AT ONCE (Gemma)")
 print("=" * 78)

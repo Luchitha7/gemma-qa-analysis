@@ -12,8 +12,6 @@ this script stays lightweight and has no model dependencies.
     python weights_review.py
 """
 
-# The weights currently live in qa_agent.py. Repeated here so this tool needs no
-# heavy imports. If the real weights change, update this to match.
 CURRENT = {
     "agent": 0.45,
     "accuracy": 0.20,
@@ -22,7 +20,6 @@ CURRENT = {
     "response_time": 0.05,
 }
 
-# Alternatives to compare against the current weighting.
 ALTERNATIVES = {
     "Compliance first": {
         "agent": 0.40, "accuracy": 0.20, "compliance": 0.30,
@@ -38,8 +35,6 @@ ALTERNATIVES = {
     },
 }
 
-# Realistic call profiles: fixed sub-scores (0-100) for typical call types.
-# Each is what the pipeline might produce for that kind of call.
 PROFILES = {
     "Strong all round": {
         "agent": 90, "accuracy": 88, "compliance": 100,
@@ -67,7 +62,6 @@ PROFILES = {
     },
 }
 
-
 def band(score):
     """Same bands the app uses."""
     if score >= 80:
@@ -75,7 +69,6 @@ def band(score):
     if score >= 60:
         return "OKAY"
     return "NEEDS IMPROVEMENT"
-
 
 def blend(parts, weights):
     """Copy of final_qa_score: weighted blend, missing parts dropped."""
@@ -86,11 +79,9 @@ def blend(parts, weights):
     blended = sum(v * weights[k] for k, v in available.items())
     return round(blended / total_weight, 1)
 
-
 def short_band(b):
     """Compact tag so the table stays narrow."""
     return {"GOOD": "GOOD", "OKAY": "OKAY", "NEEDS IMPROVEMENT": "NEEDS"}[b]
-
 
 if __name__ == "__main__":
     weight_sets = {"Current": CURRENT, **ALTERNATIVES}
@@ -113,7 +104,6 @@ if __name__ == "__main__":
     print("call across a GOOD / OKAY / NEEDS boundary. Those are the cases to")
     print("look at when deciding if the weights need adjusting.\n")
 
-    # Call out band changes explicitly so they are easy to spot.
     print("Band changes vs Current:")
     any_change = False
     for pname, parts in PROFILES.items():

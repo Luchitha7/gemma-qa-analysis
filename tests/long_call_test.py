@@ -16,7 +16,6 @@ classifier = pipeline(
 
 CONFIDENCE_THRESHOLD = 0.6
 
-# Same placeholder weights used in app.py / call_score_test.py
 KEYWORD_WEIGHTS = {
     "cancel": -0.7,
     "complaint": -0.6,
@@ -42,9 +41,6 @@ Examples:
 
 Sentence: "{line}\""""
 
-# A longer fake call transcript, roughly the length/shape of a real support
-# call: friendly opening, a problem surfaces, frustration builds, then a
-# resolution and friendly close.
 CALL = [
     "Hi, thanks for calling support, how can I help you today?",
     "Hey, I'm having trouble with my recent order, it hasn't arrived yet.",
@@ -65,13 +61,11 @@ CALL = [
     "Have a great day, and thanks for your patience.",
 ]
 
-
 def roberta_score(text):
     scores = {row["label"]: row["score"] for row in classifier(text)[0]}
     if max(scores.values()) < CONFIDENCE_THRESHOLD:
         return 0.0
     return scores["positive"] - scores["negative"]
-
 
 def gemma_score(text):
     gemma_model = os.environ.get("GEMMA_MODEL", "gemma3:4b")
@@ -89,12 +83,10 @@ def gemma_score(text):
     except ValueError:
         return None, raw
 
-
 def keyword_impact_for(text):
     return sum(
         KEYWORD_WEIGHTS[match.lower()] for match in KEYWORD_PATTERN.findall(text)
     )
-
 
 print(f"{'#':<3} {'RoBERTa':>8} {'Gemma':>8}   Line")
 print("-" * 90)

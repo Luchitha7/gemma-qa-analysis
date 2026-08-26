@@ -22,10 +22,8 @@ from rag_accuracy import check_accuracy
 from rag_compliance import check_compliance
 from sample_call import TRANSCRIPT
 
-
 def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
-
 
 def band(score):
     if score >= 80:
@@ -34,21 +32,17 @@ def band(score):
         return "OKAY"
     return "NEEDS IMPROVEMENT"
 
-
 def rule(char="="):
     print(char * 78)
-
 
 if __name__ == "__main__":
     transcript_text = format_transcript(TRANSCRIPT)
 
     print("\nGenerating QA report (RoBERTa + Gemma)...\n")
 
-    # --- RoBERTa: sentiment + tense moments ---
     rows = analyze(TRANSCRIPT)
     intense = [r for r in rows if r["intense"]]
 
-    # --- Gemma: three separate small calls (with token tracking) ---
     reset_token_usage()
     harsh = agent_harsh_lines(rows)
     summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text),
@@ -61,18 +55,15 @@ if __name__ == "__main__":
               label="suggestions"))
     token_usage = get_token_usage()
 
-    # --- RAG (token-free): answer accuracy + compliance ---
     accuracy_results, accuracy_overall = check_accuracy(TRANSCRIPT)
     compliance_results, compliance_score = check_compliance(TRANSCRIPT)
 
-    # --- Scores ---
     rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
     agent = round(sum(rated) / len(rated), 1) if rated else 0.0
     conv = conversation_score(rows)
     final = final_qa_score(agent, conv, accuracy_overall,
                            compliance_score, response_time=None)
 
-    # ================= REPORT =================
     print()
     rule()
     print("                      CALL QA REPORT")

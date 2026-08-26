@@ -25,16 +25,13 @@ print("\nLoading the RoBERTa model (one-time)...")
 classifier = pipeline(task="sentiment-analysis", model=MODEL, top_k=None)
 tokenizer = AutoTokenizer.from_pretrained(MODEL)
 
-
 def pause(msg="Press Enter to continue"):
     input(f"\n   [ {msg} ] ")
-
 
 def roberta_label(text):
     scores = {row["label"]: row["score"] for row in classifier(text)[0]}
     label, score = max(scores.items(), key=lambda kv: kv[1])
     return label, score
-
 
 def gemma(prompt, timeout=60):
     gemma_model = os.environ.get("GEMMA_MODEL", "gemma3:4b")
@@ -44,14 +41,11 @@ def gemma(prompt, timeout=60):
     )
     return out.stdout.strip()
 
-
 def banner(title):
     print("\n" + "=" * 70)
     print(title)
     print("=" * 70)
 
-
-# ---------------------------------------------------------------------------
 NEGATIVE = "This is the worst experience I've ever had."
 
 banner("STEP 1  —  The same sentence, judged by both models")
@@ -94,7 +88,6 @@ print("   and a tiny wording change can flip it back.")
 pause()
 
 banner("STEP 5  —  The real limitation for FULL-call scoring")
-# The real ~5-minute benchmark call (34 turns) from full_conversation_qa_test.py
 sample_call = " ".join([
     "Good afternoon, thanks for calling, you're through to Daniel, how can I help today?",
     "Hi Daniel, yeah, I'm calling because I've been charged twice for my subscription this month.",

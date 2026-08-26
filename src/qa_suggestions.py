@@ -11,10 +11,8 @@ import re
 from gemma_client import gemma
 from sample_call import TRANSCRIPT
 
-
 def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
-
 
 def clean_suggestions(text):
     """Drop Gemma's opening filler line (e.g. "Here's a short output...").
@@ -36,7 +34,6 @@ def clean_suggestions(text):
             lines.pop(0)
     return "\n".join(lines).strip()
 
-
 def suggestions_to_list(text):
     """Turn the cleaned suggestions text into a flat list of point strings.
 
@@ -46,14 +43,13 @@ def suggestions_to_list(text):
     """
     items = []
     for line in text.splitlines():
-        s = line.replace("**", "").replace("__", "").strip()   # drop markdown bold
-        s = s.lstrip("-*•").strip()          # bullet marker
-        s = re.sub(r"^\d+[.)]\s*", "", s)    # leading "1." / "1)"
-        if not s or s.endswith(":"):         # blank line or a heading
+        s = line.replace("**", "").replace("__", "").strip()
+        s = s.lstrip("-*•").strip()
+        s = re.sub(r"^\d+[.)]\s*", "", s)
+        if not s or s.endswith(":"):
             continue
         items.append(s)
     return items
-
 
 SUGGESTIONS_PROMPT = """You are a call quality analyst. Read this customer service call and give a short, simple output with two parts:
 
@@ -68,7 +64,6 @@ Keep it short and plain. No scores, no long paragraphs.
 Transcript:
 {transcript}
 """
-
 
 if __name__ == "__main__":
     transcript = format_transcript(TRANSCRIPT)

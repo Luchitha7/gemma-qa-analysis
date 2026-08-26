@@ -25,15 +25,11 @@ from knowledge_base import QA_PAIRS
 
 MODEL_NAME = os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
 
-# How confident a match is, based on the similarity score.
 STRONG_MATCH = 0.55
-WEAK_MATCH = 0.35   # below this we treat it as "no reliable match"
+WEAK_MATCH = 0.35
 
-# Load once. First run downloads the small model (~90 MB), then it's cached.
 _model = SentenceTransformer(MODEL_NAME)
 
-# Build the search index: the main question AND every variant point back to the
-# same knowledge-base entry, so any phrasing can find it.
 _index_texts = []
 _index_to_pair = []
 for pair_idx, pair in enumerate(QA_PAIRS):
@@ -44,7 +40,6 @@ for pair_idx, pair in enumerate(QA_PAIRS):
 _index_embeddings = _model.encode(_index_texts, convert_to_tensor=True,
                                   normalize_embeddings=True)
 
-
 def _confidence(score):
     if score >= STRONG_MATCH:
         return "strong"
@@ -52,18 +47,15 @@ def _confidence(score):
         return "weak"
     return "none"
 
-
 def similarity(text_a, text_b):
     """How close two pieces of text are in meaning (0..1)."""
     emb = _model.encode([text_a, text_b], convert_to_tensor=True,
                         normalize_embeddings=True)
     return round(float(util.cos_sim(emb[0], emb[1])), 3)
 
-
 def embed(texts):
     """Normalized embeddings for a list of texts (for batch comparisons)."""
     return _model.encode(texts, convert_to_tensor=True, normalize_embeddings=True)
-
 
 def max_similarity(lines, references):
     """For each line, the best similarity to any reference, and which one.
@@ -74,13 +66,12 @@ def max_similarity(lines, references):
         return []
     line_emb = embed(lines)
     ref_emb = embed(references)
-    sims = util.cos_sim(line_emb, ref_emb)   # rows = lines, cols = references
+    sims = util.cos_sim(line_emb, ref_emb)
     out = []
     for row in sims:
         best_idx = int(row.argmax())
         out.append((round(float(row[best_idx]), 3), best_idx))
     return out
-
 
 def retrieve(query, k=1):
     """Return the top-k closest knowledge-base entries for a client question.
@@ -93,7 +84,6 @@ def retrieve(query, k=1):
                                     normalize_embeddings=True)
     scores = util.cos_sim(query_embedding, _index_embeddings)[0]
 
-    # best score per knowledge-base entry
     best_per_pair = {}
     for i, score in enumerate(scores):
         pair_idx = _index_to_pair[i]
@@ -114,14 +104,13 @@ def retrieve(query, k=1):
         })
     return results
 
-
 if __name__ == "__main__":
     tests = [
         "my net has been dead all day",
         "you charged me two times",
         "let me talk to your manager",
         "the router light is red and blinking",
-        "what is your refund policy for gift cards",  # should be a weak/no match
+        "what is your refund policy for gift cards",
     ]
 
     print("\n" + "=" * 78)

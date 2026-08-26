@@ -27,7 +27,6 @@ test, run against a build with the limits relaxed or removed.
 import os
 import sys
 
-# Add src to sys.path so env_loader is discoverable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 try:
     import env_loader
@@ -36,7 +35,6 @@ except ImportError:
 
 from locust import HttpUser, task, tag, between
 
-# One turn per line; a small, realistic support call for /analyze.
 SAMPLE_TRANSCRIPT = (
     "[00:00] Agent: Thank you for calling HomeNet support, how can I help?\n"
     "[00:06] Client: I was charged twice this month and I want it fixed.\n"
@@ -45,8 +43,6 @@ SAMPLE_TRANSCRIPT = (
     "[00:43] Client: Alright, thank you."
 )
 
-# A pre-computed result so /report can be tested on its light path (just
-# rendering a PDF) without re-running the whole scoring pipeline.
 SAMPLE_RESULT = {
     "final": 78.4, "agent": 82.0, "conversation": 71.0, "band": "OKAY",
     "accuracy_overall": 80.0, "compliance_score": 75.0,
@@ -57,26 +53,22 @@ SAMPLE_RESULT = {
     "accuracy": [], "suggestions": ["Verify identity before account changes."],
 }
 
-# Default weights payload for POST /weights.
 SAMPLE_WEIGHTS = {
     "agent": 0.45, "accuracy": 0.20, "compliance": 0.20,
     "conversation": 0.10, "response_time": 0.05,
 }
 
-
 class QAUser(HttpUser):
     """One simulated user of the QA API."""
 
-    # Default target; override with --host on the command line if needed.
     _app_host = os.environ.get("APP_HOST", "localhost")
     _app_port = os.environ.get("APP_PORT", "8000")
     host = f"http://{_app_host}:{_app_port}"
 
-    # Wait 1 to 3 seconds between actions, like a real person clicking around.
     wait_time = between(1, 3)
 
     @tag("light")
-    @task(5)  # called most often: the cheapest, most common read
+    @task(5)
     def read_weights(self):
         self.client.get("/weights", name="GET /weights")
 
@@ -88,13 +80,11 @@ class QAUser(HttpUser):
     @tag("light")
     @task(1)
     def download_report(self):
-        # Sends a ready-made result, so this exercises the PDF rendering only.
         self.client.post("/report", json=SAMPLE_RESULT, name="POST /report")
 
     @tag("heavy")
     @task(1)
     def analyze(self):
-        # The expensive path: Gemma + RoBERTa + RAG. Expect seconds per call.
         self.client.post("/analyze",
                          json={"transcript": SAMPLE_TRANSCRIPT},
                          name="POST /analyze")
@@ -102,15 +92,6 @@ class QAUser(HttpUser):
     @tag("queue")
     @task(1)
     def submit_job(self):
-        # The queued path: the request is accepted instantly and lined up,
-        # so even a burst of users gets a fast reply and the model is never
-        # hit by more than QA_MAX_CONCURRENT scores at once. Compare this to
-        # the 'heavy' tag: same 150 users, but here nothing overloads.
-        #
-        # Under capacity limits, a full system replies 503 "busy, retry
-        # shortly". That is the endpoint working as designed, not an error, so
-        # we count both 200 (accepted) and 503 (politely turned away) as
-        # success. Only other codes are real failures.
         with self.client.post("/jobs",
                               json={"transcript": SAMPLE_TRANSCRIPT},
                               name="POST /jobs",

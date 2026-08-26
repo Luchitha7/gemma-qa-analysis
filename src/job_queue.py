@@ -29,37 +29,27 @@ import threading
 import uuid
 from datetime import datetime, timezone
 
-# How many jobs may be scored at the same time. Small on purpose (see above).
 MAX_CONCURRENT = int(os.environ.get("QA_MAX_CONCURRENT", "2"))
 
-# The most jobs the system will hold at once: the ones being scored plus the
-# few waiting. Once this is reached, new requests are turned away with a
-# "busy, retry shortly" instead of being queued, so the app never holds a huge
-# backlog in memory. Set QA_CAPACITY=2 to only ever accept what is being scored
-# (the strictest "reject the rest" behaviour); raise it for a bigger buffer.
 CAPACITY = int(os.environ.get("QA_CAPACITY", "5"))
 
-# How long to tell a turned-away caller to wait before trying again (seconds).
 RETRY_AFTER = int(os.environ.get("QA_RETRY_AFTER", "10"))
 
-_jobs = {}                 # job_id -> job record (includes the raw payload)
-_lock = threading.Lock()   # guards _jobs, _seq and _active
-_pending = queue.Queue()   # job_ids waiting to be scored, in arrival order
-_seq = 0                   # running count, for a human-friendly job number
-_active = 0                # jobs in the system now (queued + processing)
+_jobs = {}
+_lock = threading.Lock()
+_pending = queue.Queue()
+_seq = 0
+_active = 0
 _started = False
-
 
 def _now():
     return datetime.now(timezone.utc).isoformat()
-
 
 def _public(job):
     """A copy safe to hand back over the API (drops the raw payload)."""
     if job is None:
         return None
     return {k: v for k, v in job.items() if k != "payload"}
-
 
 def submit(payload):
     """Try to accept a scoring request.
@@ -86,7 +76,7 @@ def submit(payload):
         job = {
             "id": job_id,
             "number": _seq,
-            "status": "queued",       # queued -> processing -> done | error
+            "status": "queued",
             "submitted_at": _now(),
             "started_at": None,
             "finished_at": None,
@@ -99,12 +89,10 @@ def submit(payload):
     _pending.put(job_id)
     return True, record
 
-
 def get(job_id):
     """Return a job record by id, or None if there is no such job."""
     with _lock:
         return _public(_jobs.get(job_id))
-
 
 def snapshot():
     """A view of the whole queue: counts plus every job, oldest first.
@@ -129,7 +117,6 @@ def snapshot():
         "jobs": sorted(jobs, key=lambda j: j["number"]),
     }
 
-
 def start_workers(score_fn):
     """Start the fixed pool of worker threads once.
 
@@ -148,12 +135,11 @@ def start_workers(score_fn):
             name=f"qa-worker-{i + 1}", daemon=True,
         ).start()
 
-
 def _worker_loop(score_fn):
     """One worker: take the next job, score it, store the outcome, repeat."""
     global _active
     while True:
-        job_id = _pending.get()          # blocks until a job is available
+        job_id = _pending.get()
         try:
             with _lock:
                 job = _jobs.get(job_id)
@@ -166,7 +152,7 @@ def _worker_loop(score_fn):
             try:
                 result = score_fn(payload)
                 status, value, err = "done", result, None
-            except Exception as exc:     # never let one bad job kill the worker
+            except Exception as exc:
                 status, value, err = "error", None, str(exc)
             with _lock:
                 job = _jobs.get(job_id)
@@ -175,7 +161,6 @@ def _worker_loop(score_fn):
                     job["result"] = value
                     job["error"] = err
                     job["finished_at"] = _now()
-                # this job is finished, so it frees a slot for a new request
                 _active = max(0, _active - 1)
         finally:
             _pending.task_done()
