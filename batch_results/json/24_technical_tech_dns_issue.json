@@ -1,0 +1,240 @@
+{
+  "final": 62.5,
+  "agent": 100.0,
+  "conversation": 58.0,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1590,
+    "output": 396,
+    "total": 1986,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 308,
+        "output": 65
+      },
+      {
+        "label": "scorecard",
+        "input": 943,
+        "output": 271
+      },
+      {
+        "label": "suggestions",
+        "input": 339,
+        "output": 60
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Ryan Duke contacted HomeNet support because some websites were not loading while others did. The agent identified a DNS issue and switched his connection to updated servers which resolved the problem for both sites. He then guided Ryan through testing one of the failing sites again, confirming its functionality. Finally, he thanked him for the quick resolution.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly used Ryan Duke\u2019s name throughout the conversation."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Ryan's frustration with slow websites, demonstrating understanding."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm and helpful tone, avoiding interruptions or defensive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Ryan\u2019s issue (\"some websites won't load but others do\") to confirm comprehension."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Ryan\u2019s account details (name and account number)."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the specific sites failing, demonstrating a desire to understand the problem better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated that DNS issues were being addressed and offered further assistance."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully resolved the issue by switching Ryan\u2019s connection."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the problem, offering a quick fix."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Ryan's concerns without interrupting or becoming defensive."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue was resolved and offered further assistance before closing."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Shopping websites and bank are failing.",
+    "DNS issue resolved.",
+    "Check DNS settings on the client\u2019s devices for any recent changes or updates.",
+    "Monitor the sites again in a few hours to ensure stability."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.215
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "BROKEN",
+      "evidence": "That's a good detail, it often points to a DNS issue. Let me check.",
+      "closeness": 0.518
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.27
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.367
+    }
+  ],
+  "response_time_score": 94.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Some websites won't load but others do. It's strange.",
+      "agent_text": "That's a good detail, it often points to a DNS issue. Let me check."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "Can I confirm your name and account for security?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Ryan Duke, account 71230.",
+      "agent_text": "Thanks, Ryan. Which sites are failing, roughly?"
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "A couple of shopping sites and my bank.",
+      "agent_text": "Understood. Let me switch your connection to our updated DNS servers."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 12,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "Done. Can you try one of those sites again for me?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Loading... yes, my bank works now.",
+      "agent_text": "Great. Try the shopping one too."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "That one loads as well now.",
+      "agent_text": "Perfect, that confirms it was DNS. It should stay fixed now."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Thank you, that was quick.",
+      "agent_text": "You're welcome. Anything else I can help with?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "Some websites won't load but others do. It's strange.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "That's a good detail, it often points to a DNS issue. Let me check.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Loading... yes, my bank works now.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "Great. Try the shopping one too.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "That one loads as well now.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "Perfect, that confirms it was DNS. It should stay fixed now.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

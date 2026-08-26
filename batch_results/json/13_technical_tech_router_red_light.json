@@ -1,0 +1,252 @@
+{
+  "final": 62.2,
+  "agent": 100.0,
+  "conversation": 55.1,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 20,
+    "agent": 10,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1737,
+    "output": 412,
+    "total": 2149,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 353,
+        "output": 62
+      },
+      {
+        "label": "scorecard",
+        "input": 1000,
+        "output": 311
+      },
+      {
+        "label": "suggestions",
+        "input": 384,
+        "output": 39
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Nina Cole contacted HomeNet because her internet light was flashing red and indicating no signal reaching the router. The agent remotely diagnosed a problem with the router hardware, confirming there were no issues with the line itself. They then offered to replace the faulty router free of charge with simple setup instructions for troubleshooting if needed.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the standard greeting \u2013 \u201cHomeNet, this is Ben, how can I help?\u201d promptly and offered a closing spiel."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.76,
+      "text": "The internet light on my router is flashing red."
+    }
+  ],
+  "suggestions": [
+    "Router light flashing red indicates no signal reaching the router.",
+    "Replacement is free of charge and will arrive in two days.",
+    "Call back for assistance if needed."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.271
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.328
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.325
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "BROKEN",
+      "evidence": "Just call us back and we'll walk you through it step by step.",
+      "closeness": 0.532
+    }
+  ],
+  "response_time_score": 93.3,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "The internet light on my router is flashing red.",
+      "agent_text": "Thanks for describing it, that detail helps. Let me look into it."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "Can I confirm your name and address first?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Nina Cole, 5 Birch Lane.",
+      "agent_text": "Thank you, Nina. A flashing red light usually means no signal is reaching the router."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So what does that mean for me?",
+      "agent_text": "Let me run a remote diagnostic to see whether it's the line or the router itself."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 16,
+      "slow": true,
+      "client_text": "Go ahead.",
+      "agent_text": "The diagnostic shows the line is fine up to your property, so it points to the router hardware."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Do I have to buy a new one?",
+      "agent_text": "No. Since the router is HomeNet equipment, I'll replace it free of charge."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's a relief.",
+      "agent_text": "The replacement will arrive in two days with simple setup instructions."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "And if I get stuck setting it up?",
+      "agent_text": "Just call us back and we'll walk you through it step by step."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Perfect, thank you.",
+      "agent_text": "You're welcome, Nina. Anything else I can help with today?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "The internet light on my router is flashing red.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "strong",
+      "agent_answer": "Thanks for describing it, that detail helps. Let me look into it.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Do I have to buy a new one?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "No. Since the router is HomeNet equipment, I'll replace it free of charge.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "And if I get stuck setting it up?",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "Just call us back and we'll walk you through it step by step.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

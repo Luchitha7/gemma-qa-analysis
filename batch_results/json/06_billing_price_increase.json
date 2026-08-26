@@ -1,0 +1,254 @@
+{
+  "final": 67.2,
+  "agent": 95.0,
+  "conversation": 40.5,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1602,
+    "output": 473,
+    "total": 2075,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 294,
+        "output": 72
+      },
+      {
+        "label": "scorecard",
+        "input": 983,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 325,
+        "output": 81
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because they were concerned about unexpectedly increased prices in their account and requested clarification on how these changes occurred. The agent explained that price adjustments are handled through email notifications, but the client did not receive any such communications. After attempting to resolve the issue with a discount offer, the client expressed dissatisfaction with the response and sought further assistance from a manager.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly, offering a post-call survey as standard practice."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used \u201cHomeNet\u201d in their greeting and repeated the customer's name throughout the conversation to demonstrate personalization."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded with \"I understand this is frustrating\" which validates the customer\u2019s feelings, even though they didn\u2019t resolve the issue immediately."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a calm tone despite the customer's frustration, avoiding interrupting or escalating the conversation. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s concern (\"You're saying you haven't received any notice about price changes\") to ensure understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed the customer\u2019s account details (\u201cCan I see your account number?\u201d) before proceeding."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked, \u201cCould you tell me exactly what happened when you saw the notification?\u201d This is a good probing question."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent stated they couldn't offer any discounts and explained that the pricing was set by the company."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 While not fully resolving the issue, the agent offered to check the customer\u2019s spam folder, which could be a small step toward finding the information."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent acknowledged responsibility (\"I understand this is frustrating\") and stated they weren't able to do anything about the pricing."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.8,
+      "text": "Why has my price gone up without any notice?"
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "This is a terrible way to treat a long-time customer."
+    }
+  ],
+  "suggestions": [
+    "The client wants an explanation for price increases.",
+    "They are frustrated with not receiving notification of changes.",
+    "Investigate email spam folder to confirm delivery.",
+    "Offer a small, targeted discount as a gesture of goodwill (if possible).",
+    "Escalate the client to a supervisor \u2013 offer to do so."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.328
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.29
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.419
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.43
+    }
+  ],
+  "response_time_score": 98.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Why has my price gone up without any notice?",
+      "agent_text": "Prices go up sometimes. It's in the terms you agreed to."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "But nobody told me it was changing.",
+      "agent_text": "We send emails about that."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I never got one.",
+      "agent_text": "Then you should check your spam folder."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "That's not really my fault though.",
+      "agent_text": "There's nothing I can do about the pricing, it's set by the company."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Can you at least offer me a discount to make up for it?",
+      "agent_text": "No, I don't have anything for that."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "This is a terrible way to treat a long-time customer.",
+      "agent_text": "I'm just telling you how it is."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Can I speak to a manager then?",
+      "agent_text": "A manager will tell you the exact same thing."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I still want to speak to one.",
+      "agent_text": "They're all busy right now."
+    }
+  ],
+  "accuracy_overall": 11.1,
+  "accuracy": [
+    {
+      "client_question": "Why has my price gone up without any notice?",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "strong",
+      "agent_answer": "Prices go up sometimes. It's in the terms you agreed to.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [
+        "explain the reason for the increase"
+      ],
+      "missed": [
+        "offer to review the bill line by line",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "Can I speak to a manager then?",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "strong",
+      "agent_answer": "A manager will tell you the exact same thing.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [],
+      "missed": [
+        "agree to the request politely",
+        "transfer to a supervisor",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "I still want to speak to one.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "weak",
+      "agent_answer": "They're all busy right now.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [],
+      "missed": [
+        "agree to the request politely",
+        "transfer to a supervisor",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

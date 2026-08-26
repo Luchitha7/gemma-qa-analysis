@@ -1,0 +1,18 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Noah, how can I help?
+[00:06] Client: I upgraded my speed online but I'm still getting the old speed.
+[00:13] Agent: Let me look into that, upgrades don't always apply instantly. Verifying your account first.
+[00:22] Client: It's Maya Cross.
+[00:26] Agent: Thanks, Maya. I can see the upgrade is on your account.
+[00:33] Client: So why is it slow?
+[00:37] Agent: The line hasn't been re-provisioned to the new profile yet.
+[00:44] Client: Can you do that now?
+[00:48] Agent: Yes, I'll push the new profile to your line right now.
+[00:55] Client: Okay.
+[01:07] Agent: Done. Please restart your router so it picks up the new speed.
+[01:15] Client: Restarting it now.
+[01:30] Agent: Take your time, it needs a moment to reconnect.
+[01:37] Client: It's back on.
+[01:40] Agent: Great, run a speed test whenever you like and you should see the higher figure.
+[01:48] Client: Testing now... yes, it's much faster.
+[01:53] Agent: Perfect. Anything else I can help with today?
+[01:59] Client: No, that's everything, thanks.

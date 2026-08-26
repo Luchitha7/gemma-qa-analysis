@@ -1,0 +1,327 @@
+{
+  "final": 61.9,
+  "agent": 100.0,
+  "conversation": 17.0,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1729,
+    "output": 459,
+    "total": 2188,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 308,
+        "output": 62
+      },
+      {
+        "label": "scorecard",
+        "input": 1082,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 339,
+        "output": 77
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called HomeNet because their internet connection repeatedly cuts out, resulting in three calls to resolve the issue. The agent initially suggested rebooting the router but did not investigate further. After multiple attempts at troubleshooting, the agent acknowledged that it could be a user-side problem and offered to send a technician.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly, offering a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.9,
+      "text": "My connection keeps cutting out, this is the third time I've called about it."
+    },
+    {
+      "turn": 4,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "Every single time you people tell me that and it never fixes it."
+    },
+    {
+      "turn": 6,
+      "speaker": "Client",
+      "sentiment": -0.71,
+      "text": "I've done it a hundred times. Can you actually investigate the line?"
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.75,
+      "text": "Then why does it keep dropping every day?"
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.9,
+      "text": "Three calls and nobody will look into it properly."
+    },
+    {
+      "turn": 14,
+      "speaker": "Client",
+      "sentiment": -0.79,
+      "text": "A note isn't a fix. I want a technician."
+    },
+    {
+      "turn": 18,
+      "speaker": "Client",
+      "sentiment": -0.87,
+      "text": "This is going in circles."
+    }
+  ],
+  "suggestions": [
+    "Want: A technician to investigate the line issue.",
+    "Problem: Connection drops despite rebooting router.",
+    "Check modem status remotely (if possible).",
+    "Verify the client\u2019s equipment is compatible with HomeNet service.",
+    "Document the problem and escalate to a supervisor for further investigation."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.311
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "BROKEN",
+      "evidence": "Because I don't see a fault. Reboot it again and see.",
+      "closeness": 0.46
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.267
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.275
+    }
+  ],
+  "response_time_score": 93.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "My connection keeps cutting out, this is the third time I've called about it.",
+      "agent_text": "Have you rebooted the router?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Every single time you people tell me that and it never fixes it.",
+      "agent_text": "Well, it's the standard first step."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I've done it a hundred times. Can you actually investigate the line?",
+      "agent_text": "I don't see anything wrong on my end."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Then why does it keep dropping every day?",
+      "agent_text": "It could easily be your own equipment."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "It's your router, it's rented from you.",
+      "agent_text": "Doesn't mean it's faulty."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Three calls and nobody will look into it properly.",
+      "agent_text": "I've made a note."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 6,
+      "slow": false,
+      "client_text": "A note isn't a fix. I want a technician.",
+      "agent_text": "I can't just send one out for this."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Why not?",
+      "agent_text": "Because I don't see a fault. Reboot it again and see."
+    }
+  ],
+  "accuracy_overall": 12.5,
+  "accuracy": [
+    {
+      "client_question": "My connection keeps cutting out, this is the third time I've called about it.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Have you rebooted the router?",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [
+        "check whether it is the router or the line"
+      ],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Every single time you people tell me that and it never fixes it.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "Well, it's the standard first step.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Then why does it keep dropping every day?",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "weak",
+      "agent_answer": "It could easily be your own equipment.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's your router, it's rented from you.",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "strong",
+      "agent_answer": "Doesn't mean it's faulty.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [
+        "confirm there is no charge for company-equipment faults"
+      ],
+      "missed": [
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 50.0
+    },
+    {
+      "client_question": "Three calls and nobody will look into it properly.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "strong",
+      "agent_answer": "I've made a note.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "A note isn't a fix. I want a technician.",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "I can't just send one out for this.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

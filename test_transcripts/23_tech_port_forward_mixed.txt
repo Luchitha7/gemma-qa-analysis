@@ -1,0 +1,16 @@
+[00:00] Agent: HomeNet, this is Ivy.
+[00:04] Client: I need to set up port forwarding for my gaming console.
+[00:10] Agent: That's an advanced setting, I'm not sure we support that.
+[00:17] Client: Other providers help their customers with this.
+[00:23] Agent: Let me check what I'm allowed to do.
+[00:29] Client: Okay.
+[00:44] Agent: I can't change it for you, but I can send you the steps for the router admin page.
+[00:53] Client: Can you at least walk me through it?
+[00:58] Agent: I'm not really trained on that part.
+[01:03] Client: So who is?
+[01:07] Agent: You could try our online guide.
+[01:12] Client: I was hoping for actual help.
+[01:16] Agent: I'll email you the guide and the admin login details.
+[01:23] Client: Fine, send them over.
+[01:27] Agent: Sent. Is there anything else?
+[01:31] Client: No, I'll try it myself I guess.

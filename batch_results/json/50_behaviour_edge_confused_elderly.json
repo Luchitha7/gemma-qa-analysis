@@ -1,0 +1,247 @@
+{
+  "final": 72.0,
+  "agent": 100.0,
+  "conversation": 54.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 21,
+    "agent": 11,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1803,
+    "output": 477,
+    "total": 2280,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 371,
+        "output": 78
+      },
+      {
+        "label": "scorecard",
+        "input": 1030,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 402,
+        "output": 79
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client contacted HomeNet support because they were experiencing an orange blinking light on their internet box, which usually indicates it\u2019s still trying to connect. The agent guided the customer through troubleshooting by checking for proper connections at both ends of the device and patiently addressed the issue until the light changed from orange to white \u2013 indicating a successful connection.  The client expressed gratitude for the assistance provided.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"\u2026your internet box has a light I don't understand.\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided clear expectations about troubleshooting (\"\u2026while we wait, is the box plugged in firmly at both ends?\") and offered further assistance before closing."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.92,
+      "text": "I'm not very good with these things, my internet box has a light I don't understand."
+    }
+  ],
+  "suggestions": [
+    "The client has an orange blinking light indicating it\u2019s still trying to connect.",
+    "The box is plugged in firmly at both ends.",
+    "Double-check the power supply to ensure stable operation.",
+    "Ask about any recent changes that might have triggered this issue (e.g., new devices, software updates)."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.272
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.408
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.257
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.365
+    }
+  ],
+  "response_time_score": 97.5,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 9,
+      "slow": false,
+      "client_text": "I'm not very good with these things, my internet box has a light I don't understand.",
+      "agent_text": "That's completely fine, we'll take it slowly together, no rush at all."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Thank you, that's kind.",
+      "agent_text": "Can you tell me which colour the light is?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "It's orange and blinking.",
+      "agent_text": "Thank you. An orange blinking light usually means it's still trying to connect."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Is that bad?",
+      "agent_text": "Not at all, it often sorts itself out. Let's give it a couple of minutes."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Alright, I'll wait with you.",
+      "agent_text": "While we wait, is the box plugged in firmly at both ends?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Let me check. Yes, both ends are in.",
+      "agent_text": "Perfect, that's exactly what we want."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Oh, the light just changed.",
+      "agent_text": "Wonderful, what colour is it now?"
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "It's white now.",
+      "agent_text": "That means you're connected. You did that perfectly."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Thank you so much for your patience.",
+      "agent_text": "It was my pleasure. Is there anything else I can help you with?"
+    },
+    {
+      "agent_turn": 21,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's everything.",
+      "agent_text": "Take care and have a lovely day."
+    }
+  ],
+  "accuracy_overall": 16.7,
+  "accuracy": [
+    {
+      "client_question": "I'm not very good with these things, my internet box has a light I don't understand.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "That's completely fine, we'll take it slowly together, no rush at all.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's orange and blinking.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "Thank you. An orange blinking light usually means it's still trying to connect.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [
+        "run a remote diagnostic or check the line"
+      ],
+      "missed": [
+        "explain what the red light means",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 33.3
+    }
+  ]
+}

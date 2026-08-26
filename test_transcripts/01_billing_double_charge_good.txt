@@ -1,0 +1,19 @@
+[00:00] Agent: Thank you for calling HomeNet, my name is Priya, how can I help you today?
+[00:06] Client: Hi Priya, I was charged twice for my subscription this month and I want it fixed.
+[00:12] Agent: I'm sorry about that, being double charged is frustrating. Let me help you sort it out.
+[00:20] Client: Thank you.
+[00:22] Agent: Can I verify your account first? Could I have your full name and the email on the account?
+[00:31] Client: Sure, it's Karen Mills, karen.mills@email.com.
+[00:38] Agent: Thank you, Karen. I have your account open now. Let me look at this month's charges.
+[00:48] Client: Okay.
+[01:02] Agent: I can confirm there are two identical charges on the same day, so that's clearly a duplicate.
+[01:10] Client: Right, so what happens now?
+[01:13] Agent: I'll refund the extra charge in full. It will show back on your account in 3 to 5 business days.
+[01:23] Client: And will it happen again next month?
+[01:27] Agent: Good question. I'm also raising a ticket with billing so the duplicate is investigated and prevented.
+[01:37] Client: That's reassuring, thank you.
+[01:40] Agent: You'll get a confirmation email with the refund and the ticket number shortly.
+[01:48] Client: Perfect.
+[01:50] Agent: Is there anything else I can help you with today, Karen?
+[01:55] Client: No, that's everything. Thanks for your help.
+[01:58] Agent: My pleasure. Thank you for choosing HomeNet and have a great day.

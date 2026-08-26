@@ -1,0 +1,26 @@
+[00:00] Agent: HomeNet complaints line, this is Bianca, how can I help you today?
+[00:06] Client: I want to make a formal complaint about repeated failures on my account.
+[00:14] Agent: I'm sorry it's reached that point. I'll take this seriously and log it properly.
+[00:23] Client: Good, because I've had enough.
+[00:28] Agent: Let me verify the account first, then you can walk me through everything.
+[00:36] Client: It's Alan Webb, account 60215.
+[00:43] Agent: Thank you, Alan. Please tell me each issue and I'll record them all.
+[00:51] Client: Three outages this month, two missed technician visits, and a wrong bill.
+[01:00] Agent: That's a lot to deal with, and I understand your frustration.
+[01:07] Client: It's been exhausting.
+[01:10] Agent: I've logged all three issues under a single complaint reference.
+[01:18] Client: Will anything actually change this time?
+[01:23] Agent: Yes. I'm assigning it to a case manager who will own it until it's resolved.
+[01:31] Client: When will they contact me?
+[01:35] Agent: Within two business days, and they'll stay with your case throughout.
+[01:43] Client: What about the wrong bill in the meantime?
+[01:49] Agent: I'll correct the billing error now so that part is fixed today.
+[01:57] Client: And the missed technician visits?
+[02:02] Agent: The case manager will rebook those with priority and confirm a firm date with you.
+[02:11] Client: That's better than being passed around.
+[02:16] Agent: I'll also apply an interim credit now for the trouble you've had.
+[02:23] Client: Thank you, that's the first useful call I've had.
+[02:29] Agent: I'm glad. Here's your complaint reference for your records.
+[02:36] Client: I'll write that down.
+[02:39] Agent: Take your time. Is there anything else I can help you with today?
+[02:46] Client: No, that's everything, thank you.

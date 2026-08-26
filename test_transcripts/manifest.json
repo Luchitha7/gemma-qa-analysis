@@ -1,0 +1,352 @@
+[
+  {
+    "file": "01_billing_double_charge_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "02_billing_high_bill_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "medium",
+    "turns": 22
+  },
+  {
+    "file": "03_billing_refund_after_cancel_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "04_billing_late_fee_mixed.txt",
+    "category": "billing",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "05_billing_payment_failed_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "06_billing_price_increase_poor.txt",
+    "category": "billing",
+    "quality": "poor",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "07_billing_discount_request_mixed.txt",
+    "category": "billing",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "08_billing_wrong_plan_charged_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "09_billing_autopay_setup_good.txt",
+    "category": "billing",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "10_billing_dispute_unresolved_poor.txt",
+    "category": "billing",
+    "quality": "poor",
+    "length": "medium",
+    "turns": 20
+  },
+  {
+    "file": "11_tech_internet_down_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "12_tech_slow_speed_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 20
+  },
+  {
+    "file": "13_tech_router_red_light_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 20
+  },
+  {
+    "file": "14_tech_wifi_dropping_mixed.txt",
+    "category": "technical",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "15_tech_no_service_outage_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "16_tech_installation_delay_mixed.txt",
+    "category": "technical",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 21
+  },
+  {
+    "file": "17_tech_email_setup_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "18_tech_intermittent_repeat_poor.txt",
+    "category": "technical",
+    "quality": "poor",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "19_tech_new_modem_setup_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 20
+  },
+  {
+    "file": "20_tech_tv_not_working_mixed.txt",
+    "category": "technical",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "21_tech_vpn_work_issue_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "22_tech_long_troubleshoot_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "long",
+    "turns": 33
+  },
+  {
+    "file": "23_tech_port_forward_mixed.txt",
+    "category": "technical",
+    "quality": "mixed",
+    "length": "short",
+    "turns": 16
+  },
+  {
+    "file": "24_tech_dns_issue_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "25_tech_speed_upgrade_setup_good.txt",
+    "category": "technical",
+    "quality": "good",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "26_account_cancel_retention_mixed.txt",
+    "category": "account",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 21
+  },
+  {
+    "file": "27_account_change_plan_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "28_account_update_address_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "29_account_add_line_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "30_account_name_change_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "31_account_transfer_service_mixed.txt",
+    "category": "account",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 20
+  },
+  {
+    "file": "32_account_password_reset_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "33_account_downgrade_poor.txt",
+    "category": "account",
+    "quality": "poor",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "34_account_contract_end_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "35_account_cancel_bereavement_good.txt",
+    "category": "account",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "36_esc_demand_supervisor_good.txt",
+    "category": "escalation",
+    "quality": "good",
+    "length": "short",
+    "turns": 15
+  },
+  {
+    "file": "37_esc_refuse_supervisor_poor.txt",
+    "category": "escalation",
+    "quality": "poor",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "38_esc_threaten_cancel_mixed.txt",
+    "category": "escalation",
+    "quality": "mixed",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "39_esc_repeated_issue_poor.txt",
+    "category": "escalation",
+    "quality": "poor",
+    "length": "medium",
+    "turns": 19
+  },
+  {
+    "file": "40_esc_compensation_request_good.txt",
+    "category": "escalation",
+    "quality": "good",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "41_esc_prev_agent_complaint_mixed.txt",
+    "category": "escalation",
+    "quality": "mixed",
+    "length": "medium",
+    "turns": 18
+  },
+  {
+    "file": "42_esc_formal_complaint_good.txt",
+    "category": "escalation",
+    "quality": "good",
+    "length": "long",
+    "turns": 26
+  },
+  {
+    "file": "43_esc_angry_outage_mixed.txt",
+    "category": "escalation",
+    "quality": "mixed",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "44_edge_rude_agent_autofail.txt",
+    "category": "behaviour",
+    "quality": "poor",
+    "length": "short",
+    "turns": 16
+  },
+  {
+    "file": "45_edge_agent_blames_customer_poor.txt",
+    "category": "behaviour",
+    "quality": "poor",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "46_edge_dead_air_slow_mixed.txt",
+    "category": "behaviour",
+    "quality": "mixed",
+    "length": "short",
+    "turns": 17
+  },
+  {
+    "file": "47_edge_simple_payment_check_good.txt",
+    "category": "behaviour",
+    "quality": "good",
+    "length": "short",
+    "turns": 15
+  },
+  {
+    "file": "48_edge_general_info_short_good.txt",
+    "category": "behaviour",
+    "quality": "good",
+    "length": "short",
+    "turns": 16
+  },
+  {
+    "file": "49_edge_excellent_handling_good.txt",
+    "category": "behaviour",
+    "quality": "good",
+    "length": "long",
+    "turns": 27
+  },
+  {
+    "file": "50_edge_confused_elderly_good.txt",
+    "category": "behaviour",
+    "quality": "good",
+    "length": "medium",
+    "turns": 21
+  }
+]

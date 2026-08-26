@@ -1,0 +1,20 @@
+[00:00] Agent: HomeNet, this is Sam, how can I help?
+[00:05] Client: I'm moving and want to keep my service at the new place.
+[00:12] Agent: Let me check whether we cover your new address. Verifying your account first.
+[00:20] Client: It's Dan Reyes.
+[00:24] Agent: Thanks, Dan. What's the new address?
+[00:30] Client: 88 Hill Road.
+[00:34] Agent: Give me a moment to check coverage there.
+[00:52] Client: Do you cover it?
+[00:56] Agent: Partially. We serve the area, but the top speeds there are lower than your current plan.
+[01:05] Client: That's disappointing.
+[01:09] Agent: I understand. It's due to the infrastructure at that location.
+[01:16] Client: So what are my options?
+[01:20] Agent: I can transfer you to the best available plan there and adjust the price to match the lower speed.
+[01:30] Client: So I pay less at least?
+[01:34] Agent: Yes, the price would drop to reflect the plan.
+[01:40] Client: Alright, do that.
+[01:43] Agent: When's your move date?
+[01:47] Client: The twentieth.
+[01:50] Agent: I'll schedule the transfer for the twentieth. You'll get the details by email.
+[01:58] Client: Okay, thanks.

@@ -1,0 +1,19 @@
+[00:00] Agent: Thank you for calling HomeNet, this is Nadia, how can I help?
+[00:06] Client: I'm being billed for the premium plan but I only signed up for the basic one.
+[00:14] Agent: I'm sorry about the confusion, let me verify and get to the bottom of it.
+[00:22] Client: Okay.
+[00:24] Agent: Could you confirm your name and the address on the account?
+[00:30] Client: Peter Shaw, 8 Maple Avenue.
+[00:36] Agent: Thank you, Peter. Let me compare your order to what's being billed.
+[00:44] Client: Sure.
+[00:57] Agent: You're right. Your original order was the basic plan, but the account shows premium.
+[01:06] Client: So it's a mistake on your end.
+[01:10] Agent: It is, and I apologise. I'll switch you back to basic effective immediately.
+[01:19] Client: And the extra I've paid?
+[01:23] Agent: I'll refund the difference for every month you were overcharged.
+[01:31] Client: How many months was that?
+[01:35] Agent: Three months, and I've calculated the total. The refund will process in 3 to 5 business days.
+[01:45] Client: Excellent, thank you.
+[01:48] Agent: You'll get a confirmation email with the plan change and refund. Anything else I can help with?
+[01:57] Client: No, that's perfect.
+[02:00] Agent: Thank you, Peter, have a great day.

@@ -3,6 +3,9 @@ __pycache__/
 *.pyc
 .DS_Store
 
+# Node dependencies (frontend). Reinstalled from package.json, not source.
+node_modules/
+
 # Runtime state: weights saved from the frontend. The defaults live in code
 # (qa_agent.py FINAL_WEIGHTS), so this file is a local override, not source.
 weights.json

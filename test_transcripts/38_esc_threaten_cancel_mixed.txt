@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet, this is Tara, how can I help?
+[00:05] Client: If this isn't fixed today, I'm cancelling and switching to a competitor.
+[00:12] Agent: I really don't want to lose you. Tell me what's going on and I'll do my best.
+[00:21] Client: My internet has been unreliable for two weeks and nobody fixes it.
+[00:29] Agent: Two weeks is unacceptable, I'm sorry. Let me verify the account and look at the history.
+[00:38] Client: It's Mike Ross.
+[00:42] Agent: Thank you, Mike. I can see three prior tickets on this.
+[00:49] Client: And still nothing has changed.
+[00:54] Agent: I understand your frustration. I'm escalating this to our network team as a priority fault.
+[01:03] Client: I've heard that before.
+[01:07] Agent: This time I'm attaching the full history so they can't restart from scratch.
+[01:15] Client: And what do I get for two weeks of this?
+[01:20] Agent: I'll credit you for the affected period as a start.
+[01:27] Client: That's the least you can do.
+[01:31] Agent: You're right, and I'll personally follow up on the ticket.
+[01:38] Client: Fine, but this is your last chance before I leave.
+[01:44] Agent: Understood. Here's the reference, and the credit is applied. I'll be in touch with an update.

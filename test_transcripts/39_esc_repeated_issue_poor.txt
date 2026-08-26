@@ -1,0 +1,19 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: This is the fifth time I've called about the same problem.
+[00:09] Agent: What's the issue?
+[00:13] Client: You should have notes on my account, look them up.
+[00:19] Agent: I don't have time to read every note.
+[00:24] Client: Excuse me? That's literally your job.
+[00:30] Agent: Just tell me the problem again.
+[00:34] Client: My connection drops every single day.
+[00:39] Agent: Have you rebooted the router?
+[00:44] Client: Yes, a thousand times. I want this escalated.
+[00:50] Agent: There's nothing to escalate.
+[00:55] Client: Five calls is nothing to escalate?
+[01:00] Agent: I don't see a fault on my screen.
+[01:05] Client: Then send someone to check.
+[01:09] Agent: I can't just book a technician.
+[01:14] Client: Why is everyone here useless?
+[01:18] Agent: There's no need for that.
+[01:22] Client: Then actually help me.
+[01:25] Agent: Reboot it again and call back if it continues.

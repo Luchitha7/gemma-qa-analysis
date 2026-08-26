@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: I want to downgrade my plan, it's too pricey for me.
+[00:09] Agent: Downgrading isn't really recommended.
+[00:14] Client: I didn't ask for a recommendation, I want a cheaper plan.
+[00:21] Agent: You'll lose your current speed, you know.
+[00:26] Client: I know, that's fine.
+[00:30] Agent: Are you sure? You'll probably regret it.
+[00:35] Client: Yes, I'm sure. Just do it, please.
+[00:41] Agent: There might be a fee for changing.
+[00:46] Client: What fee? How much?
+[00:50] Agent: I'm not certain, you'll see it on your next bill.
+[00:56] Client: You can't tell me the fee before I agree?
+[01:02] Agent: Not exactly, no.
+[01:06] Client: That's ridiculous.
+[01:09] Agent: Do you still want to proceed or not?
+[01:14] Client: Yes, downgrade it, but I want the fee confirmed.
+[01:20] Agent: I'll process the change. Check your bill for the fee.
+[01:26] Client: This has been a frustrating call.

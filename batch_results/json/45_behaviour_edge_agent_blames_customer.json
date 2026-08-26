@@ -1,0 +1,289 @@
+{
+  "final": 57.9,
+  "agent": 95.8,
+  "conversation": 25.2,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1522,
+    "output": 420,
+    "total": 1942,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 259,
+        "output": 78
+      },
+      {
+        "label": "scorecard",
+        "input": 973,
+        "output": 256
+      },
+      {
+        "label": "suggestions",
+        "input": 290,
+        "output": 86
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because their router stopped working overnight and they suspect the issue was caused by a previous setup or movement of the equipment. The agent initially suggested fault with the client\u2019s actions but ultimately stated that the system malfunctioned on its own, leading to a replacement being required. After investigating, the agent confirmed the customer is responsible for the faulty equipment and will proceed with replacing it.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the standard greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed the customer by name (\"You\")."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration with the router failure, stating \u201cThis doesn't just break\u2026\u201d"
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a calm tone and avoided defensive language. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"Your router stopped working overnight.\")"
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked clarifying questions about when the problem started (\u201cWhen did you first notice this?\u201d)."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent offered a potential solution (replacement) but didn't immediately escalate."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent suggested a replacement router, which is a logical next step."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged responsibility (\"If you broke it\u2026\")."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened to the customer\u2019s explanation without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the replacement router was offered and initiated."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.86,
+      "text": "My router stopped working overnight."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "sentiment": -0.82,
+      "text": "These don't just break, so it's your fault somehow."
+    },
+    {
+      "turn": 14,
+      "speaker": "Client",
+      "sentiment": -0.82,
+      "text": "For your faulty equipment?"
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.92,
+      "text": "This is absurd, I want this escalated."
+    }
+  ],
+  "suggestions": [
+    "The client wants a router replaced due to faulty equipment.",
+    "They believe the issue was caused by an incorrect setup by a technician.",
+    "Verify the client\u2019s rental agreement for details about equipment responsibility.",
+    "Check if there are any recent changes in the client's home environment that could have triggered this (e.g., new devices)."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.377
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "BROKEN",
+      "evidence": "You must have set it up incorrectly.",
+      "closeness": 0.987
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.35
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.392
+    }
+  ],
+  "response_time_score": 98.1,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 5,
+      "slow": false,
+      "client_text": "My router stopped working overnight.",
+      "agent_text": "You probably did something to it."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I didn't touch it at all.",
+      "agent_text": "These don't just break, so it's your fault somehow."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "It's your rented equipment.",
+      "agent_text": "You must have set it up incorrectly."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 6,
+      "slow": false,
+      "client_text": "A technician set it up, not me.",
+      "agent_text": "Then you moved something."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I really didn't.",
+      "agent_text": "Well, the system won't just fail on its own."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "So what are you going to do about it?",
+      "agent_text": "You'll probably have to pay for a replacement."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "For your faulty equipment?",
+      "agent_text": "If you broke it, yes."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 6,
+      "slow": false,
+      "client_text": "This is absurd, I want this escalated.",
+      "agent_text": "There's nothing to escalate."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My router stopped working overnight.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "strong",
+      "agent_answer": "You probably did something to it.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's your rented equipment.",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "You must have set it up incorrectly.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "A technician set it up, not me.",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "Then you moved something.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "So what are you going to do about it?",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "You'll probably have to pay for a replacement.",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "For your faulty equipment?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "strong",
+      "agent_answer": "If you broke it, yes.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

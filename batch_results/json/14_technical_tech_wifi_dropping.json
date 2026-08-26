@@ -1,0 +1,285 @@
+{
+  "final": 67.4,
+  "agent": 100.0,
+  "conversation": 43.8,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1562,
+    "output": 403,
+    "total": 1965,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 293,
+        "output": 60
+      },
+      {
+        "label": "scorecard",
+        "input": 945,
+        "output": 283
+      },
+      {
+        "label": "suggestions",
+        "input": 324,
+        "output": 60
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client reported frequent wifi drops and requested assistance with the issue. After investigating interference on their network channel, the agent remotely changed the channel setting to improve stability. While the change usually helps, there\u2019s no guarantee of complete resolution. The customer stated they might call back if it continues occurring.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the standard greeting and acknowledged the customer\u2019s issue promptly."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm tone and avoided interrupting or escalating the situation."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution (channel change) and explained what would happen next."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to the customer's concerns without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "My wifi keeps dropping every few minutes, it's driving me crazy."
+    }
+  ],
+  "suggestions": [
+    "WiFi drops frequently.",
+    "Interference on the channel is causing issues.",
+    "Check router settings for other channels.",
+    "Run a speed test to verify internet stability.",
+    "Schedule a technician visit if it continues."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.237
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.449
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.215
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.387
+    }
+  ],
+  "response_time_score": 92.2,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "My wifi keeps dropping every few minutes, it's driving me crazy.",
+      "agent_text": "Have you tried restarting the router?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Yes, several times already.",
+      "agent_text": "Try it again for me."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I just told you I did that multiple times.",
+      "agent_text": "Fine, let me actually look at the line then."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 16,
+      "slow": true,
+      "client_text": "Please.",
+      "agent_text": "There's some interference on your channel."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "What does that mean?",
+      "agent_text": "Other networks nearby are on the same channel as yours."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Can you fix it?",
+      "agent_text": "I'll change your wifi channel remotely, that should reduce the drops."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Should? Will it or won't it?",
+      "agent_text": "It usually helps, but I can't guarantee it completely."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "So I might be calling back again.",
+      "agent_text": "If it keeps happening, we can send a technician."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "You could have offered that sooner.",
+      "agent_text": "The channel change is applied. Give it a day."
+    }
+  ],
+  "accuracy_overall": 5.0,
+  "accuracy": [
+    {
+      "client_question": "My wifi keeps dropping every few minutes, it's driving me crazy.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Have you tried restarting the router?",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [
+        "check whether it is the router or the line"
+      ],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Yes, several times already.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "Try it again for me.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "I just told you I did that multiple times.",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "Fine, let me actually look at the line then.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Can you fix it?",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I'll change your wifi channel remotely, that should reduce the drops.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "So I might be calling back again.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "If it keeps happening, we can send a technician.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

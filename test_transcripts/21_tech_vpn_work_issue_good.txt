@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet business support, this is Ken, how can I help?
+[00:06] Client: I work from home and my work VPN keeps disconnecting on your network.
+[00:14] Agent: I understand how disruptive that is for work. Let me check your line stability.
+[00:23] Client: Thank you.
+[00:25] Agent: Can I confirm your name and the account for security?
+[00:32] Client: Alan Prior, business account 90114.
+[00:39] Agent: Thanks, Alan. Let me run a stability test over the last few hours.
+[00:48] Client: Sure.
+[01:05] Agent: I can see brief packet loss every so often, which would drop a VPN.
+[01:14] Client: So it is your network.
+[01:18] Agent: It looks that way. I'll prioritise your line and open a ticket with our network team.
+[01:27] Client: How long to fix?
+[01:31] Agent: They'll investigate within 24 hours, and I'll keep you posted with updates.
+[01:39] Client: I really need this stable for work.
+[01:44] Agent: Understood, I've flagged it as high priority given you work from home.
+[01:52] Client: Thank you.
+[01:54] Agent: Here's your reference number, and you'll hear from us within a day. Anything else?
+[02:03] Client: No, that's everything.

@@ -1,0 +1,19 @@
+[00:00] Agent: HomeNet support, this is Ruby, how can I help?
+[00:05] Client: I got married and want to change the name on my account.
+[00:12] Agent: Congratulations! I'd be glad to update that for you.
+[00:18] Client: Thank you.
+[00:20] Agent: For security, can you confirm your current name and the account postcode?
+[00:28] Client: Currently Emily Stone, postcode 6023.
+[00:35] Agent: Thank you, Emily. What's the new surname you'd like on the account?
+[00:43] Client: It's Harper now, Emily Harper.
+[00:48] Agent: Lovely. I may need to see a document later, but I can update it now.
+[00:56] Client: Do you need anything today?
+[01:00] Agent: Not right now, I'll note that a document may be requested by email.
+[01:08] Client: Okay.
+[01:10] Agent: The account now shows Emily Harper.
+[01:15] Client: Wonderful.
+[01:17] Agent: Would you like the billing and login email updated too?
+[01:24] Client: Yes, please update the email as well.
+[01:29] Agent: Done, both are updated. You'll get a confirmation shortly. Anything else?
+[01:37] Client: No, that's all, thank you so much.
+[01:41] Agent: My pleasure, and congratulations again.

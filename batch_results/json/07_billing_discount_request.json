@@ -1,0 +1,210 @@
+{
+  "final": 54.5,
+  "agent": 66.7,
+  "conversation": 54.3,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1638,
+    "output": 441,
+    "total": 2079,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 324,
+        "output": 59
+      },
+      {
+        "label": "scorecard",
+        "input": 959,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 355,
+        "output": 62
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Grace Owens contacted HomeNet requesting a loyalty discount after being a five-year customer. The agent initially checked for available promotions but found none applicable to her account. They then offered a six-month manual discount as a solution. After confirmation, the client accepted and thanked them for their assistance.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Grace by her name (\"Grace Owens\") immediately."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent responded dismissively to Grace\u2019s frustration, stating \u201cLet me verify your account.\u201d This is extremely unhelpful."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent used a curt tone (\u201cI don't see any promotions\u201d) and didn\u2019t acknowledge her feelings of being undervalued after five years as a customer."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "The agent restated Grace\u2019s request (\"I've been a customer for five years, can I get a loyalty discount?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Grace\u2019s name and account details with \u201cThanks, Grace.\u201d"
+    },
+    {
+      "name": "Probing",
+      "rating": "FAIL",
+      "reason": "\u2013 There was no probing beyond confirming the information provided."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent offered a specific discount amount (\"ten percent for six months\") but didn't explain *why* it was being applied or what the next steps were."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent simply applied a discount, without offering further assistance or addressing her concerns about the lack of promotions."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s frustration and stated they are \u201cworking to help.\u201d"
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened to Grace's initial request (\"I've been a customer for five years...\") before responding."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013"
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "A loyalty discount.",
+    "To maintain their five-year customer status.",
+    "Confirm Grace Owens\u2019 account details are accurate.",
+    "Check if there are any other available discounts or promotions for her."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.209
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.308
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.249
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.374
+    }
+  ],
+  "response_time_score": 88.1,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I've been a customer for five years, can I get a loyalty discount?",
+      "agent_text": "Let me verify your account and check what's available."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Sure, it's Grace Owens.",
+      "agent_text": "Thanks, Grace. Give me a moment to look through the offers."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 22,
+      "slow": true,
+      "client_text": "Take your time.",
+      "agent_text": "I'm still checking, please bear with me."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Hello? Still there?",
+      "agent_text": "Yes, sorry for the wait. I don't see any promotions you automatically qualify for."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Nothing at all for a five-year customer?",
+      "agent_text": "Let me see if I can apply a manual discount."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "I'd appreciate that.",
+      "agent_text": "I can add a ten percent discount for six months."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Is that the best you can do?",
+      "agent_text": "That's what I'm able to offer from my side."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Alright, that's better than nothing.",
+      "agent_text": "I've applied it, you'll see it next cycle. Anything else?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I've been a customer for five years, can I get a loyalty discount?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "Let me verify your account and check what's available.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

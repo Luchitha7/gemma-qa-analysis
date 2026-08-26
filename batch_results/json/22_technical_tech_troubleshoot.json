@@ -1,0 +1,323 @@
+{
+  "final": 73.2,
+  "agent": 95.8,
+  "conversation": 53.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 33,
+    "agent": 17,
+    "client": 16
+  },
+  "token_usage": {
+    "input": 2525,
+    "output": 501,
+    "total": 3026,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 583,
+        "output": 79
+      },
+      {
+        "label": "scorecard",
+        "input": 1328,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 614,
+        "output": 102
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "George Hale called HomeNet because he had lost internet service for two days with no connection to his property due to a signal drop on the external line caused by weather or cable issues. The agent diagnosed a fault and scheduled a technician visit tomorrow between 8 AM and 12 PM, offering a credit for the downtime and confirming that they would contact him if the technician couldn\u2019t arrive.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s issue promptly with a brief apology and offered to help resolve it."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used the correct name (\"George Hale\") in the greeting, demonstrating basic personalization."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent empathized by acknowledging the customer's frustration (\u201ctwo days is far too long\u201d) and validated their concern with \u201cLet me get to the bottom of this for you.\u201d"
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a polite tone, chose words carefully (avoiding jargon), and matched the customer\u2019s pace without interrupting. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer's issue (\"So what's wrong?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and address with a confirmation of their account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked effective probing questions (\u201cCan you tell me which lights are showing?\u201d) to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly outlined the next steps (booking a technician, credit for downtime)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution by scheduling a technician visit and providing a text confirmation."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility (\"I'll book the earliest slot\") and didn\u2019t deflect blame."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to the customer\u2019s explanation without interruption, even when it was frustrating."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The"
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "I've had no internet for two days and I'm losing my mind."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.88,
+      "text": "I'm really sorry, two days is far too long. Let me get to the bottom of this for you."
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.71,
+      "text": "What kind of fault is it?"
+    },
+    {
+      "turn": 30,
+      "speaker": "Client",
+      "sentiment": -0.75,
+      "text": "And if the technician can't come?"
+    }
+  ],
+  "suggestions": [
+    "Loss of internet service for two days.",
+    "Mental distress due to the outage.",
+    "Check the router lights \u2013 confirm a fault is present.",
+    "Investigate potential weather or cable issues affecting the line.",
+    "Confirm if George Hale has any recent activity that might be causing the problem (e.g., recent construction, etc.)."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.356
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.386
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.31
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.446
+    }
+  ],
+  "response_time_score": 91.9,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I've had no internet for two days and I'm losing my mind.",
+      "agent_text": "I'm really sorry, two days is far too long. Let me get to the bottom of this for you."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Please do.",
+      "agent_text": "Can I confirm your name and address so I can pull up the line?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "George Hale, 41 Willow Street.",
+      "agent_text": "Thank you, George. First, let me rule out an area outage."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "There's no outage in your area, so this is specific to your line."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "So what's wrong?",
+      "agent_text": "Let me check the router. Can you tell me which lights are showing?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Power is on, but the internet light is completely off.",
+      "agent_text": "That points to a line fault. Let me run a full diagnostic now."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 17,
+      "slow": true,
+      "client_text": "Go ahead.",
+      "agent_text": "Confirmed, there's a fault on the line running to your property."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "What kind of fault is it?",
+      "agent_text": "It looks like a signal drop on the external line, often caused by weather or a cable issue."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Could I have caused it somehow?",
+      "agent_text": "No, this is on our side of the connection, nothing you did."
+    },
+    {
+      "agent_turn": 21,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Okay, that's reassuring.",
+      "agent_text": "Can you fix it remotely?"
+    },
+    {
+      "agent_turn": 23,
+      "delay": 3,
+      "slow": false,
+      "client_text": "I hope so.",
+      "agent_text": "Not this one, I'm afraid, it needs a technician. I'll book the earliest slot, tomorrow between 8 and 12."
+    },
+    {
+      "agent_turn": 25,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Can it be any sooner?",
+      "agent_text": "Tomorrow is the earliest, but I'll flag it as a priority fault so they don't reschedule."
+    },
+    {
+      "agent_turn": 27,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Alright.",
+      "agent_text": "I'll also credit you for the two days you've been down."
+    },
+    {
+      "agent_turn": 29,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Thank you, that's fair.",
+      "agent_text": "You'll get a text confirmation and a reminder before the technician arrives."
+    },
+    {
+      "agent_turn": 31,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And if the technician can't come?",
+      "agent_text": "You'll get a call to rebook immediately, but priority faults are rarely missed."
+    },
+    {
+      "agent_turn": 33,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Okay, that's everything, thank you for actually helping.",
+      "agent_text": "You're welcome, George, I'm sorry again and we'll get it sorted."
+    }
+  ],
+  "accuracy_overall": 27.8,
+  "accuracy": [
+    {
+      "client_question": "I've had no internet for two days and I'm losing my mind.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "I'm really sorry, two days is far too long. Let me get to the bottom of this for you.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Power is on, but the internet light is completely off.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "That points to a line fault. Let me run a full diagnostic now.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [
+        "run a remote diagnostic or check the line"
+      ],
+      "missed": [
+        "explain what the red light means",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "And if the technician can't come?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "strong",
+      "agent_answer": "You'll get a call to rebook immediately, but priority faults are rarely missed.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [
+        "confirm there is no charge for company-equipment faults"
+      ],
+      "missed": [
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 50.0
+    }
+  ]
+}

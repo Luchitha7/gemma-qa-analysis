@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet support, this is Isla, how can I help?
+[00:05] Client: Some websites won't load but others do. It's strange.
+[00:11] Agent: That's a good detail, it often points to a DNS issue. Let me check.
+[00:19] Client: Okay.
+[00:21] Agent: Can I confirm your name and account for security?
+[00:27] Client: Ryan Duke, account 71230.
+[00:33] Agent: Thanks, Ryan. Which sites are failing, roughly?
+[00:40] Client: A couple of shopping sites and my bank.
+[00:45] Agent: Understood. Let me switch your connection to our updated DNS servers.
+[00:53] Client: Sure.
+[01:05] Agent: Done. Can you try one of those sites again for me?
+[01:12] Client: Loading... yes, my bank works now.
+[01:17] Agent: Great. Try the shopping one too.
+[01:22] Client: That one loads as well now.
+[01:26] Agent: Perfect, that confirms it was DNS. It should stay fixed now.
+[01:33] Client: Thank you, that was quick.
+[01:36] Agent: You're welcome. Anything else I can help with?
+[01:42] Client: No, that's all.

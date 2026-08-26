@@ -1,0 +1,21 @@
+[00:00] Agent: HomeNet, this is Victor.
+[00:04] Client: My installation was supposed to be yesterday and nobody showed up.
+[00:11] Agent: I'm sorry to hear that, let me check the appointment.
+[00:18] Client: I took a whole day off work for this.
+[00:24] Agent: Can I confirm your name and address first?
+[00:30] Client: Rachel Kim, 27 Cedar Court.
+[00:36] Agent: Thank you. I see the appointment was marked as attempted, no access.
+[00:44] Client: That's wrong, I was home all day waiting.
+[00:50] Agent: Sometimes the technician can't reach the property.
+[00:56] Client: He never came, there was no knock, no call, nothing.
+[01:03] Agent: I understand it's frustrating.
+[01:07] Client: So what happens now?
+[01:11] Agent: I can rebook the installation for Thursday.
+[01:16] Client: Thursday is three days away.
+[01:20] Agent: That's the earliest slot available, I'm afraid.
+[01:26] Client: And I lose another day of work.
+[01:31] Agent: I'll add a note that yesterday's visit failed on our side.
+[01:38] Client: I'd like some compensation for the wasted day.
+[01:44] Agent: I can offer a credit on your first bill.
+[01:49] Client: Fine, book Thursday and apply the credit.
+[01:54] Agent: Done. You'll get a confirmation and a reminder the day before.

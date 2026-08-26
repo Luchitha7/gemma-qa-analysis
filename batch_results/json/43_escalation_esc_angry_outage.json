@@ -1,0 +1,245 @@
+{
+  "final": 63.2,
+  "agent": 95.5,
+  "conversation": 33.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1638,
+    "output": 462,
+    "total": 2100,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 300,
+        "output": 70
+      },
+      {
+        "label": "scorecard",
+        "input": 1007,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 331,
+        "output": 72
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because their internet service was again down, impacting their ability to work from home and resulting in a lost one-hour workday. The agent confirmed there\u2019s an ongoing outage affecting their area with an estimated repair time of approximately one hour. While they cannot expedite the restoration process, the agent offered a credit for the downtime as compensation.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the company name promptly, followed by a closing spiel, and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly used the customer\u2019s correct name (\u201cHomeNet\u201d) in the greeting and at least once during the call."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer's frustration (\"I understand...\") and validated their concern about losing work, demonstrating empathy."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "\u2013 The agent maintained a respectful tone throughout the conversation, avoiding interruptions and using polite language (\u201cLet me check right now\u201d). They didn\u2019t deflect blame. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "The agent restated the customer's issue (\"There's an outage in your area...\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and company details by confirming their postcode."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked effective probing questions like \u201cCan I get your postcode?\u201d to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent offered a realistic estimate for resolution (\"restore is estimated at about an hour\") and provided a text update."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a credit for downtime, which was a logical response to the customer\u2019s issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the outage, even though it wasn't their fault."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "The agent avoided interrupting and focused on understanding the customer\u2019s problem."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "My internet is down AGAIN and I work from home. This is costing me money."
+    },
+    {
+      "turn": 11,
+      "speaker": "Agent",
+      "sentiment": -0.88,
+      "text": "I can't speed up the repair itself, unfortunately."
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.72,
+      "text": "So I just lose an hour of work?"
+    }
+  ],
+  "suggestions": [
+    "Internet connectivity issues impacting work from home.",
+    "Loss of one hour of productivity due to outages.",
+    "Verify the exact time of restoration based on the agent\u2019s text.",
+    "Offer a proactive apology for the inconvenience and potential lost work hours."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.332
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.298
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.222
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.373
+    }
+  ],
+  "response_time_score": 89.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 8,
+      "slow": false,
+      "client_text": "My internet is down AGAIN and I work from home. This is costing me money.",
+      "agent_text": "I understand, let me check right now."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Please hurry.",
+      "agent_text": "Can I get your postcode to check the area?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 18,
+      "slow": true,
+      "client_text": "It's 5008.",
+      "agent_text": "Still checking, one moment."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Well? I'm waiting.",
+      "agent_text": "There's an outage in your area, restore is estimated at about an hour."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "An hour is far too long for me.",
+      "agent_text": "I can't speed up the repair itself, unfortunately."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "So I just lose an hour of work?",
+      "agent_text": "I'll credit you for the downtime to make up for it."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "That doesn't replace the lost work.",
+      "agent_text": "I understand, but the credit is what I can offer."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Fine. Just make sure it's actually fixed in an hour.",
+      "agent_text": "I'll text you when it's restored. Here's the outage reference."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My internet is down AGAIN and I work from home. This is costing me money.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "I understand, let me check right now.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Fine. Just make sure it's actually fixed in an hour.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I'll text you when it's restored. Here's the outage reference.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

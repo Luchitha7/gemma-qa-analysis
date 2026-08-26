@@ -1,0 +1,205 @@
+{
+  "final": 67.8,
+  "agent": 100.0,
+  "conversation": 60.5,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 16,
+    "agent": 8,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1509,
+    "output": 444,
+    "total": 1953,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 281,
+        "output": 69
+      },
+      {
+        "label": "scorecard",
+        "input": 916,
+        "output": 287
+      },
+      {
+        "label": "suggestions",
+        "input": 312,
+        "output": 88
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client contacted HomeNet support seeking information about available plans for a new address at 22 King Street. The agent explained three plan options \u2013 basic, standard, and premium \u2013 highlighting differences in speed and price. They offered free installation this month with a one-week timeframe. Finally, the client accepted the email of the plan details.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed the customer by name (\"Ryan\") and used \u201cyou\u201d throughout the conversation."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s question about plans (\u201cLet me check coverage\u2026\u201d) and responded to their request for clarification."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone, avoided interrupting, and offered helpful information without being pushy."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer's request (\"What\u2019s the difference?\") in their own words."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s address (\u201c22 King Street\u201d) before proceeding with the conversation."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked a relevant question about the desired service (\"What\u2019s the difference?\")."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided clear expectations regarding installation and next steps (emailing details)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent explained the three plans, including free installation."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for assisting with the customer's request."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "The agent listened attentively to the customer\u2019s questions."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the plan details were sent and offered further assistance."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Desired Plans: Three plans are offered (Basic, Standard, Premium).",
+    "Installation Offer: Free installation for the first month.",
+    "Confirm address is correct \u2013 double check it\u2019s 22 King Street.",
+    "Ask about specific features of each plan to help client choose.",
+    "Offer a call back if they have further questions after reviewing details"
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.118
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.263
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.284
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.346
+    }
+  ],
+  "response_time_score": 94.3,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I wanted to check what plans you offer for a new address.",
+      "agent_text": "I'd be glad to help. What's the address you're asking about?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "22 King Street.",
+      "agent_text": "Let me check coverage and availability there."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 12,
+      "slow": true,
+      "client_text": "Thanks.",
+      "agent_text": "We cover that address with three plans, basic, standard, and premium."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "What's the difference?",
+      "agent_text": "Mainly speed and price, standard suits most homes for streaming and browsing."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "And installation?",
+      "agent_text": "Installation is free this month, usually within a week of ordering."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "That's helpful, I'll think about it.",
+      "agent_text": "Of course, no pressure. Would you like me to email the plan details?"
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Yes, please.",
+      "agent_text": "Sent. Anything else I can help with?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I wanted to check what plans you offer for a new address.",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "I'd be glad to help. What's the address you're asking about?",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

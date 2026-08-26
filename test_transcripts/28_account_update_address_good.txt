@@ -1,0 +1,19 @@
+[00:00] Agent: HomeNet, this is Mia, how can I help?
+[00:05] Client: I'm moving house and need to update my address.
+[00:11] Agent: Congratulations on the move! I'll take care of that for you.
+[00:18] Client: Thanks.
+[00:20] Agent: First, let me verify your identity. Your name and current address, please?
+[00:28] Client: Chris Bell, 3 Rose Street.
+[00:33] Agent: Thank you, Chris. And what's the new address?
+[00:39] Client: 19 Garden Lane.
+[00:43] Agent: Got it. Let me check whether we provide service at the new address.
+[00:51] Client: I hope so.
+[01:03] Agent: Good news, we do cover it, and your current plan is available there.
+[01:11] Client: Great.
+[01:13] Agent: When is your move date so I can schedule the transfer?
+[01:20] Client: The fifteenth.
+[01:23] Agent: I'll set the service to switch over on the fifteenth so you're not without internet.
+[01:31] Client: That's perfect.
+[01:34] Agent: You'll get an email with the transfer details and the install window. Anything else?
+[01:42] Client: No, that's all, thank you.
+[01:45] Agent: You're welcome, and good luck with the move.

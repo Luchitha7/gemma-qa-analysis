@@ -1,0 +1,16 @@
+[00:00] Agent: HomeNet support, this is Ryan, how can I help?
+[00:05] Client: I wanted to check what plans you offer for a new address.
+[00:11] Agent: I'd be glad to help. What's the address you're asking about?
+[00:18] Client: 22 King Street.
+[00:22] Agent: Let me check coverage and availability there.
+[00:29] Client: Thanks.
+[00:41] Agent: We cover that address with three plans, basic, standard, and premium.
+[00:49] Client: What's the difference?
+[00:53] Agent: Mainly speed and price, standard suits most homes for streaming and browsing.
+[01:01] Client: And installation?
+[01:04] Agent: Installation is free this month, usually within a week of ordering.
+[01:11] Client: That's helpful, I'll think about it.
+[01:16] Agent: Of course, no pressure. Would you like me to email the plan details?
+[01:23] Client: Yes, please.
+[01:26] Agent: Sent. Anything else I can help with?
+[01:31] Client: No, that's all, thanks.

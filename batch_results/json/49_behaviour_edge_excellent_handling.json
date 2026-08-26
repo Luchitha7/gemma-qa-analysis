@@ -1,0 +1,287 @@
+{
+  "final": 70.0,
+  "agent": 95.8,
+  "conversation": 68.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 27,
+    "agent": 14,
+    "client": 13
+  },
+  "token_usage": {
+    "input": 2241,
+    "output": 388,
+    "total": 2629,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 501,
+        "output": 63
+      },
+      {
+        "label": "scorecard",
+        "input": 1208,
+        "output": 294
+      },
+      {
+        "label": "suggestions",
+        "input": 532,
+        "output": 31
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Mark Reilly\u2019s internet service dropped last night and has not returned. Sofia initiated troubleshooting by checking for an outage in his area; she confirmed a line fault and scheduled a technician visit tomorrow morning with no charge. The client was offered a temporary mobile hotspot data allowance to mitigate the downtime until the issue is resolved.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Mark by his name, using \u201cHi Mark.\u201d"
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Mark\u2019s frustration with the internet outage (\"I'm sorry about that...\") and validated his concern."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a polite tone throughout the conversation, avoiding interruptions and using respectful language. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Mark\u2019s issue in their own words (\u201cCan you tell me\u2026?\u201d) to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Mark's name and account details before proceeding."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions about the router lights to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly explained the next steps (technician visit, hotspot backup, credit)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully resolved the issue by booking a technician and providing a temporary data allowance."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Mark\u2019s concerns without interrupting or becoming defensive."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue was resolved (\"Done, I've added a temporary allowance...\") and offered further assistance before closing."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.78,
+      "text": "Hi Sofia, my internet dropped last night and hasn't come back."
+    },
+    {
+      "turn": 11,
+      "speaker": "Agent",
+      "sentiment": -0.83,
+      "text": "Confirmed, there's a fault on your line. I'll book a technician for tomorrow morning."
+    }
+  ],
+  "suggestions": [
+    "Internet has dropped.",
+    "Router lights are red indicating a line fault.",
+    "Temporary hotspot backup is offered as a solution."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.201
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.447
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.324
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.389
+    }
+  ],
+  "response_time_score": 91.2,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Hi Sofia, my internet dropped last night and hasn't come back.",
+      "agent_text": "I'm sorry about that, let me help you right away. Can I confirm your name and address?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Yes, it's Mark Reilly, 14 Oak Road.",
+      "agent_text": "Thank you, Mark. Let me first check for any outage in your area."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "There's no area outage, so it's specific to your line. Can you tell me the router lights?"
+    },
+    {
+      "agent_turn": 9,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Power is on, the internet one is red.",
+      "agent_text": "That points to a line fault. I'll run a diagnostic to confirm."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 16,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "Confirmed, there's a fault on your line. I'll book a technician for tomorrow morning."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Will there be a charge?",
+      "agent_text": "None at all, since it's our equipment and our line."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's a relief.",
+      "agent_text": "In the meantime, would a mobile hotspot backup help? I can enable a temporary data allowance."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "That would actually be great for tomorrow.",
+      "agent_text": "Done, I've added a temporary allowance so you're not fully offline until the fix."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Thank you, I didn't know that was possible.",
+      "agent_text": "Happy to help. I'll also credit you for the downtime, and text you before the technician arrives."
+    },
+    {
+      "agent_turn": 21,
+      "delay": 4,
+      "slow": false,
+      "client_text": "You've been really helpful.",
+      "agent_text": "My pleasure, Mark. Let me give you the ticket reference now."
+    },
+    {
+      "agent_turn": 23,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Got it, thank you.",
+      "agent_text": "And what's the best number to reach you on before the visit?"
+    },
+    {
+      "agent_turn": 25,
+      "delay": 3,
+      "slow": false,
+      "client_text": "This mobile is fine.",
+      "agent_text": "Noted. Is there anything else I can help you with today?"
+    },
+    {
+      "agent_turn": 27,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's everything.",
+      "agent_text": "Thank you for choosing HomeNet and have a great day."
+    }
+  ],
+  "accuracy_overall": 11.1,
+  "accuracy": [
+    {
+      "client_question": "Hi Sofia, my internet dropped last night and hasn't come back.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "I'm sorry about that, let me help you right away. Can I confirm your name and address?",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Power is on, the internet one is red.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "That points to a line fault. I'll run a diagnostic to confirm.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [
+        "run a remote diagnostic or check the line"
+      ],
+      "missed": [
+        "explain what the red light means",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "Will there be a charge?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "strong",
+      "agent_answer": "None at all, since it's our equipment and our line.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

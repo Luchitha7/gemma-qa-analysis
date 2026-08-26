@@ -1,0 +1,33 @@
+[00:00] Agent: Thank you for calling HomeNet, this is Hannah, how can I help you today?
+[00:06] Client: I've had no internet for two days and I'm losing my mind.
+[00:13] Agent: I'm really sorry, two days is far too long. Let me get to the bottom of this for you.
+[00:22] Client: Please do.
+[00:24] Agent: Can I confirm your name and address so I can pull up the line?
+[00:31] Client: George Hale, 41 Willow Street.
+[00:37] Agent: Thank you, George. First, let me rule out an area outage.
+[00:45] Client: Okay.
+[00:58] Agent: There's no outage in your area, so this is specific to your line.
+[01:06] Client: So what's wrong?
+[01:09] Agent: Let me check the router. Can you tell me which lights are showing?
+[01:17] Client: Power is on, but the internet light is completely off.
+[01:24] Agent: That points to a line fault. Let me run a full diagnostic now.
+[01:33] Client: Go ahead.
+[01:50] Agent: Confirmed, there's a fault on the line running to your property.
+[01:58] Client: What kind of fault is it?
+[02:03] Agent: It looks like a signal drop on the external line, often caused by weather or a cable issue.
+[02:11] Client: Could I have caused it somehow?
+[02:15] Agent: No, this is on our side of the connection, nothing you did.
+[02:22] Client: Okay, that's reassuring.
+[02:25] Agent: Can you fix it remotely?
+[02:29] Client: I hope so.
+[02:32] Agent: Not this one, I'm afraid, it needs a technician. I'll book the earliest slot, tomorrow between 8 and 12.
+[02:42] Client: Can it be any sooner?
+[02:46] Agent: Tomorrow is the earliest, but I'll flag it as a priority fault so they don't reschedule.
+[02:54] Client: Alright.
+[02:57] Agent: I'll also credit you for the two days you've been down.
+[03:04] Client: Thank you, that's fair.
+[03:07] Agent: You'll get a text confirmation and a reminder before the technician arrives.
+[03:15] Client: And if the technician can't come?
+[03:20] Agent: You'll get a call to rebook immediately, but priority faults are rarely missed.
+[03:28] Client: Okay, that's everything, thank you for actually helping.
+[03:34] Agent: You're welcome, George, I'm sorry again and we'll get it sorted.

@@ -1,0 +1,16 @@
+[00:00] Agent: HomeNet, what do you want?
+[00:04] Client: I'm having trouble with my connection.
+[00:09] Agent: Did you even try turning it off and on? Obviously not.
+[00:16] Client: There's really no need for that tone.
+[00:21] Agent: Look, I don't have time for this, other people are waiting.
+[00:28] Client: I just need some help.
+[00:32] Agent: Then listen instead of arguing with me.
+[00:38] Client: I haven't argued at all.
+[00:42] Agent: You're wasting my time.
+[00:46] Client: I'd like to speak to a supervisor.
+[00:51] Agent: Whatever, you're better off just hanging up.
+[00:57] Client: That's incredibly rude.
+[01:01] Agent: Is that all? I have a queue.
+[01:06] Client: You haven't even tried to help me.
+[01:11] Agent: Not my problem if you can't follow instructions.
+[01:17] Client: Unbelievable.

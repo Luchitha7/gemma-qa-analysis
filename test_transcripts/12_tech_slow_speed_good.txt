@@ -1,0 +1,20 @@
+[00:00] Agent: HomeNet support, this is Emma, how can I help today?
+[00:06] Client: My internet is really slow lately, everything buffers.
+[00:12] Agent: That's annoying, especially day to day. Let me run some tests to see what's happening.
+[00:21] Client: Please do.
+[00:23] Agent: Can I confirm your name and account for security?
+[00:29] Client: Sam Patel, account 33190.
+[00:35] Agent: Thanks, Sam. Let me run a speed test on your line now.
+[00:43] Client: Sure.
+[00:58] Agent: You're getting about half the speed your plan should deliver.
+[01:05] Client: That's a big difference.
+[01:08] Agent: It is. Can I ask, are you connected by wifi or a cable?
+[01:15] Client: Wifi, from the other side of the house.
+[01:20] Agent: Distance can reduce wifi speed. Let me also reset the line from our side to be sure.
+[01:29] Client: Okay.
+[01:42] Agent: The reset is done. If wifi is still slow far from the router, I can send a wifi extender.
+[01:52] Client: That would help, yes.
+[01:55] Agent: I'll ship one at no cost, arriving in two days, and I've noted the ticket to follow up.
+[02:04] Client: Thank you, that's great service.
+[02:07] Agent: You're welcome. Anything else I can help with?
+[02:12] Client: No, that's all.

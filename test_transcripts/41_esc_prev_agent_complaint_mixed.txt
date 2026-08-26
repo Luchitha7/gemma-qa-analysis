@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet, this is Owen, how can I help?
+[00:05] Client: The agent I spoke to yesterday was really rude to me.
+[00:11] Agent: I'm sorry to hear that, that's not the standard we aim for.
+[00:18] Client: He basically blamed me for the fault on your line.
+[00:24] Agent: I can't speak for that specific call, but I understand why you're upset.
+[00:32] Client: I'd like it recorded as a complaint.
+[00:37] Agent: I'll log a formal note about the interaction now.
+[00:43] Client: Thank you.
+[00:45] Agent: Can I confirm your name so I attach it to the right account?
+[00:52] Client: Jane Field.
+[00:55] Agent: Thanks, Jane. The complaint about yesterday's call is logged.
+[01:02] Client: Good.
+[01:04] Agent: Now, shall we focus on actually fixing the original problem?
+[01:11] Client: Yes, my connection still drops.
+[01:15] Agent: Let me run a line check while you're on the call.
+[01:22] Client: Okay.
+[01:35] Agent: There's a weak signal to your router. I'll book a technician and note the complaint on the ticket.
+[01:44] Client: Alright, thank you for actually listening.

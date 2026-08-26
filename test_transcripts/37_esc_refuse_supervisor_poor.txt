@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: I want to speak to your manager, right now.
+[00:08] Agent: Supervisors don't take these calls.
+[00:13] Client: That can't be right, let me speak to someone above you.
+[00:20] Agent: Asking for a manager won't change anything.
+[00:26] Client: I'm entitled to escalate this complaint.
+[00:31] Agent: There's no one else you can speak to.
+[00:36] Client: Every company has supervisors.
+[00:41] Agent: Not for this kind of call.
+[00:45] Client: So you're just refusing?
+[00:49] Agent: I'm telling you it's not possible.
+[00:54] Client: This is outrageous, I've been a customer for years.
+[01:00] Agent: That doesn't change the process.
+[01:05] Client: I want your name and a reference number.
+[01:10] Agent: I don't have to give you that.
+[01:14] Client: You're being completely unhelpful.
+[01:18] Agent: I've told you what I can do.

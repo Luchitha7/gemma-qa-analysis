@@ -1,0 +1,17 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Aisha, how can I help?
+[00:06] Client: My autopay failed and I got a warning email. I don't want my service cut off.
+[00:14] Agent: I completely understand the worry, but let me reassure you, your service is safe right now.
+[00:22] Client: Oh good.
+[00:24] Agent: Let me verify the account first. Could I have your name and postcode?
+[00:31] Client: Liam Novak, postcode 4021.
+[00:37] Agent: Thank you, Liam. I can see the autopay attempt was declined by the card.
+[00:45] Client: The card might be expired, I got a new one.
+[00:51] Agent: That would explain it. Let me update the card details securely and take this month's payment now.
+[01:00] Client: Okay, go ahead.
+[01:03] Agent: The new card is saved and the payment has gone through successfully.
+[01:11] Client: Great, so I'm all caught up?
+[01:15] Agent: Yes, you're fully paid and autopay is active again for next month.
+[01:23] Client: Thank you for making that easy.
+[01:26] Agent: Of course. You'll get a receipt by email. Anything else I can do for you?
+[01:34] Client: No, that's everything.
+[01:36] Agent: Great, have a lovely day, Liam.

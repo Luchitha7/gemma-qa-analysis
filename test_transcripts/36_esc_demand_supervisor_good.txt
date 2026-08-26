@@ -1,0 +1,15 @@
+[00:00] Agent: HomeNet, this is David, how can I help?
+[00:04] Client: I've had enough, I want to speak to a supervisor right now.
+[00:11] Agent: I hear you, and I'm sorry you've reached that point. I can arrange that.
+[00:19] Client: Yes, please, this is the fourth call about the same thing.
+[00:26] Agent: Four calls is far too many, I'm sorry. Before I transfer you, can I note what's happened?
+[00:35] Client: My internet keeps dropping and no one has fixed it.
+[00:41] Agent: Understood. Let me verify the account so I can brief the supervisor properly.
+[00:49] Client: It's Karen Doyle.
+[00:53] Agent: Thank you, Karen. I can see the previous tickets, so the supervisor will have context.
+[01:02] Client: Good, I don't want to repeat everything again.
+[01:08] Agent: You won't have to, I'll pass on the full history.
+[01:14] Client: Thank you.
+[01:16] Agent: I'm connecting you to a supervisor now, please hold just a moment.
+[01:23] Client: Okay.
+[01:25] Agent: They'll be with you shortly, and I've added the notes. Thanks for your patience, Karen.

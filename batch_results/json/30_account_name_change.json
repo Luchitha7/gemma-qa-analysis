@@ -1,0 +1,235 @@
+{
+  "final": 72.1,
+  "agent": 100.0,
+  "conversation": 66.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1659,
+    "output": 425,
+    "total": 2084,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 331,
+        "output": 58
+      },
+      {
+        "label": "scorecard",
+        "input": 966,
+        "output": 299
+      },
+      {
+        "label": "suggestions",
+        "input": 362,
+        "output": 68
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called to change their name from Emily Stone to Harper due to marriage. The agent confirmed the new surname and updated the account details securely by verifying current information and requesting a document if needed. After confirming the update, they addressed additional requests for billing and login email updates as well.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly repeated Emily\u2019s name and addressed her specifically."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's request to update their account details, showing understanding of the situation."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone throughout the conversation, avoiding interruptions or dismissive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s request in their own words (\"What's the new surname you'd like on the account?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Emily\u2019s name and account details by confirming her correct information."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the new surname (\u201cWhat\u2019s the new surname you\u2019d like on the account?\u201d) to understand the request better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated that they would update the account and provide a confirmation shortly."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully updated Emily's account details, resolving her issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for assisting with the update."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Emily\u2019s request without interrupting or offering unsolicited advice."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that both the email and login information were updated successfully."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Change name to Harper.",
+    "Update billing & login email.",
+    "Verify Emily Stone\u2019s current account details (address, date of birth).",
+    "Confirm the new surname \u201cHarper\u201d is correct and consistent with existing records."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.205
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.257
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.229
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.328
+    }
+  ],
+  "response_time_score": 97.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I got married and want to change the name on my account.",
+      "agent_text": "Congratulations! I'd be glad to update that for you."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "For security, can you confirm your current name and the account postcode?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Currently Emily Stone, postcode 6023.",
+      "agent_text": "Thank you, Emily. What's the new surname you'd like on the account?"
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "It's Harper now, Emily Harper.",
+      "agent_text": "Lovely. I may need to see a document later, but I can update it now."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Do you need anything today?",
+      "agent_text": "Not right now, I'll note that a document may be requested by email."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "The account now shows Emily Harper."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Wonderful.",
+      "agent_text": "Would you like the billing and login email updated too?"
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Yes, please update the email as well.",
+      "agent_text": "Done, both are updated. You'll get a confirmation shortly. Anything else?"
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "No, that's all, thank you so much.",
+      "agent_text": "My pleasure, and congratulations again."
+    }
+  ],
+  "accuracy_overall": 12.5,
+  "accuracy": [
+    {
+      "client_question": "I got married and want to change the name on my account.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "Congratulations! I'd be glad to update that for you.",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Yes, please update the email as well.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "Done, both are updated. You'll get a confirmation shortly. Anything else?",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [
+        "confirm there is no fee to cancel"
+      ],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date"
+      ],
+      "accuracy": 25.0
+    }
+  ]
+}

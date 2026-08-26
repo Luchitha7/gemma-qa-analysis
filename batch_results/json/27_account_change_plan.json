@@ -1,0 +1,226 @@
+{
+  "final": 50.5,
+  "agent": 50.0,
+  "conversation": 70.8,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1653,
+    "output": 252,
+    "total": 1905,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 329,
+        "output": 69
+      },
+      {
+        "label": "scorecard",
+        "input": 964,
+        "output": 116
+      },
+      {
+        "label": "suggestions",
+        "input": 360,
+        "output": 67
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Beth Cole called to request a lower-cost internet plan due to financial constraints. The agent confirmed she was switching her account to a mid-tier plan, which would save her approximately $15 per month while still providing sufficient speed for streaming and browsing activities. Beth agreed to the change and received an email confirmation of the new plan activation.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "PARTIAL",
+      "reason": "The agent was polite but didn\u2019t actively listen to the client's concerns regarding the cost, only focused on switching plans. There wasn\u2019t sufficient probing into *why* Beth wants to lower her bill."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Lower monthly cost",
+    "More affordable internet plan",
+    "Confirm speed is sufficient for streaming.",
+    "Check current usage to ensure it\u2019s adequate.",
+    "Ask about potential future needs (e.g., increased bandwidth)."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.184
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.25
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.274
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.329
+    }
+  ],
+  "response_time_score": 98.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I'd like to move to a cheaper plan, money's a bit tight.",
+      "agent_text": "Absolutely, let me find one that still fits your needs. Verifying your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Beth Cole.",
+      "agent_text": "Thanks, Beth. How do you mainly use your internet, streaming, work, gaming?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Mostly streaming and browsing.",
+      "agent_text": "In that case, the mid-tier plan will be plenty and it's cheaper."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "How much cheaper?",
+      "agent_text": "It saves you about fifteen dollars a month versus your current plan."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That sounds good.",
+      "agent_text": "Will your speed be enough for streaming? Yes, it comfortably handles HD."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Great, let's do it.",
+      "agent_text": "I'll switch you to the mid-tier plan from your next billing cycle."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Will anything change today?",
+      "agent_text": "No, your service stays the same until the new cycle starts."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Perfect.",
+      "agent_text": "Done, and I've emailed you the confirmation. Anything else I can help with?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I'd like to move to a cheaper plan, money's a bit tight.",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "strong",
+      "agent_answer": "Absolutely, let me find one that still fits your needs. Verifying your account first.",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Mostly streaming and browsing.",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "In that case, the mid-tier plan will be plenty and it's cheaper.",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

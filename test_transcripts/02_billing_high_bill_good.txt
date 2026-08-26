@@ -1,0 +1,22 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Daniel. How can I help today?
+[00:06] Client: My bill is a lot higher than usual this month and I don't understand why.
+[00:13] Agent: I understand, an unexpected jump is worrying. Let me go through the bill with you line by line.
+[00:22] Client: Please do.
+[00:24] Agent: First, can I confirm the name and address on the account for security?
+[00:31] Client: John Baker, 12 Elm Street.
+[00:37] Agent: Thank you, John. I have the bill in front of me now.
+[00:44] Client: Okay.
+[00:46] Agent: The first thing I see is that a promotional discount ended this cycle, and that's most of the increase.
+[00:56] Client: Ah, I forgot about the promo.
+[01:00] Agent: That's completely normal. There's also a one-off installation fee I want to check.
+[01:09] Client: The installation was months ago though.
+[01:13] Agent: You're right, and it should have been billed back then. Billing it now is our error.
+[01:22] Client: So can you remove it?
+[01:25] Agent: Yes, I'll remove that fee and credit your account for it today.
+[01:33] Client: Thank you, that's fair.
+[01:36] Agent: To be clear, going forward your bill will be the standard rate now the promo has ended.
+[01:45] Client: Understood.
+[01:47] Agent: Would you like me to look at current offers so you can keep the price down?
+[01:54] Client: Yes, please.
+[01:56] Agent: I've applied a loyalty discount for six months. You'll see it next cycle. Anything else?
+[02:05] Client: No, that's great, thank you.

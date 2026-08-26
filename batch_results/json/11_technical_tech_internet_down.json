@@ -1,0 +1,232 @@
+{
+  "final": 61.5,
+  "agent": 95.8,
+  "conversation": 62.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1820,
+    "output": 425,
+    "total": 2245,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 365,
+        "output": 70
+      },
+      {
+        "label": "scorecard",
+        "input": 1059,
+        "output": 293
+      },
+      {
+        "label": "suggestions",
+        "input": 396,
+        "output": 62
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Mark Reilly contacted HomeNet due to a complete internet outage affecting his area which was confirmed as being caused by an issue near his residence. The agent investigated and determined that crews were already working on resolving it with an estimated two-hour restoration time, providing a text update upon resolution. A credit for the downtime was issued in accordance with company policy.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly used \u201cMark\u201d as the customer\u2019s name throughout the conversation."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with the outage by saying \"I understand that this is frustrating.\""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a calm, respectful tone and avoided interrupting. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"My internet has been completely down since this morning.\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Mark's name and address with \u201cThank you, Mark.\u201d"
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked a clarifying question about the impact of the outage on their work (\u201cWill you let me know when it\u2019s back?\u201d)."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided an estimated resolution time (two hours) and offered a text update."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent explained the troubleshooting steps they were taking to resolve the issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for the outage, stating \u201cThe crews are already working on it.\u201d"
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Mark\u2019s concerns without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue was resolved by providing a text update."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "My internet has been completely down since this morning."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.79,
+      "text": "I'm sorry to hear that, let me get this looked at for you right away."
+    }
+  ],
+  "suggestions": [
+    "Internet is completely down.",
+    "Estimated restoration time of two hours.",
+    "Check your modem and router to ensure they\u2019re powered on and connected properly.",
+    "Verify that there are no known issues with the specific street or neighborhood."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.248
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "BROKEN",
+      "evidence": "I'll also credit you for the downtime since it's our fault.",
+      "closeness": 0.495
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.26
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.321
+    }
+  ],
+  "response_time_score": 95.0,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "My internet has been completely down since this morning.",
+      "agent_text": "I'm sorry to hear that, let me get this looked at for you right away."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thanks.",
+      "agent_text": "First, can I confirm your name and address to pull up the line?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Mark Reilly, 14 Oak Road.",
+      "agent_text": "Thank you, Mark. Let me check for any outage in your area first."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "There's a confirmed outage near you, so this isn't something on your side."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Ah, that explains it.",
+      "agent_text": "The crews are already working on it, and the estimate to restore is about two hours."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Will you let me know when it's back?",
+      "agent_text": "Yes, I've logged a ticket and you'll get a text the moment it's resolved."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Great, thank you.",
+      "agent_text": "I'll also credit you for the downtime since it's our fault."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's very fair.",
+      "agent_text": "Here's your ticket reference for your records. Is there anything else I can help with?"
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "No, that's everything, thanks for the update.",
+      "agent_text": "My pleasure, Mark, I'm sorry again for the disruption."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My internet has been completely down since this morning.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "strong",
+      "agent_answer": "I'm sorry to hear that, let me get this looked at for you right away.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: My wifi keeps dropping every few minutes, it's driving me crazy.
+[00:10] Agent: Have you tried restarting the router?
+[00:15] Client: Yes, several times already.
+[00:20] Agent: Try it again for me.
+[00:24] Client: I just told you I did that multiple times.
+[00:30] Agent: Fine, let me actually look at the line then.
+[00:37] Client: Please.
+[00:53] Agent: There's some interference on your channel.
+[01:00] Client: What does that mean?
+[01:04] Agent: Other networks nearby are on the same channel as yours.
+[01:11] Client: Can you fix it?
+[01:14] Agent: I'll change your wifi channel remotely, that should reduce the drops.
+[01:22] Client: Should? Will it or won't it?
+[01:27] Agent: It usually helps, but I can't guarantee it completely.
+[01:34] Client: So I might be calling back again.
+[01:39] Agent: If it keeps happening, we can send a technician.
+[01:45] Client: You could have offered that sooner.
+[01:49] Agent: The channel change is applied. Give it a day.

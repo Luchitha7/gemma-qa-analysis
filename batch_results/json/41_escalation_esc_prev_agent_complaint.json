@@ -1,0 +1,259 @@
+{
+  "final": 65.6,
+  "agent": 91.7,
+  "conversation": 50.1,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1790,
+    "output": 391,
+    "total": 2181,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 322,
+        "output": 66
+      },
+      {
+        "label": "scorecard",
+        "input": 1115,
+        "output": 250
+      },
+      {
+        "label": "suggestions",
+        "input": 353,
+        "output": 75
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Jane Field called HomeNet because she was upset with an earlier agent who blamed her for a problem on their line. The agent acknowledged her frustration but stated they couldn\u2019t speak to her about it as it involved another call. After reviewing the issue, the agent scheduled a technician visit and noted the complaint in the account ticket.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly and used the correct greeting."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used Jane Field's name correctly during the call."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded to the client\u2019s frustration with understanding, stating \u201cI can\u2019t speak for that specific call.\u201d"
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "The agent maintained a respectful tone throughout the conversation. [RoBERTa flagged 2 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer's issue in their own words (\"my connection still drops\")."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed Jane Field\u2019s name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked, \u201cCan I confirm your name so I attach it to the right account?\u201d"
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent stated they would log a formal note about the interaction."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered to run a line check."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively and validated the customer\u2019s feelings."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the connection was resolved."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.9,
+      "text": "The agent I spoke to yesterday was really rude to me."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.9,
+      "text": "I'm sorry to hear that, that's not the standard we aim for."
+    },
+    {
+      "turn": 4,
+      "speaker": "Client",
+      "sentiment": -0.78,
+      "text": "He basically blamed me for the fault on your line."
+    },
+    {
+      "turn": 14,
+      "speaker": "Client",
+      "sentiment": -0.77,
+      "text": "Yes, my connection still drops."
+    },
+    {
+      "turn": 17,
+      "speaker": "Agent",
+      "sentiment": -0.78,
+      "text": "There's a weak signal to your router. I'll book a technician and note the complaint on the ticket."
+    }
+  ],
+  "suggestions": [
+    "To have their issue (connection drop) addressed.",
+    "To be heard and not blamed by the agent.",
+    "Investigate the weak signal on the router to identify the root cause of the problem.",
+    "Schedule a technician visit immediately to resolve the connection issue."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.275
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.353
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.372
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "BROKEN",
+      "evidence": "Let me run a line check while you're on the call.",
+      "closeness": 0.463
+    }
+  ],
+  "response_time_score": 93.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "The agent I spoke to yesterday was really rude to me.",
+      "agent_text": "I'm sorry to hear that, that's not the standard we aim for."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "He basically blamed me for the fault on your line.",
+      "agent_text": "I can't speak for that specific call, but I understand why you're upset."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I'd like it recorded as a complaint.",
+      "agent_text": "I'll log a formal note about the interaction now."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "Can I confirm your name so I attach it to the right account?"
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Jane Field.",
+      "agent_text": "Thanks, Jane. The complaint about yesterday's call is logged."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Good.",
+      "agent_text": "Now, shall we focus on actually fixing the original problem?"
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Yes, my connection still drops.",
+      "agent_text": "Let me run a line check while you're on the call."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "There's a weak signal to your router. I'll book a technician and note the complaint on the ticket."
+    }
+  ],
+  "accuracy_overall": 25.0,
+  "accuracy": [
+    {
+      "client_question": "He basically blamed me for the fault on your line.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I can't speak for that specific call, but I understand why you're upset.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Yes, my connection still drops.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Let me run a line check while you're on the call.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [
+        "run a line or connection stability test",
+        "check whether it is the router or the line"
+      ],
+      "missed": [
+        "acknowledge the problem",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 50.0
+    }
+  ]
+}

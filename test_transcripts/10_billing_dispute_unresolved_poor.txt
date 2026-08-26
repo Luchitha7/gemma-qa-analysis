@@ -1,0 +1,20 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: There's a charge on my bill I don't recognise, twenty dollars.
+[00:09] Agent: What's it for?
+[00:12] Client: I don't know, that's why I'm calling you.
+[00:18] Agent: I can't really tell either, the system just shows a fee.
+[00:25] Client: Well can you find out?
+[00:29] Agent: Not from here, you'd have to check with the billing department.
+[00:36] Client: Aren't you the billing department?
+[00:40] Agent: I just take the calls.
+[00:44] Client: So who actually removes an incorrect charge?
+[00:50] Agent: I'm not sure it can be removed.
+[00:55] Client: You're telling me I have to pay for something you can't even explain?
+[01:02] Agent: I don't have information on that fee.
+[01:07] Client: Then transfer me to someone who does.
+[01:12] Agent: Everyone in billing is busy right now.
+[01:17] Client: This is completely unacceptable.
+[01:21] Agent: I'll leave a note on the account.
+[01:25] Client: A note won't refund my money.
+[01:29] Agent: It's the best I can do right now.
+[01:33] Client: You have been no help whatsoever.

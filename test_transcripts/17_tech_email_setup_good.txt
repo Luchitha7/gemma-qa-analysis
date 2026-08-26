@@ -1,0 +1,19 @@
+[00:00] Agent: HomeNet support, this is Grace, how can I help?
+[00:05] Client: I can't set up my HomeNet email on my new phone.
+[00:11] Agent: No problem, I'll walk you through it step by step. What phone do you have?
+[00:19] Client: An Android.
+[00:22] Agent: Great. Open your mail app and choose to add a new account.
+[00:30] Client: Okay, it's asking for the email and password.
+[00:36] Agent: Enter your full HomeNet email address and your email password.
+[00:43] Client: Done, now it wants server settings.
+[00:48] Agent: For incoming, use mail.homenet.com with port 993 and SSL on.
+[00:57] Client: Entered.
+[01:00] Agent: For outgoing, use smtp.homenet.com with port 587 and SSL on.
+[01:08] Client: Okay, and now?
+[01:11] Agent: Tap next, it should verify and connect.
+[01:17] Client: It's connecting... it worked!
+[01:21] Agent: Wonderful. You should see your inbox syncing now.
+[01:27] Client: Yes, the emails are coming in.
+[01:31] Agent: Perfect. Is there anything else I can help you with?
+[01:37] Client: No, that's great, thank you.
+[01:40] Agent: You're welcome, have a good day.

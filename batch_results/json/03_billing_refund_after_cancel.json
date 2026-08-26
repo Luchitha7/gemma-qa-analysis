@@ -1,0 +1,233 @@
+{
+  "final": 63.9,
+  "agent": 100.0,
+  "conversation": 69.4,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1702,
+    "output": 411,
+    "total": 2113,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 339,
+        "output": 74
+      },
+      {
+        "label": "scorecard",
+        "input": 993,
+        "output": 276
+      },
+      {
+        "label": "suggestions",
+        "input": 370,
+        "output": 61
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Emma Ford contacted HomeNet support because she was still being charged for a canceled service after the cancellation date. The agent investigated and identified an incorrect charge from seven days later. They issued a full refund to her account, which will be processed within three to five business days via email. Finally, Emma received instructions on how to return the router as part of the process.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly identified Emma\u2019s name and account number."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with being charged twice, expressing understanding of their situation."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm tone throughout the conversation, avoiding interruptions and using polite language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"I was still charged\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Emma's name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the charge, such as \"When did you cancel?\" and \u201cWhat is the date of the charge?\u201d"
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the refund timeframe and provided a prepaid return label."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent initiated the full refund process."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue, even though it was an error on their end."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Emma\u2019s concerns without interrupting or becoming defensive."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the refund had been processed and provided a confirmation email."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.78,
+      "text": "I cancelled last week but I was still charged. I'd like a refund."
+    }
+  ],
+  "suggestions": [
+    "Charged for a service after cancellation.",
+    "Refund is being issued within 3-5 business days.",
+    "Confirm Emma\u2019s address for the return label.",
+    "Ask about any other issues Emma might have with her account."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.192
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.254
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.246
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "BROKEN",
+      "evidence": "I'm sorry about that, let me look into it for you right away.",
+      "closeness": 0.463
+    }
+  ],
+  "response_time_score": 98.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I cancelled last week but I was still charged. I'd like a refund.",
+      "agent_text": "I'm sorry about that, let me look into it for you right away."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thanks.",
+      "agent_text": "Can I confirm your name and account number to verify the account?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Emma Ford, account 55210.",
+      "agent_text": "Thank you, Emma. I can see your cancellation was processed on the fifth."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Yes, that's right.",
+      "agent_text": "And there's a charge dated the seventh, after your cancellation, so that shouldn't have gone out."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Exactly.",
+      "agent_text": "I'll refund that charge in full now. It'll be back in 3 to 5 business days."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Great. Do I need to return the router?",
+      "agent_text": "Yes, I'll email you a prepaid return label so it costs you nothing."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Perfect.",
+      "agent_text": "You'll get the refund confirmation and the label in one email. Anything else I can help with?"
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that covers it. Thank you.",
+      "agent_text": "You're welcome, take care and have a good day."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I cancelled last week but I was still charged. I'd like a refund.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "strong",
+      "agent_answer": "I'm sorry about that, let me look into it for you right away.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Great. Do I need to return the router?",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "strong",
+      "agent_answer": "Yes, I'll email you a prepaid return label so it costs you nothing.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

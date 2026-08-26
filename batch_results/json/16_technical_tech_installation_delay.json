@@ -1,0 +1,293 @@
+{
+  "final": 61.9,
+  "agent": 91.7,
+  "conversation": 32.2,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 21,
+    "agent": 11,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1895,
+    "output": 464,
+    "total": 2359,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 355,
+        "output": 65
+      },
+      {
+        "label": "scorecard",
+        "input": 1154,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 386,
+        "output": 79
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Rachel Kim called HomeNet because her installation was scheduled for yesterday but did not occur. The agent confirmed that there were no access issues to the property and offered to reschedule the appointment to Thursday, with a credit applied to her next bill as compensation for lost time.  The call concluded with Rachel agreeing to this new arrangement.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used Rachel Kim\u2019s correct name throughout the conversation, demonstrating personalization."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent empathized with Rachel's frustration by acknowledging her lost time and stated that it was frustrating for her."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "The agent maintained a professional tone despite the customer\u2019s anger, avoiding interruptions and using polite language. [RoBERTa flagged 3 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Rachel\u2019s concern about the missed installation in their own words (\"I understand it's frustrating\")."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Rachel\u2019s name and company details by confirming her account information."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions like \"Can I confirm your name and address first?\" to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the next steps (rebooking for Thursday) and provided a timeframe for confirmation."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution (rebooking) that addressed the customer\u2019s immediate concern."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility, stating \"I'll add a note that yesterday's visit failed on our side.\""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Rachel\u2019s concerns without interrupting or becoming defensive."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed the issue was resolved by saying \u201cYou\u2019ll get a confirmation and a"
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.92,
+      "text": "My installation was supposed to be yesterday and nobody showed up."
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.81,
+      "text": "That's wrong, I was home all day waiting."
+    },
+    {
+      "turn": 11,
+      "speaker": "Agent",
+      "sentiment": -0.79,
+      "text": "I understand it's frustrating."
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.86,
+      "text": "And I lose another day of work."
+    },
+    {
+      "turn": 17,
+      "speaker": "Agent",
+      "sentiment": -0.74,
+      "text": "I'll add a note that yesterday's visit failed on our side."
+    },
+    {
+      "turn": 18,
+      "speaker": "Client",
+      "sentiment": -0.8,
+      "text": "I'd like some compensation for the wasted day."
+    }
+  ],
+  "suggestions": [
+    "Installation was not completed as scheduled.",
+    "Compensation for lost work time is requested.",
+    "Investigate why the technician couldn\u2019t reach the property \u2013 check system logs or contact the area manager.",
+    "Offer a small credit to compensate for the missed day, demonstrating empathy and goodwill."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.271
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.342
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.335
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.322
+    }
+  ],
+  "response_time_score": 96.0,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "My installation was supposed to be yesterday and nobody showed up.",
+      "agent_text": "I'm sorry to hear that, let me check the appointment."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I took a whole day off work for this.",
+      "agent_text": "Can I confirm your name and address first?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Rachel Kim, 27 Cedar Court.",
+      "agent_text": "Thank you. I see the appointment was marked as attempted, no access."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 6,
+      "slow": false,
+      "client_text": "That's wrong, I was home all day waiting.",
+      "agent_text": "Sometimes the technician can't reach the property."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 7,
+      "slow": false,
+      "client_text": "He never came, there was no knock, no call, nothing.",
+      "agent_text": "I understand it's frustrating."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So what happens now?",
+      "agent_text": "I can rebook the installation for Thursday."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Thursday is three days away.",
+      "agent_text": "That's the earliest slot available, I'm afraid."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And I lose another day of work.",
+      "agent_text": "I'll add a note that yesterday's visit failed on our side."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I'd like some compensation for the wasted day.",
+      "agent_text": "I can offer a credit on your first bill."
+    },
+    {
+      "agent_turn": 21,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Fine, book Thursday and apply the credit.",
+      "agent_text": "Done. You'll get a confirmation and a reminder the day before."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My installation was supposed to be yesterday and nobody showed up.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "I'm sorry to hear that, let me check the appointment.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "I'd like some compensation for the wasted day.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I can offer a credit on your first bill.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Fine, book Thursday and apply the credit.",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "Done. You'll get a confirmation and a reminder the day before.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

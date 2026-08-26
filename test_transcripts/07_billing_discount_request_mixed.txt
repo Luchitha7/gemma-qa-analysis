@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet, this is Leo, how can I help you today?
+[00:06] Client: I've been a customer for five years, can I get a loyalty discount?
+[00:13] Agent: Let me verify your account and check what's available.
+[00:20] Client: Sure, it's Grace Owens.
+[00:25] Agent: Thanks, Grace. Give me a moment to look through the offers.
+[00:33] Client: Take your time.
+[00:55] Agent: I'm still checking, please bear with me.
+[01:15] Client: Hello? Still there?
+[01:19] Agent: Yes, sorry for the wait. I don't see any promotions you automatically qualify for.
+[01:28] Client: Nothing at all for a five-year customer?
+[01:33] Agent: Let me see if I can apply a manual discount.
+[01:40] Client: I'd appreciate that.
+[01:43] Agent: I can add a ten percent discount for six months.
+[01:49] Client: Is that the best you can do?
+[01:53] Agent: That's what I'm able to offer from my side.
+[01:58] Client: Alright, that's better than nothing.
+[02:02] Agent: I've applied it, you'll see it next cycle. Anything else?
+[02:08] Client: No, that's all, thanks.

@@ -1,0 +1,17 @@
+[00:00] Agent: Thank you for calling HomeNet, this is Grace, how can I help?
+[00:06] Client: I was without service for four days last week and I want compensation.
+[00:14] Agent: A four-day outage is a serious disruption, and I completely understand. Let me verify the dates.
+[00:23] Client: It was Monday to Thursday.
+[00:28] Agent: Can I confirm your name and account first?
+[00:34] Client: Paul Kerr, account 40028.
+[00:40] Agent: Thank you, Paul. I can see the outage logged from Monday through Thursday, just as you said.
+[00:50] Client: So it's confirmed on your side.
+[00:55] Agent: It is. I'll apply a credit for those four days.
+[01:02] Client: And something for the inconvenience?
+[01:07] Agent: Yes, I'll add a goodwill credit on top of the four days.
+[01:14] Client: I appreciate that.
+[01:17] Agent: It'll all appear on your next bill, and here's your reference.
+[01:24] Client: Thank you, that's reasonable.
+[01:27] Agent: I'm sorry again for the disruption. Is there anything else I can help with?
+[01:35] Client: No, that's everything.
+[01:38] Agent: Thank you, Paul, have a good day.

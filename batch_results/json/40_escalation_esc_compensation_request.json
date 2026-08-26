@@ -1,0 +1,235 @@
+{
+  "final": 70.9,
+  "agent": 100.0,
+  "conversation": 55.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1669,
+    "output": 386,
+    "total": 2055,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 329,
+        "output": 60
+      },
+      {
+        "label": "scorecard",
+        "input": 980,
+        "output": 246
+      },
+      {
+        "label": "suggestions",
+        "input": 360,
+        "output": 80
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Paul Kerr contacted HomeNet due to a four-day service outage spanning Monday through Thursday last week. The agent applied a credit for those days and provided a goodwill credit on his next bill as compensation for the inconvenience caused by the disruption.  The call concluded with Paul confirming receipt of the adjustment.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Paul by name (\"Paul Kerr\")."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration with the outage, stating \u201cI completely understand.\u201d"
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone throughout the conversation."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Paul's issue (\"It was Monday to Thursday.\")"
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Paul\u2019s account details (account 40028)."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked clarifying questions about the outage duration (\u201cCan I confirm your name and account first?\u201d)"
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent clearly stated the credit amount and next steps."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent applied a goodwill credit to Paul\u2019s bill."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Paul's concerns."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the issue was resolved and offered further assistance."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.9,
+      "text": "I was without service for four days last week and I want compensation."
+    }
+  ],
+  "suggestions": [
+    "Compensation for the four-day outage.",
+    "A goodwill credit on their next bill.",
+    "Confirm the exact amount of the credit request.",
+    "Check if there are any specific details about the disruption that could be helpful to understand the situation better (e.g., impact on services)."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.276
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.294
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.284
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.382
+    }
+  ],
+  "response_time_score": 97.5,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 8,
+      "slow": false,
+      "client_text": "I was without service for four days last week and I want compensation.",
+      "agent_text": "A four-day outage is a serious disruption, and I completely understand. Let me verify the dates."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "It was Monday to Thursday.",
+      "agent_text": "Can I confirm your name and account first?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Paul Kerr, account 40028.",
+      "agent_text": "Thank you, Paul. I can see the outage logged from Monday through Thursday, just as you said."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "So it's confirmed on your side.",
+      "agent_text": "It is. I'll apply a credit for those four days."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And something for the inconvenience?",
+      "agent_text": "Yes, I'll add a goodwill credit on top of the four days."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "I appreciate that.",
+      "agent_text": "It'll all appear on your next bill, and here's your reference."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Thank you, that's reasonable.",
+      "agent_text": "I'm sorry again for the disruption. Is there anything else I can help with?"
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's everything.",
+      "agent_text": "Thank you, Paul, have a good day."
+    }
+  ],
+  "accuracy_overall": 12.5,
+  "accuracy": [
+    {
+      "client_question": "I was without service for four days last week and I want compensation.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "A four-day outage is a serious disruption, and I completely understand. Let me verify the dates.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "confirm the cancellation date on the account"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Paul Kerr, account 40028.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "Thank you, Paul. I can see the outage logged from Monday through Thursday, just as you said.",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

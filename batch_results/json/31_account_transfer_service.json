@@ -1,0 +1,255 @@
+{
+  "final": 79.4,
+  "agent": 100.0,
+  "conversation": 50.2,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 20,
+    "agent": 10,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1667,
+    "output": 464,
+    "total": 2131,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 331,
+        "output": 83
+      },
+      {
+        "label": "scorecard",
+        "input": 974,
+        "output": 299
+      },
+      {
+        "label": "suggestions",
+        "input": 362,
+        "output": 82
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client, Dan Reyes, contacted HomeNet to update his service address to 88 Hill Road and inquire about coverage at that location. The agent confirmed partial coverage but identified lower speeds compared to his current plan due to infrastructure limitations. After discussing options, the agent offered a transfer to a better-equipped plan with adjusted pricing for him. Finally, the client agreed to the transfer and received details via email.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Dan with his name and started with \u201cLet me check whether we cover your new address.\u201d"
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Dan\u2019s disappointment by saying \"I understand.\""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone, chose words carefully (avoiding harsh language), and kept the conversation focused on resolving the issue."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Dan's concern about speed (\"So what are my options?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Dan\u2019s name and account details with \u201cThanks, Dan.\u201d"
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked a clarifying question about the new address (\u201cWhat\u2019s the new address?\u201d) to understand the situation better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the next steps (transferring him to a plan and adjusting the price)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution \u2013 transferring Dan to a lower-speed plan."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for the issue, even though it was due to infrastructure limitations."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Dan\u2019s concerns about speed and price."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the transfer would resolve his concern."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 10,
+      "speaker": "Client",
+      "sentiment": -0.88,
+      "text": "That's disappointing."
+    }
+  ],
+  "suggestions": [
+    "To maintain their current service at the new address (88 Hill Road).",
+    "To have coverage available at the new location.",
+    "Confirm the new address is accurate and verify it\u2019s within the service area.",
+    "Explore alternative plans that might better suit his needs, considering the lower speeds."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.177
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.278
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.413
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.387
+    }
+  ],
+  "response_time_score": 98.9,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I'm moving and want to keep my service at the new place.",
+      "agent_text": "Let me check whether we cover your new address. Verifying your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Dan Reyes.",
+      "agent_text": "Thanks, Dan. What's the new address?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "88 Hill Road.",
+      "agent_text": "Give me a moment to check coverage there."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Do you cover it?",
+      "agent_text": "Partially. We serve the area, but the top speeds there are lower than your current plan."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "That's disappointing.",
+      "agent_text": "I understand. It's due to the infrastructure at that location."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So what are my options?",
+      "agent_text": "I can transfer you to the best available plan there and adjust the price to match the lower speed."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So I pay less at least?",
+      "agent_text": "Yes, the price would drop to reflect the plan."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Alright, do that.",
+      "agent_text": "When's your move date?"
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "The twentieth.",
+      "agent_text": "I'll schedule the transfer for the twentieth. You'll get the details by email."
+    }
+  ],
+  "accuracy_overall": 44.5,
+  "accuracy": [
+    {
+      "client_question": "I'm moving and want to keep my service at the new place.",
+      "matched_question": "I'm moving house, can I transfer my service to my new address?",
+      "confidence": "strong",
+      "agent_answer": "Let me check whether we cover your new address. Verifying your account first.",
+      "ideal_answer": "Yes, we can transfer your service. Let me check coverage at your new address and book the move for your chosen date. There's no charge as long as we cover your new area.",
+      "covered": [
+        "confirm the service can be transferred",
+        "check coverage at the new address"
+      ],
+      "missed": [
+        "arrange the move date with no unnecessary charge"
+      ],
+      "accuracy": 66.7
+    },
+    {
+      "client_question": "So what are my options?",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "I can transfer you to the best available plan there and adjust the price to match the lower speed.",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed"
+      ],
+      "missed": [
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 66.7
+    },
+    {
+      "client_question": "So I pay less at least?",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "Yes, the price would drop to reflect the plan.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

@@ -1,0 +1,228 @@
+{
+  "final": 55.9,
+  "agent": 70.8,
+  "conversation": 51.0,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 16,
+    "agent": 8,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1514,
+    "output": 465,
+    "total": 1979,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 271,
+        "output": 59
+      },
+      {
+        "label": "scorecard",
+        "input": 941,
+        "output": 311
+      },
+      {
+        "label": "suggestions",
+        "input": 302,
+        "output": 95
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client contacted HomeNet requesting port forwarding for their gaming console due to other providers offering similar services. The agent initially declined but offered to provide instructions through an online guide and login details via email. After the client expressed a desire for more personalized assistance, the agent agreed to send the guidance.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PARTIAL",
+      "reason": "The agent acknowledged the customer\u2019s request but didn\u2019t offer further assistance or a solution beyond providing instructions."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent used the customer\u2019s name without personalization, failing to establish rapport."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded with \u201cI'm not really trained on that part\u201d which demonstrates empathy for the customer\u2019s frustration."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a professional tone despite the initial rejection of the request. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s question (\"So who is?\") to confirm understanding, showing active listening."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer's name and account details before providing assistance."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked a clarifying question about the gaming console and its purpose, moving beyond simple instructions."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent failed to provide clear expectations regarding the resolution process or next steps."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PARTIAL",
+      "reason": "\u2013 While sending the guide, it didn\u2019t offer any troubleshooting tips or guidance on how to resolve the issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent acknowledged responsibility by stating \u201cI'll email you the guide\u201d and offered further assistance before closing."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s question (\"So who is?\") to confirm understanding, showing active listening."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the customer\u2019s issue was resolved with the provided guidance."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.76,
+      "text": "That's an advanced setting, I'm not sure we support that."
+    }
+  ],
+  "suggestions": [
+    "Want: Setting up port forwarding for a gaming console.",
+    "Need: Guidance on how to do it.",
+    "Check the client\u2019s router admin page and look for \u201cPort Forwarding\u201d or similar settings.",
+    "Verify the client has the correct IP address and subnet mask configured in their router.",
+    "Send the guide immediately after confirming the client is comfortable with the process."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.302
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.301
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.279
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.372
+    }
+  ],
+  "response_time_score": 91.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I need to set up port forwarding for my gaming console.",
+      "agent_text": "That's an advanced setting, I'm not sure we support that."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Other providers help their customers with this.",
+      "agent_text": "Let me check what I'm allowed to do."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 15,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "I can't change it for you, but I can send you the steps for the router admin page."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Can you at least walk me through it?",
+      "agent_text": "I'm not really trained on that part."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So who is?",
+      "agent_text": "You could try our online guide."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I was hoping for actual help.",
+      "agent_text": "I'll email you the guide and the admin login details."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Fine, send them over.",
+      "agent_text": "Sent. Is there anything else?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "Other providers help their customers with this.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "Let me check what I'm allowed to do.",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Fine, send them over.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "Sent. Is there anything else?",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

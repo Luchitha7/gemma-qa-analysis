@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet support, this is Tom, how can I help?
+[00:05] Client: I'd like to set up automatic payments so I stop missing due dates.
+[00:12] Agent: Happy to help with that. Let me verify your account first.
+[00:19] Client: It's Olivia Reed.
+[00:23] Agent: Thank you, Olivia. Do you want to use a card or a bank account for autopay?
+[00:31] Client: A card, please.
+[00:34] Agent: Great. I'll add it securely, you can read the details when you're ready.
+[00:42] Client: Okay, done reading them out.
+[00:46] Agent: The card is saved. I'll set autopay to run on your due date each month.
+[00:54] Client: Will I get a reminder before it charges?
+[00:59] Agent: Yes, you'll get an email a few days before each payment.
+[01:06] Client: That's exactly what I wanted.
+[01:09] Agent: Autopay is active now, and I've sent a confirmation to your email.
+[01:16] Client: Thank you so much.
+[01:19] Agent: You're welcome. Is there anything else I can help you with?
+[01:25] Client: No, that's everything.
+[01:27] Agent: Great, have a wonderful day.

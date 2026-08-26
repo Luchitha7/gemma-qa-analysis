@@ -1,0 +1,336 @@
+{
+  "final": 68.2,
+  "agent": 91.7,
+  "conversation": 43.3,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 26,
+    "agent": 13,
+    "client": 13
+  },
+  "token_usage": {
+    "input": 2305,
+    "output": 435,
+    "total": 2740,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 490,
+        "output": 79
+      },
+      {
+        "label": "scorecard",
+        "input": 1294,
+        "output": 283
+      },
+      {
+        "label": "suggestions",
+        "input": 521,
+        "output": 73
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Alan Webb (account 60215) contacted HomeNet due to repeated service failures \u2013 three outages this month, two missed technician visits, and a wrong bill. The agent logged all issues under one reference and assigned them to a case manager for resolution within two business days. They addressed the incorrect billing by correcting it today and applied an interim credit as compensation for the inconvenience caused.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used \u201cAlan Webb\u201d as the greeting, demonstrating personalization."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded to the client's frustration with \"I understand your frustration,\" validating their feelings."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "The agent maintained a calm tone throughout the conversation, avoiding interruptions and using polite language (\"Please tell me everything\"). [RoBERTa flagged 2 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\u201cThat\u2019s a lot to deal with\u2026\u201d) to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Alan Webb's account details (\"Thank you, Alan.\")."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions about the specific issues (outages, missed visits, bill)."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the next steps and timeline for resolution."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution to correct the billing error and apply an interim credit."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "The agent listened attentively to Alan\u2019s complaints without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the billing error was corrected and the case manager would be handling it."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.84,
+      "text": "I want to make a formal complaint about repeated failures on my account."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.8,
+      "text": "I'm sorry it's reached that point. I'll take this seriously and log it properly."
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "Three outages this month, two missed technician visits, and a wrong bill."
+    },
+    {
+      "turn": 9,
+      "speaker": "Agent",
+      "sentiment": -0.8,
+      "text": "That's a lot to deal with, and I understand your frustration."
+    },
+    {
+      "turn": 10,
+      "speaker": "Client",
+      "sentiment": -0.76,
+      "text": "It's been exhausting."
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.79,
+      "text": "What about the wrong bill in the meantime?"
+    }
+  ],
+  "suggestions": [
+    "Repeated service failures",
+    "Incorrect bill and missed appointments",
+    "Review account history for potential causes of outages.",
+    "Confirm details of each issue are accurately documented in the case file.",
+    "Follow up with the case manager to ensure resolution is prioritized."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.318
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.349
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.273
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.389
+    }
+  ],
+  "response_time_score": 95.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 8,
+      "slow": false,
+      "client_text": "I want to make a formal complaint about repeated failures on my account.",
+      "agent_text": "I'm sorry it's reached that point. I'll take this seriously and log it properly."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Good, because I've had enough.",
+      "agent_text": "Let me verify the account first, then you can walk me through everything."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 7,
+      "slow": false,
+      "client_text": "It's Alan Webb, account 60215.",
+      "agent_text": "Thank you, Alan. Please tell me each issue and I'll record them all."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 9,
+      "slow": false,
+      "client_text": "Three outages this month, two missed technician visits, and a wrong bill.",
+      "agent_text": "That's a lot to deal with, and I understand your frustration."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "It's been exhausting.",
+      "agent_text": "I've logged all three issues under a single complaint reference."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Will anything actually change this time?",
+      "agent_text": "Yes. I'm assigning it to a case manager who will own it until it's resolved."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "When will they contact me?",
+      "agent_text": "Within two business days, and they'll stay with your case throughout."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 6,
+      "slow": false,
+      "client_text": "What about the wrong bill in the meantime?",
+      "agent_text": "I'll correct the billing error now so that part is fixed today."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And the missed technician visits?",
+      "agent_text": "The case manager will rebook those with priority and confirm a firm date with you."
+    },
+    {
+      "agent_turn": 21,
+      "delay": 5,
+      "slow": false,
+      "client_text": "That's better than being passed around.",
+      "agent_text": "I'll also apply an interim credit now for the trouble you've had."
+    },
+    {
+      "agent_turn": 23,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Thank you, that's the first useful call I've had.",
+      "agent_text": "I'm glad. Here's your complaint reference for your records."
+    },
+    {
+      "agent_turn": 25,
+      "delay": 3,
+      "slow": false,
+      "client_text": "I'll write that down.",
+      "agent_text": "Take your time. Is there anything else I can help you with today?"
+    }
+  ],
+  "accuracy_overall": 18.3,
+  "accuracy": [
+    {
+      "client_question": "I want to make a formal complaint about repeated failures on my account.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I'm sorry it's reached that point. I'll take this seriously and log it properly.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "apologise or acknowledge the problem"
+      ],
+      "missed": [
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Three outages this month, two missed technician visits, and a wrong bill.",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "That's a lot to deal with, and I understand your frustration.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "What about the wrong bill in the meantime?",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "weak",
+      "agent_answer": "I'll correct the billing error now so that part is fixed today.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [
+        "offer to review the bill line by line",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "missed": [
+        "explain the reason for the increase"
+      ],
+      "accuracy": 66.7
+    },
+    {
+      "client_question": "And the missed technician visits?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "The case manager will rebook those with priority and confirm a firm date with you.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Thank you, that's the first useful call I've had.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I'm glad. Here's your complaint reference for your records.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

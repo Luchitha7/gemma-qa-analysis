@@ -1,0 +1,261 @@
+{
+  "final": 65.3,
+  "agent": 95.5,
+  "conversation": 55.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 20,
+    "agent": 10,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1829,
+    "output": 454,
+    "total": 2283,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 366,
+        "output": 67
+      },
+      {
+        "label": "scorecard",
+        "input": 1066,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 397,
+        "output": 67
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Sam Patel contacted HomeNet support due to slow internet speeds experienced throughout the day. The agent initiated a speed test and identified an issue where her connection was being affected by distance from the router. After resetting the line, they offered a Wi-Fi extender at no cost to resolve the problem. Sam expressed gratitude for the service provided.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the standard greeting and offered a post-call survey promptly."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly identified Sam Patel and her account (Sam Patel, account 33190) using her name."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration with slow internet (\"That's annoying, especially day to day.\") and validated their experience (\u201cIt is.\u201d)."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a polite tone throughout the conversation, avoiding interruptions and using respectful language. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue in her own words (\"Are you connected by wifi or a cable?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed Sam Patel's name and account details with a clear verification process."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions about connection type (\u201cCan I ask, are you connected by wifi or a cable?\u201d) to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly explained the expected resolution (shipping an extender and following up) and provided a timeline for follow-up."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "The agent offered a solution (shipping an extender) that directly addressed the customer\u2019s issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the problem, stating \u201cI'll ship one at no cost\u201d and assuring her of follow-up."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Sam"
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "My internet is really slow lately, everything buffers."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.88,
+      "text": "That's annoying, especially day to day. Let me run some tests to see what's happening."
+    }
+  ],
+  "suggestions": [
+    "Internet speed is slow.",
+    "Distance from router is impacting speeds.",
+    "Check the wifi extender\u2019s placement and signal strength.",
+    "Monitor the extension\u2019s performance after installation.",
+    "Schedule a follow-up call to verify the solution works."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.246
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.387
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.27
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.355
+    }
+  ],
+  "response_time_score": 88.9,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "My internet is really slow lately, everything buffers.",
+      "agent_text": "That's annoying, especially day to day. Let me run some tests to see what's happening."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Please do.",
+      "agent_text": "Can I confirm your name and account for security?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Sam Patel, account 33190.",
+      "agent_text": "Thanks, Sam. Let me run a speed test on your line now."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 15,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "You're getting about half the speed your plan should deliver."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's a big difference.",
+      "agent_text": "It is. Can I ask, are you connected by wifi or a cable?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Wifi, from the other side of the house.",
+      "agent_text": "Distance can reduce wifi speed. Let me also reset the line from our side to be sure."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "The reset is done. If wifi is still slow far from the router, I can send a wifi extender."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That would help, yes.",
+      "agent_text": "I'll ship one at no cost, arriving in two days, and I've noted the ticket to follow up."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Thank you, that's great service.",
+      "agent_text": "You're welcome. Anything else I can help with?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My internet is really slow lately, everything buffers.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "strong",
+      "agent_answer": "That's annoying, especially day to day. Let me run some tests to see what's happening.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Wifi, from the other side of the house.",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "Distance can reduce wifi speed. Let me also reset the line from our side to be sure.",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Thank you, that's great service.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "weak",
+      "agent_answer": "You're welcome. Anything else I can help with?",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

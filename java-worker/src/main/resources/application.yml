@@ -1,0 +1,38 @@
+server:
+  # The Java service listens here. Kept off 8000 so it can run next to the
+  # Python app (which uses 8000) on the same machine.
+  port: 8080
+
+spring:
+  kafka:
+    # Where Kafka is. localhost:9092 is what the docker-compose in this folder
+    # starts. Point this at the real broker in production.
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      # Our CallMessage is sent as JSON.
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+    consumer:
+      group-id: qa-workers
+      # Start from the oldest un-read message if this group has no saved position.
+      auto-offset-reset: earliest
+      # We commit offsets ourselves, only after a call is scored. See the worker.
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        # Only trust our own message classes when reading JSON off the topic.
+        spring.json.trusted.packages: "us.adepttech.signalqa.model"
+        spring.json.value.default.type: "us.adepttech.signalqa.model.CallMessage"
+
+    listener:
+      # MANUAL means the worker decides when a message counts as done, by calling
+      # ack.acknowledge(). This is what makes a crashed call get retried instead
+      # of lost.
+      ack-mode: manual
+
+python:
+  # The Python scoring service. The Java worker calls POST {base-url}/analyze.
+  base-url: http://localhost:8000

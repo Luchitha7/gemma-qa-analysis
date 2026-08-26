@@ -1,0 +1,19 @@
+[00:00] Agent: Thank you for calling HomeNet, this is Luca, how can I help?
+[00:06] Client: My contract ends next month, what are my options?
+[00:12] Agent: Great question, let me lay them out for you. Verifying your account first.
+[00:21] Client: It's Nora James.
+[00:25] Agent: Thanks, Nora. You have three main options when the contract ends.
+[00:33] Client: Go on.
+[00:35] Agent: First, you can do nothing and roll onto a monthly plan at the standard rate.
+[00:43] Client: And that rate is higher?
+[00:47] Agent: Slightly higher than a contract price, yes.
+[00:52] Agent: Second, you can renew for twelve months and get a discount that locks the price.
+[01:01] Client: How much is the discount?
+[01:05] Agent: It saves you about ten dollars a month for the year.
+[01:11] Client: And the third option?
+[01:15] Agent: Third, you could switch to a different plan entirely if your needs have changed.
+[01:23] Client: My needs are about the same.
+[01:27] Agent: Then renewing for the discount is likely your best value.
+[01:34] Client: Let's do that.
+[01:36] Agent: I've applied the twelve-month renewal with the discount. You'll get confirmation by email. Anything else?
+[01:46] Client: No, that's perfect, thanks.

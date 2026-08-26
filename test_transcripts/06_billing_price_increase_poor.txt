@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: Why has my price gone up without any notice?
+[00:08] Agent: Prices go up sometimes. It's in the terms you agreed to.
+[00:15] Client: But nobody told me it was changing.
+[00:20] Agent: We send emails about that.
+[00:24] Client: I never got one.
+[00:28] Agent: Then you should check your spam folder.
+[00:33] Client: That's not really my fault though.
+[00:38] Agent: There's nothing I can do about the pricing, it's set by the company.
+[00:45] Client: Can you at least offer me a discount to make up for it?
+[00:51] Agent: No, I don't have anything for that.
+[00:56] Client: This is a terrible way to treat a long-time customer.
+[01:02] Agent: I'm just telling you how it is.
+[01:07] Client: Can I speak to a manager then?
+[01:11] Agent: A manager will tell you the exact same thing.
+[01:16] Client: I still want to speak to one.
+[01:20] Agent: They're all busy right now.
+[01:24] Client: Unbelievable.

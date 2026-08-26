@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: My internet is down AGAIN and I work from home. This is costing me money.
+[00:11] Agent: I understand, let me check right now.
+[00:17] Client: Please hurry.
+[00:20] Agent: Can I get your postcode to check the area?
+[00:26] Client: It's 5008.
+[00:44] Agent: Still checking, one moment.
+[01:02] Client: Well? I'm waiting.
+[01:06] Agent: There's an outage in your area, restore is estimated at about an hour.
+[01:14] Client: An hour is far too long for me.
+[01:19] Agent: I can't speed up the repair itself, unfortunately.
+[01:25] Client: So I just lose an hour of work?
+[01:30] Agent: I'll credit you for the downtime to make up for it.
+[01:36] Client: That doesn't replace the lost work.
+[01:41] Agent: I understand, but the credit is what I can offer.
+[01:47] Client: Fine. Just make sure it's actually fixed in an hour.
+[01:53] Agent: I'll text you when it's restored. Here's the outage reference.

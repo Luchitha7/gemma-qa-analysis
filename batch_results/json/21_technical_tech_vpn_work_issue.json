@@ -1,0 +1,236 @@
+{
+  "final": 70.5,
+  "agent": 100.0,
+  "conversation": 55.0,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1690,
+    "output": 410,
+    "total": 2100,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 336,
+        "output": 70
+      },
+      {
+        "label": "scorecard",
+        "input": 987,
+        "output": 276
+      },
+      {
+        "label": "suggestions",
+        "input": 367,
+        "output": 64
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Alan Prior contacted HomeNet regarding intermittent VPN disconnections while working remotely. The agent identified packet loss as the cause of the issue through stability testing. They prioritized his line and created a ticket for network investigation with an estimated resolution time of within twenty-four hours. Client was informed that the issue is high priority due to their work from home arrangement.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly used Alan\u2019s name and account details."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with the VPN issue, stating it was disruptive to their work."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a respectful tone throughout the conversation, avoiding interruptions and using polite language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s concern about the VPN instability."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Alan's name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked clarifying questions like \"Can you describe when this happens?\" to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent provided a timeframe for investigation (24 hours) and promised updates."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered to prioritize the line and open a ticket with the network team."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the issue, even though it was outside their direct control."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "The agent listened attentively to Alan\u2019s explanation of the problem."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue had been addressed and provided a reference number."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.73,
+      "text": "I work from home and my work VPN keeps disconnecting on your network."
+    }
+  ],
+  "suggestions": [
+    "VPN disconnection issues",
+    "Network instability impacting work",
+    "Check network logs for specific times of disconnects.",
+    "Monitor connection speed during peak hours.",
+    "Follow up with the network team to confirm investigation timeline"
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.212
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.261
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.31
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.347
+    }
+  ],
+  "response_time_score": 89.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 8,
+      "slow": false,
+      "client_text": "I work from home and my work VPN keeps disconnecting on your network.",
+      "agent_text": "I understand how disruptive that is for work. Let me check your line stability."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "Can I confirm your name and the account for security?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Alan Prior, business account 90114.",
+      "agent_text": "Thanks, Alan. Let me run a stability test over the last few hours."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 17,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "I can see brief packet loss every so often, which would drop a VPN."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So it is your network.",
+      "agent_text": "It looks that way. I'll prioritise your line and open a ticket with our network team."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "How long to fix?",
+      "agent_text": "They'll investigate within 24 hours, and I'll keep you posted with updates."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I really need this stable for work.",
+      "agent_text": "Understood, I've flagged it as high priority given you work from home."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "Here's your reference number, and you'll hear from us within a day. Anything else?"
+    }
+  ],
+  "accuracy_overall": 12.5,
+  "accuracy": [
+    {
+      "client_question": "I work from home and my work VPN keeps disconnecting on your network.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "weak",
+      "agent_answer": "I understand how disruptive that is for work. Let me check your line stability.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [
+        "run a line or connection stability test"
+      ],
+      "missed": [
+        "acknowledge the problem",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "So it is your network.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "It looks that way. I'll prioritise your line and open a ticket with our network team.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

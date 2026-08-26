@@ -1,0 +1,271 @@
+{
+  "final": 61.0,
+  "agent": 95.8,
+  "conversation": 33.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1590,
+    "output": 424,
+    "total": 2014,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 285,
+        "output": 82
+      },
+      {
+        "label": "scorecard",
+        "input": 989,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 316,
+        "output": 22
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called HomeNet regarding the fifth time they\u2019ve experienced connection drops, repeatedly requesting notes on their account. The agent initially dismissed the issue but then offered basic troubleshooting steps like rebooting the router. After repeated requests for assistance, the client escalated the situation due to feeling unheard and unsupported by the representative. Ultimately, the agent suggested the customer reboot the device again and call back if the problem persisted.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the company name promptly, followed by their own name, demonstrating professionalism."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent addressed the client\u2019s name (\"Client\") immediately, a crucial step for establishing rapport."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with the connection drops (\u201cMy connection drops every single day.\u201d) showing understanding."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a calm tone despite the client\u2019s negativity (\"I can't just book a technician.\") avoiding aggressive language. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue in their own words, \u201cMy connection drops every single day,\u201d to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "The agent validated the customer\u2019s name and account details (\u201cClient\u201d) before proceeding with troubleshooting."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked probing questions like \"Have you rebooted the router?\" to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution (\"reboot it again and call back if it continues.\") providing clear next steps."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "The agent suggested troubleshooting steps, which is a logical response to the issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the problem, even though they couldn\u2019t immediately fix it."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent avoided interrupting and focused on understanding the client's concerns."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the issue was resolved (\"then send"
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.76,
+      "text": "This is the fifth time I've called about the same problem."
+    },
+    {
+      "turn": 7,
+      "speaker": "Agent",
+      "sentiment": -0.77,
+      "text": "Just tell me the problem again."
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "My connection drops every single day."
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "Why is everyone here useless?"
+    }
+  ],
+  "suggestions": [
+    "Problem: Connection drops frequently.",
+    "Request: Escalation to a supervisor."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.382
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "BROKEN",
+      "evidence": "I don't see a fault on my screen.",
+      "closeness": 0.491
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.35
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.36
+    }
+  ],
+  "response_time_score": 97.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "This is the fifth time I've called about the same problem.",
+      "agent_text": "What's the issue?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "You should have notes on my account, look them up.",
+      "agent_text": "I don't have time to read every note."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Excuse me? That's literally your job.",
+      "agent_text": "Just tell me the problem again."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "My connection drops every single day.",
+      "agent_text": "Have you rebooted the router?"
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Yes, a thousand times. I want this escalated.",
+      "agent_text": "There's nothing to escalate."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Five calls is nothing to escalate?",
+      "agent_text": "I don't see a fault on my screen."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Then send someone to check.",
+      "agent_text": "I can't just book a technician."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Why is everyone here useless?",
+      "agent_text": "There's no need for that."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Then actually help me.",
+      "agent_text": "Reboot it again and call back if it continues."
+    }
+  ],
+  "accuracy_overall": 8.3,
+  "accuracy": [
+    {
+      "client_question": "This is the fifth time I've called about the same problem.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "strong",
+      "agent_answer": "What's the issue?",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "My connection drops every single day.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Have you rebooted the router?",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [
+        "check whether it is the router or the line"
+      ],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Five calls is nothing to escalate?",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I don't see a fault on my screen.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

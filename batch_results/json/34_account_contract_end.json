@@ -1,0 +1,239 @@
+{
+  "final": 54.5,
+  "agent": 64.3,
+  "conversation": 57.0,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1686,
+    "output": 459,
+    "total": 2145,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 340,
+        "output": 79
+      },
+      {
+        "label": "scorecard",
+        "input": 975,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 371,
+        "output": 60
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client, Nora James, contacted HomeNet regarding her contract ending next month and seeking options to maintain service. The agent presented three choices for her: continuing with the standard rate, renewing for twelve months with a discount, or switching to another plan entirely if necessary. After confirming these options, the agent applied the renewal with the discounted price to Nora James\u2019 account and provided confirmation via email.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "Short reason: The agent used the standard greeting, but didn't offer a post-call survey to gauge customer satisfaction."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent immediately jumped into offering solutions without acknowledging Nora\u2019s specific question about her contract ending."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "Short reason: The agent responded with \u201cGreat question,\u201d which is a passive response that doesn't demonstrate empathy for Nora\u2019s frustration."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "\u2013 The agent used phrases like \"Let me lay them out for you\" and \"I've applied the renewal,\" creating an impersonal tone."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "Short reason: The agent restated Nora\u2019s question about the discount, which is a necessary step in understanding her needs."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 Short reason: The agent validated Nora\u2019s name and account details, confirming she's a customer of HomeNet."
+    },
+    {
+      "name": "Probing",
+      "rating": "PARTIAL",
+      "reason": "The agent provided basic information but didn't actively engage in empathy, acknowledging Nora\u2019s question about the discount. There were no probing questions asked beyond confirming her name and account details."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Understand options for ending their contract.",
+    "Explore a discounted renewal option.",
+    "Confirm the exact discount amount and duration.",
+    "Ask about potential changes to existing services if switching is considered."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.218
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.287
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.327
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.341
+    }
+  ],
+  "response_time_score": 99.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "My contract ends next month, what are my options?",
+      "agent_text": "Great question, let me lay them out for you. Verifying your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Nora James.",
+      "agent_text": "Thanks, Nora. You have three main options when the contract ends."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Go on.",
+      "agent_text": "First, you can do nothing and roll onto a monthly plan at the standard rate."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "And that rate is higher?",
+      "agent_text": "Slightly higher than a contract price, yes."
+    },
+    {
+      "agent_turn": 12,
+      "delay": 4,
+      "slow": false,
+      "client_text": "How much is the discount?",
+      "agent_text": "It saves you about ten dollars a month for the year."
+    },
+    {
+      "agent_turn": 14,
+      "delay": 4,
+      "slow": false,
+      "client_text": "And the third option?",
+      "agent_text": "Third, you could switch to a different plan entirely if your needs have changed."
+    },
+    {
+      "agent_turn": 16,
+      "delay": 4,
+      "slow": false,
+      "client_text": "My needs are about the same.",
+      "agent_text": "Then renewing for the discount is likely your best value."
+    },
+    {
+      "agent_turn": 18,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Let's do that.",
+      "agent_text": "I've applied the twelve-month renewal with the discount. You'll get confirmation by email. Anything else?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My contract ends next month, what are my options?",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "weak",
+      "agent_answer": "Great question, let me lay them out for you. Verifying your account first.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [],
+      "missed": [
+        "offer to review the bill line by line",
+        "explain the reason for the increase",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "And that rate is higher?",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "Slightly higher than a contract price, yes. Second, you can renew for twelve months and get a discount that locks the price.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "How much is the discount?",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "weak",
+      "agent_answer": "It saves you about ten dollars a month for the year.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [],
+      "missed": [
+        "offer to review the bill line by line",
+        "explain the reason for the increase",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

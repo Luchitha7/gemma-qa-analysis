@@ -1,0 +1,15 @@
+[00:00] Agent: HomeNet, this is Kate, how can I help?
+[00:04] Client: Just checking, has my payment been received this month?
+[00:10] Agent: Happy to confirm that for you. Let me verify your account first.
+[00:17] Client: It's Greg Payne.
+[00:21] Agent: Thanks, Greg. Let me pull up your billing.
+[00:28] Client: Okay.
+[00:38] Agent: Yes, your payment posted this morning, so you're fully paid up.
+[00:45] Client: Great, no late fees or anything?
+[00:50] Agent: None at all, the account is in good standing.
+[00:56] Client: Perfect, that's all I needed.
+[01:00] Agent: Would you like me to email you a receipt for your records?
+[01:06] Client: Yes, please.
+[01:09] Agent: Sent. Is there anything else I can help you with?
+[01:15] Client: No, that's everything, thank you.
+[01:18] Agent: You're welcome, Greg, have a great day.

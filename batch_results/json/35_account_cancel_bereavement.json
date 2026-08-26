@@ -1,0 +1,219 @@
+{
+  "final": 69.2,
+  "agent": 100.0,
+  "conversation": 72.5,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1744,
+    "output": 450,
+    "total": 2194,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 353,
+        "output": 68
+      },
+      {
+        "label": "scorecard",
+        "input": 1007,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 384,
+        "output": 62
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called HomeNet support to close their father\u2019s account after his passing. The agent assisted them by completing the closure process, confirming no cancellation fees were applied and providing a return label for equipment. They expressed gratitude for the understanding shown throughout the call. Finally, the agent confirmed the account was closed and sent a confirmation email.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting, thanked the customer for their call, and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the client\u2019s request to close the account in their own words (\"I'm calling to close my father's account\")."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided clear expectations about the closure process (email confirmation) and next steps."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the account closure had been completed"
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.75,
+      "text": "I'm calling to close my father's account, he passed away recently."
+    }
+  ],
+  "suggestions": [
+    "Close his father\u2019s account.",
+    "Request no cancellation fees.",
+    "Send a return label immediately after confirming closure.",
+    "Offer to check for any outstanding balances or fees before sending the label."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.255
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.259
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.258
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.34
+    }
+  ],
+  "response_time_score": 98.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I'm calling to close my father's account, he passed away recently.",
+      "agent_text": "I'm so sorry for your loss. I'll make this as gentle and simple as I can."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Thank you, I appreciate that.",
+      "agent_text": "There's no rush. When you're ready, could you tell me the name on the account?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Robert Shaw.",
+      "agent_text": "Thank you. I've found the account. I'll close it with no cancellation fees."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's kind.",
+      "agent_text": "I may need a document later to finalise, but you don't need to do anything today."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Okay, that's a relief.",
+      "agent_text": "I'll email you a return label for the equipment whenever you're able to send it, no deadline."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Thank you for being so understanding.",
+      "agent_text": "Of course. Is there anything else I can help you with, or anyone I can note to contact?"
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that covers it.",
+      "agent_text": "I've closed the account and sent the confirmation. Please take care of yourself."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Thank you very much.",
+      "agent_text": "You're welcome. My condolences again."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I'm calling to close my father's account, he passed away recently.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I'm so sorry for your loss. I'll make this as gentle and simple as I can.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

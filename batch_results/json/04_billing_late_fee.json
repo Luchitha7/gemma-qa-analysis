@@ -1,0 +1,291 @@
+{
+  "final": 68.8,
+  "agent": 100.0,
+  "conversation": 27.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1708,
+    "output": 439,
+    "total": 2147,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 330,
+        "output": 89
+      },
+      {
+        "label": "scorecard",
+        "input": 1017,
+        "output": 283
+      },
+      {
+        "label": "suggestions",
+        "input": 361,
+        "output": 67
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because they received a late fee despite paying on time and discovered the payment was processed later than expected due to bank transfer processing times. The agent investigated the situation by reviewing their account history and explained the system\u2019s record of delayed payments. After confirming the payment went out on schedule, the agent waived the fee as a courtesy. Finally, the client expressed dissatisfaction with the process and requested assurance that it wouldn't occur again.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "Prompt greeting and post-call survey offer were used effectively."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.86,
+      "text": "I got a late fee but I paid on time. This is ridiculous."
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.86,
+      "text": "So I'm being punished for your slow processing?"
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.81,
+      "text": "That's not very reassuring."
+    }
+  ],
+  "suggestions": [
+    "Waive a late fee.",
+    "Ensure this doesn\u2019t happen again.",
+    "Check for any recent bank transfers to verify the payment date.",
+    "Confirm with the customer that they have sufficient funds to cover the fee."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.232
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.294
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.334
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.37
+    }
+  ],
+  "response_time_score": 96.2,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I got a late fee but I paid on time. This is ridiculous.",
+      "agent_text": "Let me take a look at the payment history."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Please do, because I know I paid on the due date.",
+      "agent_text": "I see the payment posted a day after the due date on our side."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "The bank confirmed it went out on the due date.",
+      "agent_text": "Sometimes bank transfers take a day to clear with us."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 6,
+      "slow": false,
+      "client_text": "So I'm being punished for your slow processing?",
+      "agent_text": "It's how the system records it."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "That's not my problem, it's yours.",
+      "agent_text": "I can waive the fee this one time as a courtesy."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "This once? It wasn't my fault at all.",
+      "agent_text": "I've removed the fee from your account."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Can you make sure it doesn't happen again?",
+      "agent_text": "I'll add a note, but the timing depends on when the bank sends it."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "That's not very reassuring.",
+      "agent_text": "The fee is gone for now. Is there anything else?"
+    }
+  ],
+  "accuracy_overall": 15.0,
+  "accuracy": [
+    {
+      "client_question": "I got a late fee but I paid on time. This is ridiculous.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "strong",
+      "agent_answer": "Let me take a look at the payment history.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "give a timeframe for the refund"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Please do, because I know I paid on the due date.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I see the payment posted a day after the due date on our side.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "confirm the cancellation date on the account",
+        "give a timeframe for the refund"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "refund any charge taken after cancellation"
+      ],
+      "accuracy": 50.0
+    },
+    {
+      "client_question": "The bank confirmed it went out on the due date.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "Sometimes bank transfers take a day to clear with us.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "So I'm being punished for your slow processing?",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "It's how the system records it.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "This once? It wasn't my fault at all.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I've removed the fee from your account.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+[00:00] Agent: Thank you for calling HomeNet, this is Peter, how can I help?
+[00:06] Client: My bill looks wrong this month, it's higher than it should be.
+[00:13] Agent: Let me take a look for you.
+[00:19] Client: Okay.
+[00:55] Client: Hello? Are you still there?
+[01:03] Agent: Yes, sorry, still checking your account.
+[01:10] Client: It's been a while.
+[01:48] Client: Are you there? This is a lot of silence.
+[01:55] Agent: Apologies, the system is slow today.
+[02:30] Agent: Okay, I found it, there was a double charge on your account.
+[02:38] Client: Finally. So you'll refund it?
+[02:43] Agent: Yes, I'll refund the extra charge now.
+[02:49] Client: When will I see it?
+[02:53] Agent: In 3 to 5 business days.
+[02:58] Client: Alright. It would help if you talked me through it next time instead of going silent.
+[03:07] Agent: Noted, sorry about the wait. Anything else?
+[03:13] Client: No, that's all.

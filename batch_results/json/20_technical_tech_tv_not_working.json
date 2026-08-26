@@ -1,0 +1,249 @@
+{
+  "final": 66.9,
+  "agent": 100.0,
+  "conversation": 53.2,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1543,
+    "output": 445,
+    "total": 1988,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 288,
+        "output": 60
+      },
+      {
+        "label": "scorecard",
+        "input": 936,
+        "output": 313
+      },
+      {
+        "label": "suggestions",
+        "input": 319,
+        "output": 72
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because their HomeNet TV box was displaying \u201cno signal.\u201d The agent first confirmed that the box was powered on and then instructed them to switch input sources. After a refresh process, the issue resolved as the box rebooted successfully, allowing the client\u2019s channels to load again.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.76,
+      "text": "My HomeNet TV box just shows 'no signal'."
+    }
+  ],
+  "suggestions": [
+    "The client\u2019s TV box is not receiving signal.",
+    "It has rebooted successfully.",
+    "Check the cable connections to ensure they are secure.",
+    "Try a different HDMI port on the set-top box.",
+    "Schedule a technician visit if it continues to fail."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.247
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.382
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.203
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.303
+    }
+  ],
+  "response_time_score": 91.9,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "My HomeNet TV box just shows 'no signal'.",
+      "agent_text": "Let me help. Is the box powered on?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Yes, the light on the front is on.",
+      "agent_text": "Try switching the TV to a different input."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I already did that before calling.",
+      "agent_text": "Okay. Let me send a refresh signal to the box."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 17,
+      "slow": true,
+      "client_text": "Alright.",
+      "agent_text": "Still sending, please hold on."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Is anything happening?",
+      "agent_text": "The box should reboot now, give it two minutes."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Two minutes for a refresh?",
+      "agent_text": "Yes, it reloads the software."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Okay, it's showing the logo now.",
+      "agent_text": "Good, that means it's coming back. If it still fails, I'll book a technician."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's loading the channels now.",
+      "agent_text": "Great. Let me know if it drops again and we'll escalate."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "My HomeNet TV box just shows 'no signal'.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "Let me help. Is the box powered on?",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "I already did that before calling.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "Okay. Let me send a refresh signal to the box.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's loading the channels now.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "Great. Let me know if it drops again and we'll escalate.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

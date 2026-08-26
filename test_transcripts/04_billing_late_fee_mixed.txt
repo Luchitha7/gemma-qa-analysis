@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet, this is Marcus.
+[00:04] Client: I got a late fee but I paid on time. This is ridiculous.
+[00:10] Agent: Let me take a look at the payment history.
+[00:16] Client: Please do, because I know I paid on the due date.
+[00:22] Agent: I see the payment posted a day after the due date on our side.
+[00:30] Client: The bank confirmed it went out on the due date.
+[00:36] Agent: Sometimes bank transfers take a day to clear with us.
+[00:43] Client: So I'm being punished for your slow processing?
+[00:49] Agent: It's how the system records it.
+[00:54] Client: That's not my problem, it's yours.
+[01:00] Agent: I can waive the fee this one time as a courtesy.
+[01:06] Client: This once? It wasn't my fault at all.
+[01:12] Agent: I've removed the fee from your account.
+[01:17] Client: Can you make sure it doesn't happen again?
+[01:22] Agent: I'll add a note, but the timing depends on when the bank sends it.
+[01:30] Client: That's not very reassuring.
+[01:34] Agent: The fee is gone for now. Is there anything else?
+[01:40] Client: No, I suppose that's it.

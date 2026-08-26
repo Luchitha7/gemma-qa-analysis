@@ -1,0 +1,17 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Chloe, how can I help?
+[00:06] Client: Is there an outage? My connection is completely dead.
+[00:12] Agent: Let me check that for you straight away.
+[00:18] Client: Thanks.
+[00:20] Agent: Can I take your name and postcode to check the right area?
+[00:27] Client: David Lund, postcode 3145.
+[00:33] Agent: Thank you, David. Yes, there is a reported outage affecting your postcode.
+[00:42] Client: Okay, at least it's not just me.
+[00:47] Agent: Exactly. The estimated restore time is about ninety minutes.
+[00:54] Client: Is there anything I need to do?
+[00:59] Agent: Nothing at all, our team is handling it. Your equipment is fine.
+[01:07] Client: Good to know.
+[01:10] Agent: I'll send you a text as soon as service is back, and I'll credit the downtime.
+[01:18] Client: That's kind, thank you.
+[01:21] Agent: Here's the outage reference if you need it. Anything else I can help with?
+[01:28] Client: No, that's everything.
+[01:31] Agent: Thanks for your patience, David, have a good day.

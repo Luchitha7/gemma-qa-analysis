@@ -1,0 +1,211 @@
+{
+  "final": 68.3,
+  "agent": 100.0,
+  "conversation": 65.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1611,
+    "output": 435,
+    "total": 2046,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 315,
+        "output": 72
+      },
+      {
+        "label": "scorecard",
+        "input": 950,
+        "output": 292
+      },
+      {
+        "label": "suggestions",
+        "input": 346,
+        "output": 71
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Sophie Lane called to add a second line for her home office at her address. The agent confirmed she was eligible and offered an extra twenty dollars per month plus free installation this month. They agreed on the same speed as her main line and scheduled the installation for Friday morning. Finally, Sophie thanked them for their assistance and ended the call with no further requests.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Sophie by her name (\"Sophie Lane\") immediately."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Sophie\u2019s request to add a second line, showing understanding of her needs."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone throughout the conversation, avoiding interruptions or dismissive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated Sophie's request (\"You want the same speed as your main line...\") to confirm their understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Sophie\u2019s name and account details by confirming her identity."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the office use case (\u201cWhat will you be using it for?\u201d) to understand the specific needs better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly outlined the cost, installation timeframe, and next steps (confirmation email)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully set up the second line with the specified speed and configuration."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving her request."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Sophie\u2019s needs without interrupting or offering unsolicited advice."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue was resolved (\"You'll get a confirmation...\") before closing."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Add a second line for home office use.",
+    "Cost of the service is $20/month and installation is free this month.",
+    "Confirm the desired speed (same as main line or lighter).",
+    "Verify the address for setup."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.187
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.339
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.276
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.354
+    }
+  ],
+  "response_time_score": 94.4,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I want to add a second line for my home office.",
+      "agent_text": "Happy to help with that. Let me verify your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Sophie Lane.",
+      "agent_text": "Thanks, Sophie. Let me check availability at your address for a second line."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "You're eligible for a second line with its own router."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "How much does that cost?",
+      "agent_text": "It's an extra twenty dollars a month, and installation is free this month."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That works for me.",
+      "agent_text": "Do you want the same speed as your main line, or something lighter for the office?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "The same speed, please.",
+      "agent_text": "I'll set that up. The earliest install slot is Friday morning."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Friday's fine.",
+      "agent_text": "Booked. You'll get a confirmation and a reminder the day before."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Great, thank you.",
+      "agent_text": "You're welcome. Anything else I can help with today?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "The same speed, please.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "I'll set that up. The earliest install slot is Friday morning.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

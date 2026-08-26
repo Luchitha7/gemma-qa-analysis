@@ -1,0 +1,51 @@
+id,title,category,quality,length,turns,file,final,band,agent,conversation,accuracy,compliance,response_time,intense_count,warning,seconds
+01,Billing — Double charge,billing,good,medium,19,01_billing_double_charge.json,75.5,OKAY,95.8,64.1,50.0,75.0,93.3,2,,13.8
+02,Billing — High bill,billing,good,medium,22,02_billing_high_bill.json,76.7,OKAY,100.0,55.0,33.3,100.0,98.5,1,,10.1
+03,Billing — Refund after cancel,billing,good,short,17,03_billing_refund_after_cancel.json,63.9,OKAY,100.0,69.4,0.0,75.0,98.8,1,,9.1
+04,Billing — Late fee,billing,mixed,medium,18,04_billing_late_fee.json,68.8,OKAY,100.0,27.7,15.0,100.0,96.2,3,,9.2
+05,Billing — Payment failed,billing,good,short,17,05_billing_payment_failed.json,68.0,OKAY,100.0,62.0,0.0,100.0,96.9,1,,8.9
+06,Billing — Price increase,billing,poor,medium,18,06_billing_price_increase.json,67.2,OKAY,95.0,40.5,11.1,100.0,98.8,2,,9.4
+07,Billing — Discount request,billing,mixed,medium,18,07_billing_discount_request.json,54.5,NEEDS IMPROVEMENT,66.7,54.3,0.0,100.0,88.1,0,,10.9
+08,Billing — Wrong plan charged,billing,good,medium,19,08_billing_wrong_plan_charged.json,77.9,OKAY,100.0,56.9,37.5,100.0,93.3,0,,8.8
+09,Billing — Autopay setup,billing,good,short,17,09_billing_autopay_setup.json,68.2,OKAY,100.0,62.3,0.0,100.0,98.8,0,,8.3
+10,Billing — Dispute unresolved,billing,poor,medium,20,10_billing_dispute_unresolved.json,55.8,NEEDS IMPROVEMENT,100.0,27.3,4.2,50.0,97.2,5,,10.0
+11,Technical — Tech internet down,technical,good,medium,19,11_technical_tech_internet_down.json,61.5,OKAY,95.8,62.9,0.0,75.0,95.0,2,,9.0
+12,Technical — Tech slow speed,technical,good,medium,20,12_technical_tech_slow_speed.json,65.3,OKAY,95.5,55.7,0.0,100.0,88.9,2,,9.4
+13,Technical — Tech router red light,technical,good,medium,20,13_technical_tech_router_red_light.json,62.2,OKAY,100.0,55.1,0.0,75.0,93.3,1,,8.7
+14,Technical — Tech wifi dropping,technical,mixed,medium,19,14_technical_tech_wifi_dropping.json,67.4,OKAY,100.0,43.8,5.0,100.0,92.2,1,,8.3
+15,Technical — Tech no service outage,technical,good,short,17,15_technical_tech_no_service_outage.json,68.0,OKAY,100.0,60.3,0.0,100.0,98.8,1,,8.2
+16,Technical — Tech installation delay,technical,mixed,medium,21,16_technical_tech_installation_delay.json,61.9,OKAY,91.7,32.2,0.0,100.0,96.0,6,,9.5
+17,Technical — Tech email setup,technical,good,medium,19,17_technical_tech_email_setup.json,63.2,OKAY,100.0,62.8,0.0,75.0,98.9,0,,9.4
+18,Technical — Tech intermittent repeat,technical,poor,medium,18,18_technical_tech_intermittent_repeat.json,61.9,OKAY,100.0,17.0,12.5,75.0,93.8,7,,9.3
+19,Technical — Tech new modem setup,technical,good,medium,20,19_technical_tech_new_modem_setup.json,72.7,OKAY,100.0,62.7,16.7,100.0,95.0,1,,9.0
+20,Technical — Tech tv not working,technical,mixed,medium,18,20_technical_tech_tv_not_working.json,66.9,OKAY,100.0,53.2,0.0,100.0,91.9,1,,9.3
+21,Technical — Tech vpn work issue,technical,good,medium,18,21_technical_tech_vpn_work_issue.json,70.5,OKAY,100.0,55.0,12.5,100.0,89.4,1,,8.7
+22,Technical — Tech troubleshoot,technical,good,long,33,22_technical_tech_troubleshoot.json,73.2,OKAY,95.8,53.7,27.8,100.0,91.9,4,,10.9
+23,Technical — Tech port forward,technical,mixed,short,16,23_technical_tech_port_forward.json,55.9,NEEDS IMPROVEMENT,70.8,51.0,0.0,100.0,91.4,1,,9.5
+24,Technical — Tech dns issue,technical,good,medium,18,24_technical_tech_dns_issue.json,62.5,OKAY,100.0,58.0,0.0,75.0,94.4,0,,8.3
+25,Technical — Tech speed upgrade setup,technical,good,medium,18,25_technical_tech_speed_upgrade_setup.json,67.5,OKAY,100.0,61.0,0.0,100.0,88.1,0,,8.5
+26,Account — Cancel retention,account,mixed,medium,21,26_account_cancel_retention.json,66.7,OKAY,86.4,45.6,18.8,100.0,99.0,3,,9.3
+27,Account — Change plan,account,good,medium,18,27_account_change_plan.json,50.5,NEEDS IMPROVEMENT,50.0,70.8,0.0,100.0,98.8,0,,6.2
+28,Account — Update address,account,good,medium,19,28_account_update_address.json,78.0,OKAY,100.0,68.9,33.3,100.0,95.6,0,,7.9
+29,Account — Add line,account,good,medium,18,29_account_add_line.json,68.3,OKAY,100.0,65.9,0.0,100.0,94.4,0,,9.9
+30,Account — Name change,account,good,medium,19,30_account_name_change.json,72.1,OKAY,100.0,66.7,12.5,100.0,97.8,0,,8.7
+31,Account — Transfer service,account,mixed,medium,20,31_account_transfer_service.json,79.4,OKAY,100.0,50.2,44.5,100.0,98.9,1,,9.3
+32,Account — Password reset,account,good,short,17,32_account_password_reset.json,71.5,OKAY,100.0,60.3,12.5,100.0,98.8,1,,8.2
+33,Account — Downgrade,account,poor,medium,18,33_account_downgrade.json,62.5,OKAY,91.7,36.7,18.3,75.0,96.2,5,,8.6
+34,Account — Contract end,account,good,medium,19,34_account_contract_end.json,54.5,NEEDS IMPROVEMENT,64.3,57.0,0.0,100.0,99.4,0,,9.3
+35,Account — Cancel bereavement,account,good,short,17,35_account_cancel_bereavement.json,69.2,OKAY,100.0,72.5,0.0,100.0,98.8,1,,9.1
+36,Escalation — Esc demand supervisor,escalation,good,short,15,36_escalation_esc_demand_supervisor.json,62.7,OKAY,95.8,43.9,11.1,75.0,95.7,3,,8.8
+37,Escalation — Esc refuse supervisor,escalation,poor,short,17,37_escalation_esc_refuse_supervisor.json,59.9,NEEDS IMPROVEMENT,100.0,33.4,16.7,50.0,98.1,5,,9.4
+38,Escalation — Esc threaten cancel,escalation,mixed,short,17,38_escalation_esc_threaten_cancel.json,65.8,OKAY,95.8,24.5,11.1,100.0,96.2,5,,10.8
+39,Escalation — Esc repeated issue,escalation,poor,medium,19,39_escalation_esc_repeated_issue.json,61.0,OKAY,95.8,33.9,8.3,75.0,97.8,4,,10.4
+40,Escalation — Esc compensation request,escalation,good,short,17,40_escalation_esc_compensation_request.json,70.9,OKAY,100.0,55.7,12.5,100.0,97.5,1,,9.9
+41,Escalation — Esc prev agent complaint,escalation,mixed,medium,18,41_escalation_esc_prev_agent_complaint.json,65.6,OKAY,91.7,50.1,25.0,75.0,93.8,5,,10.3
+42,Escalation — Esc formal complaint,escalation,good,long,26,42_escalation_esc_formal_complaint.json,68.2,OKAY,91.7,43.3,18.3,100.0,95.4,6,,12.0
+43,Escalation — Esc angry outage,escalation,mixed,short,17,43_escalation_esc_angry_outage.json,63.2,OKAY,95.5,33.9,0.0,100.0,89.4,3,,11.7
+44,Behaviour — Edge rude agent autofail,behaviour,poor,short,16,44_behaviour_edge_rude_agent_autofail.json,56.9,NEEDS IMPROVEMENT,91.7,29.7,0.0,75.0,100.0,7,,11.5
+45,Behaviour — Edge agent blames customer,behaviour,poor,short,17,45_behaviour_edge_agent_blames_customer.json,57.9,NEEDS IMPROVEMENT,95.8,25.2,0.0,75.0,98.1,4,,14.6
+46,Behaviour — Edge dead air slow,behaviour,mixed,short,17,46_behaviour_edge_dead_air_slow.json,70.2,OKAY,95.8,43.1,25.0,100.0,68.1,2,,10.6
+47,Behaviour — Edge simple payment check,behaviour,good,short,15,47_behaviour_edge_simple_payment_check.json,68.7,OKAY,100.0,69.6,0.0,100.0,95.7,0,,9.6
+48,Behaviour — Edge general info,behaviour,good,short,16,48_behaviour_edge_general_info.json,67.8,OKAY,100.0,60.5,0.0,100.0,94.3,0,,10.6
+49,Behaviour — Edge excellent handling,behaviour,good,long,27,49_behaviour_edge_excellent_handling.json,70.0,OKAY,95.8,68.9,11.1,100.0,91.2,2,,11.9
+50,Behaviour — Edge confused elderly,behaviour,good,medium,21,50_behaviour_edge_confused_elderly.json,72.0,OKAY,100.0,54.7,16.7,100.0,97.5,1,,11.1

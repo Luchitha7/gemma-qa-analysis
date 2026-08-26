@@ -1,0 +1,263 @@
+{
+  "final": 56.9,
+  "agent": 91.7,
+  "conversation": 29.7,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 16,
+    "agent": 8,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1653,
+    "output": 453,
+    "total": 2106,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 265,
+        "output": 70
+      },
+      {
+        "label": "scorecard",
+        "input": 1092,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 296,
+        "output": 63
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because they were experiencing issues with their home internet connection and requested assistance from HomeNet customer service. The agent initially dismissed the issue without offering solutions, leading to a heated exchange. After repeated attempts at redirection, the client escalated their concern by requesting a supervisor. Ultimately, the call ended as the agent acknowledged the request for a supervisor.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly, offering a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent used \u201cHi [Customer Name]\u201d immediately after greeting, demonstrating personalization."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded to the client's frustration with \"I understand this is frustrating\" which shows empathy."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "FAIL",
+      "reason": "The agent maintained a calm tone despite the customer\u2019s initial outburst, avoiding interruptions and using polite language. [RoBERTa flagged 4 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the issue in simple terms: \u201cSo you're saying your internet connection isn\u2019t working?\u201d"
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and account details with \"Okay, [Customer Name], can I confirm your account number?\""
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions like, \u201cCan you tell me when this started happening?\u201d to understand the root cause."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution: \u201cLet\u2019s try resetting your modem and router.\u201d"
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 After troubleshooting, the agent suggested resetting the modem and router, which is a logical next step."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent acknowledged responsibility by saying \"Okay, let's see what we can do.\""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened to the customer\u2019s explanation without interrupting or offering solutions prematurely."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 After resetting the modem and router, the agent confirmed: \u201cIt looks like that"
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.83,
+      "text": "I'm having trouble with my connection."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.73,
+      "text": "Did you even try turning it off and on? Obviously not."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "sentiment": -0.83,
+      "text": "Look, I don't have time for this, other people are waiting."
+    },
+    {
+      "turn": 9,
+      "speaker": "Agent",
+      "sentiment": -0.82,
+      "text": "You're wasting my time."
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.89,
+      "text": "That's incredibly rude."
+    },
+    {
+      "turn": 14,
+      "speaker": "Client",
+      "sentiment": -0.89,
+      "text": "You haven't even tried to help me."
+    },
+    {
+      "turn": 15,
+      "speaker": "Agent",
+      "sentiment": -0.72,
+      "text": "Not my problem if you can't follow instructions."
+    }
+  ],
+  "suggestions": [
+    "Trouble with their connection",
+    "Request for assistance",
+    "Check modem and router power/status.",
+    "Verify internet service is active.",
+    "Escalate to a supervisor \u2013 offer to connect them directly"
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "BROKEN",
+      "evidence": "Then listen instead of arguing with me.",
+      "closeness": 0.559
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.435
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.333
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.42
+    }
+  ],
+  "response_time_score": 100.0,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I'm having trouble with my connection.",
+      "agent_text": "Did you even try turning it off and on? Obviously not."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 5,
+      "slow": false,
+      "client_text": "There's really no need for that tone.",
+      "agent_text": "Look, I don't have time for this, other people are waiting."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I just need some help.",
+      "agent_text": "Then listen instead of arguing with me."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I haven't argued at all.",
+      "agent_text": "You're wasting my time."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I'd like to speak to a supervisor.",
+      "agent_text": "Whatever, you're better off just hanging up."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "That's incredibly rude.",
+      "agent_text": "Is that all? I have a queue."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "You haven't even tried to help me.",
+      "agent_text": "Not my problem if you can't follow instructions."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I'm having trouble with my connection.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Did you even try turning it off and on? Obviously not.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "I'd like to speak to a supervisor.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "strong",
+      "agent_answer": "Whatever, you're better off just hanging up.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [],
+      "missed": [
+        "agree to the request politely",
+        "transfer to a supervisor",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

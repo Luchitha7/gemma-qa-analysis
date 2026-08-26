@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: My connection keeps cutting out, this is the third time I've called about it.
+[00:10] Agent: Have you rebooted the router?
+[00:15] Client: Every single time you people tell me that and it never fixes it.
+[00:22] Agent: Well, it's the standard first step.
+[00:27] Client: I've done it a hundred times. Can you actually investigate the line?
+[00:34] Agent: I don't see anything wrong on my end.
+[00:39] Client: Then why does it keep dropping every day?
+[00:45] Agent: It could easily be your own equipment.
+[00:50] Client: It's your router, it's rented from you.
+[00:56] Agent: Doesn't mean it's faulty.
+[01:01] Client: Three calls and nobody will look into it properly.
+[01:07] Agent: I've made a note.
+[01:11] Client: A note isn't a fix. I want a technician.
+[01:17] Agent: I can't just send one out for this.
+[01:22] Client: Why not?
+[01:25] Agent: Because I don't see a fault. Reboot it again and see.
+[01:32] Client: This is going in circles.

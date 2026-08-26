@@ -1,0 +1,234 @@
+{
+  "final": 63.2,
+  "agent": 100.0,
+  "conversation": 62.8,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1689,
+    "output": 468,
+    "total": 2157,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 341,
+        "output": 63
+      },
+      {
+        "label": "scorecard",
+        "input": 976,
+        "output": 318
+      },
+      {
+        "label": "suggestions",
+        "input": 372,
+        "output": 87
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client contacted HomeNet support because they were having difficulty setting up their new Android phone\u2019s email account. The agent guided the customer through the process of adding an account and configuring settings for incoming and outgoing mail using specific server addresses. After completing these steps, the client successfully verified and connected to their emails.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a pleasant closing."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed the customer by name (\"Grace\") which is crucial for establishing rapport."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration with the initial setup process, validating their concern about not being able to set up email on a new phone."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite and helpful tone throughout the conversation, avoiding any defensive or dismissive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"I can't set up my HomeNet email on my new phone\") to ensure understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and account details by confirming their company/account."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions like \"What phone do you have?\" to understand the specific issue."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly outlined the steps involved in setting up the email, providing a roadmap for the customer."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully guided the customer through the setup process and resolved their initial problem."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for assisting with the issue, offering to continue helping after resolution."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to the customer\u2019s concerns without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the email was successfully synced and the customer should see their emails in their inbox."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "The client wants to set up their HomeNet email on an Android phone.",
+    "They entered the server settings (mail.homenet.com and smtp.homenet.com) correctly.",
+    "Check if the Gmail account is already associated with the phone.",
+    "Verify that the correct port numbers are being used for incoming and outgoing mail."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.238
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.433
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.233
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "BROKEN",
+      "evidence": "Perfect. Is there anything else I can help you with?",
+      "closeness": 0.452
+    }
+  ],
+  "response_time_score": 98.9,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I can't set up my HomeNet email on my new phone.",
+      "agent_text": "No problem, I'll walk you through it step by step. What phone do you have?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 3,
+      "slow": false,
+      "client_text": "An Android.",
+      "agent_text": "Great. Open your mail app and choose to add a new account."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Okay, it's asking for the email and password.",
+      "agent_text": "Enter your full HomeNet email address and your email password."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Done, now it wants server settings.",
+      "agent_text": "For incoming, use mail.homenet.com with port 993 and SSL on."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Entered.",
+      "agent_text": "For outgoing, use smtp.homenet.com with port 587 and SSL on."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Okay, and now?",
+      "agent_text": "Tap next, it should verify and connect."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's connecting... it worked!",
+      "agent_text": "Wonderful. You should see your inbox syncing now."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Yes, the emails are coming in.",
+      "agent_text": "Perfect. Is there anything else I can help you with?"
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's great, thank you.",
+      "agent_text": "You're welcome, have a good day."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I can't set up my HomeNet email on my new phone.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "weak",
+      "agent_answer": "No problem, I'll walk you through it step by step. What phone do you have?",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's connecting... it worked!",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Wonderful. You should see your inbox syncing now.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

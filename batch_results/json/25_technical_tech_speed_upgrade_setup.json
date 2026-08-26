@@ -1,0 +1,267 @@
+{
+  "final": 67.5,
+  "agent": 100.0,
+  "conversation": 61.0,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 18,
+    "agent": 9,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1635,
+    "output": 409,
+    "total": 2044,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 323,
+        "output": 61
+      },
+      {
+        "label": "scorecard",
+        "input": 958,
+        "output": 276
+      },
+      {
+        "label": "suggestions",
+        "input": 354,
+        "output": 72
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Maya Cross called to report she was still experiencing slower speeds after upgrading her online speed despite the upgrade being applied. The agent confirmed the upgrade was active and initiated a profile re-provisioning process on her account. After a brief reconnection period, the speed increased significantly as per the agent\u2019s instructions.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly identified Maya Cross by her name."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration with slow speeds, validating their experience."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a polite tone throughout the conversation, avoiding interruptions or defensive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer's issue (\"So why is it slow?\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Maya\u2019s account details by confirming her name and company."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions like \"Can you do that now?\" to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the next steps (pushing the new profile) and offered a speed test as confirmation."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent successfully resolved the issue by pushing the new profile."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue, even though it was an ongoing process."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Maya\u2019s explanation of the problem."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the speed had improved after restarting her router."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Wanted: To have the upgraded speed apply immediately.",
+    "Issue: Line hasn\u2019t been re-provisioned to the new profile.",
+    "Check your router settings and ensure it\u2019s connected correctly.",
+    "Run a speed test after restarting the router to confirm the change."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.306
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.396
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.236
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.33
+    }
+  ],
+  "response_time_score": 88.1,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I upgraded my speed online but I'm still getting the old speed.",
+      "agent_text": "Let me look into that, upgrades don't always apply instantly. Verifying your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Maya Cross.",
+      "agent_text": "Thanks, Maya. I can see the upgrade is on your account."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So why is it slow?",
+      "agent_text": "The line hasn't been re-provisioned to the new profile yet."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Can you do that now?",
+      "agent_text": "Yes, I'll push the new profile to your line right now."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 12,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "Done. Please restart your router so it picks up the new speed."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 15,
+      "slow": true,
+      "client_text": "Restarting it now.",
+      "agent_text": "Take your time, it needs a moment to reconnect."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "It's back on.",
+      "agent_text": "Great, run a speed test whenever you like and you should see the higher figure."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Testing now... yes, it's much faster.",
+      "agent_text": "Perfect. Anything else I can help with today?"
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "I upgraded my speed online but I'm still getting the old speed.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "strong",
+      "agent_answer": "Let me look into that, upgrades don't always apply instantly. Verifying your account first.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "So why is it slow?",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "weak",
+      "agent_answer": "The line hasn't been re-provisioned to the new profile yet.",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Can you do that now?",
+      "matched_question": "I'm moving house, can I transfer my service to my new address?",
+      "confidence": "weak",
+      "agent_answer": "Yes, I'll push the new profile to your line right now.",
+      "ideal_answer": "Yes, we can transfer your service. Let me check coverage at your new address and book the move for your chosen date. There's no charge as long as we cover your new area.",
+      "covered": [],
+      "missed": [
+        "confirm the service can be transferred",
+        "check coverage at the new address",
+        "arrange the move date with no unnecessary charge"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Restarting it now.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "Take your time, it needs a moment to reconnect.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Testing now... yes, it's much faster.",
+      "matched_question": "I want to upgrade to a faster plan.",
+      "confidence": "weak",
+      "agent_answer": "Perfect. Anything else I can help with today?",
+      "ideal_answer": "Of course, I can upgrade you. I'll go over the faster plans and their prices, and once you pick one I'll confirm the new speed and the date it takes effect \u2014 usually within 24 hours.",
+      "covered": [],
+      "missed": [
+        "confirm the upgrade can be done",
+        "explain the new price and speed",
+        "confirm when the change takes effect"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

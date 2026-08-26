@@ -1,0 +1,238 @@
+{
+  "final": 70.2,
+  "agent": 95.8,
+  "conversation": 43.1,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 8,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1590,
+    "output": 405,
+    "total": 1995,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 293,
+        "output": 63
+      },
+      {
+        "label": "scorecard",
+        "input": 973,
+        "output": 289
+      },
+      {
+        "label": "suggestions",
+        "input": 324,
+        "output": 53
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because their bill was higher than expected and they were concerned about a double charge on their account. The agent investigated the issue by identifying the duplicate charge and promptly refunded it. After confirming the resolution, the client expressed dissatisfaction with the lack of communication during the call and requested further explanation in future interactions.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed the customer by name (\"Hello?\") and initiated the conversation with a friendly opening."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s frustration (\u201cLet me take a look\u2026\u201d) and validated their concern about the bill increase."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a polite tone, chose words carefully (avoiding jargon), and kept a respectful pace. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the issue (\"It\u2019s been a while...\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer's name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the double charge (\u201cAre you still there?\u201d) to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the refund timeframe (\"In 3 to 5 business days\")."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent immediately resolved the issue by issuing a refund."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for the mistake and offered a solution."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to the customer\u2019s concerns."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed the resolution (\"Yes, I'll refund\u2026\u201d) before closing."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.93,
+      "text": "My bill looks wrong this month, it's higher than it should be."
+    },
+    {
+      "turn": 9,
+      "speaker": "Agent",
+      "sentiment": -0.72,
+      "text": "Apologies, the system is slow today."
+    }
+  ],
+  "suggestions": [
+    "What the client wanted: A refund for a double charge on their bill.",
+    "Suggestions / follow-ups:  Review account history to identify the source of the duplicate charge; proactively explain the process and timeline clearly in future interactions."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.276
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.412
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.246
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.367
+    }
+  ],
+  "response_time_score": 68.1,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "My bill looks wrong this month, it's higher than it should be.",
+      "agent_text": "Let me take a look for you."
+    },
+    {
+      "agent_turn": 6,
+      "delay": 44,
+      "slow": true,
+      "client_text": "Okay.",
+      "agent_text": "Yes, sorry, still checking your account."
+    },
+    {
+      "agent_turn": 6,
+      "delay": 8,
+      "slow": false,
+      "client_text": "Hello? Are you still there?",
+      "agent_text": "Yes, sorry, still checking your account."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 45,
+      "slow": true,
+      "client_text": "It's been a while.",
+      "agent_text": "Apologies, the system is slow today."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Are you there? This is a lot of silence.",
+      "agent_text": "Apologies, the system is slow today."
+    },
+    {
+      "agent_turn": 12,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Finally. So you'll refund it?",
+      "agent_text": "Yes, I'll refund the extra charge now."
+    },
+    {
+      "agent_turn": 14,
+      "delay": 4,
+      "slow": false,
+      "client_text": "When will I see it?",
+      "agent_text": "In 3 to 5 business days."
+    },
+    {
+      "agent_turn": 16,
+      "delay": 9,
+      "slow": false,
+      "client_text": "Alright. It would help if you talked me through it next time instead of going silent.",
+      "agent_text": "Noted, sorry about the wait. Anything else?"
+    }
+  ],
+  "accuracy_overall": 25.0,
+  "accuracy": [
+    {
+      "client_question": "My bill looks wrong this month, it's higher than it should be.",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "strong",
+      "agent_answer": "Let me take a look for you.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [],
+      "missed": [
+        "offer to review the bill line by line",
+        "explain the reason for the increase",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Finally. So you'll refund it?",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "Yes, I'll refund the extra charge now.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account"
+      ],
+      "accuracy": 50.0
+    }
+  ]
+}

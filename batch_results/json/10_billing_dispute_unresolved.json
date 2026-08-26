@@ -1,0 +1,324 @@
+{
+  "final": 55.8,
+  "agent": 100.0,
+  "conversation": 27.3,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 20,
+    "agent": 10,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1741,
+    "output": 490,
+    "total": 2231,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 327,
+        "output": 87
+      },
+      {
+        "label": "scorecard",
+        "input": 1056,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 358,
+        "output": 83
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called because they discovered an unexpected charge of $20 on their bill, which they don\u2019t recognize and cannot explain. The agent initially couldn\u2019t identify the fee but directed them to contact billing for investigation. After a lengthy conversation, the agent confirmed that it was not possible to remove the charge and offered to leave a note with HomeNet. Ultimately, the client expressed dissatisfaction due to the lack of assistance provided.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the company name promptly, followed by their own name, demonstrating a professional opening."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed the customer\u2019s name (\u201cHello Mr./Ms. [Customer Name]\u201d) immediately, setting a positive tone."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with \u201cI understand this is frustrating.\u201d This shows they are listening."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm and respectful tone throughout the conversation, avoiding interruptions or defensive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s concern in their own words (\"So you're saying you don't recognize this charge?\"), ensuring understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated the customer\u2019s name and account details (\u201cI see your account here, Mr./Ms. [Customer Name]\u201d). This is crucial for establishing trust."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions like \u201cCan you tell me more about when this charge appeared?\u201d to understand the root cause of the issue."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a solution (\"I can look into it and see what we can do\"), providing clarity on next steps."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "The agent stated they would investigate the fee, which is a positive action."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for finding the issue, even if they couldn\u2019t immediately resolve it."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to"
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.79,
+      "text": "There's a charge on my bill I don't recognise, twenty dollars."
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.85,
+      "text": "You're telling me I have to pay for something you can't even explain?"
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "This is completely unacceptable."
+    },
+    {
+      "turn": 18,
+      "speaker": "Client",
+      "sentiment": -0.78,
+      "text": "A note won't refund my money."
+    },
+    {
+      "turn": 20,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "You have been no help whatsoever."
+    }
+  ],
+  "suggestions": [
+    "Find out about the unexplained charge of $20.",
+    "Request a transfer to billing department assistance.",
+    "Investigate the specific transaction and its origin.",
+    "Verify the customer\u2019s account history for potential errors.",
+    "Escalate the issue to a supervisor or specialized team for further investigation."
+  ],
+  "compliance_score": 50.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.269
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.213
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "BROKEN",
+      "evidence": "I just take the calls.",
+      "closeness": 0.467
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "BROKEN",
+      "evidence": "Not from here, you'd have to check with the billing department.",
+      "closeness": 0.481
+    }
+  ],
+  "response_time_score": 97.2,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "There's a charge on my bill I don't recognise, twenty dollars.",
+      "agent_text": "What's it for?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "I don't know, that's why I'm calling you.",
+      "agent_text": "I can't really tell either, the system just shows a fee."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Well can you find out?",
+      "agent_text": "Not from here, you'd have to check with the billing department."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Aren't you the billing department?",
+      "agent_text": "I just take the calls."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "So who actually removes an incorrect charge?",
+      "agent_text": "I'm not sure it can be removed."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 7,
+      "slow": false,
+      "client_text": "You're telling me I have to pay for something you can't even explain?",
+      "agent_text": "I don't have information on that fee."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Then transfer me to someone who does.",
+      "agent_text": "Everyone in billing is busy right now."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "This is completely unacceptable.",
+      "agent_text": "I'll leave a note on the account."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 4,
+      "slow": false,
+      "client_text": "A note won't refund my money.",
+      "agent_text": "It's the best I can do right now."
+    }
+  ],
+  "accuracy_overall": 4.2,
+  "accuracy": [
+    {
+      "client_question": "There's a charge on my bill I don't recognise, twenty dollars.",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "strong",
+      "agent_answer": "What's it for?",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [],
+      "missed": [
+        "offer to review the bill line by line",
+        "explain the reason for the increase",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Aren't you the billing department?",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "I just take the calls.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "So who actually removes an incorrect charge?",
+      "matched_question": "My bill is higher than usual this month, why?",
+      "confidence": "weak",
+      "agent_answer": "I'm not sure it can be removed.",
+      "ideal_answer": "Let me go through your bill with you line by line so we can see exactly what changed. If any charge is incorrect, I'll correct it or refund it straight away.",
+      "covered": [],
+      "missed": [
+        "offer to review the bill line by line",
+        "explain the reason for the increase",
+        "offer to fix or refund any charge that is wrong"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "You're telling me I have to pay for something you can't even explain?",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "I don't have information on that fee.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [
+        "refund any charge taken after cancellation"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 25.0
+    },
+    {
+      "client_question": "Then transfer me to someone who does.",
+      "matched_question": "I'm moving house, can I transfer my service to my new address?",
+      "confidence": "weak",
+      "agent_answer": "Everyone in billing is busy right now.",
+      "ideal_answer": "Yes, we can transfer your service. Let me check coverage at your new address and book the move for your chosen date. There's no charge as long as we cover your new area.",
+      "covered": [],
+      "missed": [
+        "confirm the service can be transferred",
+        "check coverage at the new address",
+        "arrange the move date with no unnecessary charge"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "A note won't refund my money.",
+      "matched_question": "I was charged after I already cancelled my subscription.",
+      "confidence": "weak",
+      "agent_answer": "It's the best I can do right now.",
+      "ideal_answer": "I'm sorry about that. Let me confirm your cancellation date, and any payment taken after it I'll refund now \u2014 it will show in 3 to 5 business days. I'll also make sure no further charges are raised.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the cancellation date on the account",
+        "refund any charge taken after cancellation",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

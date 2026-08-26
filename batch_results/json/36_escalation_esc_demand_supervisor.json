@@ -1,0 +1,254 @@
+{
+  "final": 62.7,
+  "agent": 95.8,
+  "conversation": 43.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 15,
+    "agent": 8,
+    "client": 7
+  },
+  "token_usage": {
+    "input": 1746,
+    "output": 431,
+    "total": 2177,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 328,
+        "output": 62
+      },
+      {
+        "label": "scorecard",
+        "input": 1059,
+        "output": 292
+      },
+      {
+        "label": "suggestions",
+        "input": 359,
+        "output": 77
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Karen Doyle contacted HomeNet because her internet service is frequently dropping. The agent verified her account details before transferring her to a supervisor who will review the previous calls regarding this issue. After confirming the problem with the supervisor, the call concluded when the supervisor was informed of the notes and connected Karen to their assistance.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer\u2019s name (\"Karen\") and used \u201cyou\u201d appropriately throughout the conversation."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded to the client's frustration with understanding, validating their feelings (\u201cI hear you\u201d)."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a calm tone, avoided interrupting, and chose words that were not aggressive. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue (\"My internet keeps dropping...\") to confirm understanding."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Karen's name and account details before transferring her."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions about the problem (\u201cIt\u2019s\u2026\u201d) to understand the root cause better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided a clear next step (\"They'll be with you shortly\") and added notes to the supervisor."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a temporary solution (briefing the supervisor)."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue, even though it was escalated."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Karen\u2019s concerns without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue had been resolved (\"They've added the notes\")."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.83,
+      "text": "I've had enough, I want to speak to a supervisor right now."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "sentiment": -0.71,
+      "text": "Four calls is far too many, I'm sorry. Before I transfer you, can I note what's happened?"
+    },
+    {
+      "turn": 6,
+      "speaker": "Client",
+      "sentiment": -0.94,
+      "text": "My internet keeps dropping and no one has fixed it."
+    }
+  ],
+  "suggestions": [
+    "To speak to a supervisor about internet service issues.",
+    "To have their current situation addressed.",
+    "Check the customer\u2019s modem and router status remotely.",
+    "Investigate potential network outages in the area.",
+    "Document the issue thoroughly for the supervisor before transferring."
+  ],
+  "compliance_score": 75.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.315
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.263
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "BROKEN",
+      "evidence": "I'm connecting you to a supervisor now, please hold just a moment.",
+      "closeness": 0.584
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.39
+    }
+  ],
+  "response_time_score": 95.7,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "I've had enough, I want to speak to a supervisor right now.",
+      "agent_text": "I hear you, and I'm sorry you've reached that point. I can arrange that."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 7,
+      "slow": false,
+      "client_text": "Yes, please, this is the fourth call about the same thing.",
+      "agent_text": "Four calls is far too many, I'm sorry. Before I transfer you, can I note what's happened?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "My internet keeps dropping and no one has fixed it.",
+      "agent_text": "Understood. Let me verify the account so I can brief the supervisor properly."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Karen Doyle.",
+      "agent_text": "Thank you, Karen. I can see the previous tickets, so the supervisor will have context."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Good, I don't want to repeat everything again.",
+      "agent_text": "You won't have to, I'll pass on the full history."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "I'm connecting you to a supervisor now, please hold just a moment."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "They'll be with you shortly, and I've added the notes. Thanks for your patience, Karen."
+    }
+  ],
+  "accuracy_overall": 11.1,
+  "accuracy": [
+    {
+      "client_question": "I've had enough, I want to speak to a supervisor right now.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "strong",
+      "agent_answer": "I hear you, and I'm sorry you've reached that point. I can arrange that.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [
+        "agree to the request politely"
+      ],
+      "missed": [
+        "transfer to a supervisor",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "Yes, please, this is the fourth call about the same thing.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "Four calls is far too many, I'm sorry. Before I transfer you, can I note what's happened?",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "My internet keeps dropping and no one has fixed it.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Understood. Let me verify the account so I can brief the supervisor properly.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

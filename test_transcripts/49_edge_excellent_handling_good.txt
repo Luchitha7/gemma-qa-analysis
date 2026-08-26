@@ -1,0 +1,27 @@
+[00:00] Agent: Thank you for calling HomeNet, my name is Sofia, how can I help you today?
+[00:06] Client: Hi Sofia, my internet dropped last night and hasn't come back.
+[00:13] Agent: I'm sorry about that, let me help you right away. Can I confirm your name and address?
+[00:22] Client: Yes, it's Mark Reilly, 14 Oak Road.
+[00:28] Agent: Thank you, Mark. Let me first check for any outage in your area.
+[00:37] Client: Okay.
+[00:50] Agent: There's no area outage, so it's specific to your line. Can you tell me the router lights?
+[00:59] Client: Power is on, the internet one is red.
+[01:05] Agent: That points to a line fault. I'll run a diagnostic to confirm.
+[01:14] Client: Sure.
+[01:30] Agent: Confirmed, there's a fault on your line. I'll book a technician for tomorrow morning.
+[01:39] Client: Will there be a charge?
+[01:43] Agent: None at all, since it's our equipment and our line.
+[01:50] Client: That's a relief.
+[01:53] Agent: In the meantime, would a mobile hotspot backup help? I can enable a temporary data allowance.
+[02:02] Client: That would actually be great for tomorrow.
+[02:07] Agent: Done, I've added a temporary allowance so you're not fully offline until the fix.
+[02:15] Client: Thank you, I didn't know that was possible.
+[02:20] Agent: Happy to help. I'll also credit you for the downtime, and text you before the technician arrives.
+[02:29] Client: You've been really helpful.
+[02:33] Agent: My pleasure, Mark. Let me give you the ticket reference now.
+[02:40] Client: Got it, thank you.
+[02:43] Agent: And what's the best number to reach you on before the visit?
+[02:50] Client: This mobile is fine.
+[02:53] Agent: Noted. Is there anything else I can help you with today?
+[02:59] Client: No, that's everything.
+[03:02] Agent: Thank you for choosing HomeNet and have a great day.

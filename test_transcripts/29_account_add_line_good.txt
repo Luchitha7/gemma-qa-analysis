@@ -1,0 +1,18 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Jack, how can I help?
+[00:06] Client: I want to add a second line for my home office.
+[00:12] Agent: Happy to help with that. Let me verify your account first.
+[00:19] Client: It's Sophie Lane.
+[00:23] Agent: Thanks, Sophie. Let me check availability at your address for a second line.
+[00:32] Client: Okay.
+[00:45] Agent: You're eligible for a second line with its own router.
+[00:52] Client: How much does that cost?
+[00:56] Agent: It's an extra twenty dollars a month, and installation is free this month.
+[01:04] Client: That works for me.
+[01:07] Agent: Do you want the same speed as your main line, or something lighter for the office?
+[01:15] Client: The same speed, please.
+[01:19] Agent: I'll set that up. The earliest install slot is Friday morning.
+[01:27] Client: Friday's fine.
+[01:30] Agent: Booked. You'll get a confirmation and a reminder the day before.
+[01:37] Client: Great, thank you.
+[01:40] Agent: You're welcome. Anything else I can help with today?
+[01:46] Client: No, that's everything.

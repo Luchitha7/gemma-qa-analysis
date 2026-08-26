@@ -1,0 +1,20 @@
+[00:00] Agent: Thanks for calling HomeNet, this is Omar, how can I help?
+[00:06] Client: My new modem arrived but I don't know how to install it.
+[00:13] Agent: No worries, I'll guide you through the whole thing. Let me verify your account first.
+[00:21] Client: It's Tanya Brooks.
+[00:25] Agent: Thanks, Tanya. Have you unboxed the modem and the cables?
+[00:32] Client: Yes, everything's out.
+[00:35] Agent: Great. First, connect the coax cable to the port labelled 'cable' on the back.
+[00:44] Client: Okay, done.
+[00:47] Agent: Now plug in the power adapter and switch it on.
+[00:53] Client: It's on, lights are flashing.
+[00:57] Agent: That's normal while it starts up. Wait for the online light to go solid.
+[01:05] Client: It just went solid.
+[01:08] Agent: Perfect. Now I'll activate it from our side, give me a moment.
+[01:16] Client: Sure.
+[01:28] Agent: You should be online now. Try opening a website for me.
+[01:35] Client: It's working, that was easier than I expected.
+[01:40] Agent: I'm glad. Please recycle the old modem or return it with the label in the box.
+[01:48] Client: Will do. Thank you so much.
+[01:51] Agent: You're welcome, Tanya. Anything else I can help with?
+[01:57] Client: No, that's all.

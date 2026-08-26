@@ -1,0 +1,272 @@
+{
+  "final": 65.8,
+  "agent": 95.8,
+  "conversation": 24.5,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1893,
+    "output": 453,
+    "total": 2346,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 367,
+        "output": 77
+      },
+      {
+        "label": "scorecard",
+        "input": 1128,
+        "output": 307
+      },
+      {
+        "label": "suggestions",
+        "input": 398,
+        "output": 69
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Here\u2019s a summary of the call:\n\nMike Ross called HomeNet because his internet service has been consistently unreliable for two weeks without resolution. The agent escalated the issue to their network team due to its priority nature, providing complete account history and a credit for the affected period. After confirming the situation, the agent offered personal follow-up and provided a reference number for updates.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Mike\u2019s name and started by expressing empathy, which was appropriate given his frustration."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent responded to the customer's feelings (\"I really don\u2019t want to lose you\") demonstrating understanding of their situation."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "The agent maintained a respectful tone throughout the conversation, avoiding interruptions and using polite language. [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s issue in their own words (\u201cMy internet has been unreliable for two weeks\u2026\u201d) to confirm comprehension."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Mike's name and account details before escalating the issue."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked probing questions about the specific problem (\"And still nothing has changed.\") to understand the root cause of the issue."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent provided accurate expectations regarding the resolution process, including a follow-up action."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent offered a credit for the affected period as a start to the resolution."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility and stated they would personally follow up on the ticket."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Mike\u2019s concerns without interrupting or becoming defensive."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed that the issue was resolved, offering an update."
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.91,
+      "text": "If this isn't fixed today, I'm cancelling and switching to a competitor."
+    },
+    {
+      "turn": 4,
+      "speaker": "Client",
+      "sentiment": -0.95,
+      "text": "My internet has been unreliable for two weeks and nobody fixes it."
+    },
+    {
+      "turn": 5,
+      "speaker": "Agent",
+      "sentiment": -0.85,
+      "text": "Two weeks is unacceptable, I'm sorry. Let me verify the account and look at the history."
+    },
+    {
+      "turn": 8,
+      "speaker": "Client",
+      "sentiment": -0.81,
+      "text": "And still nothing has changed."
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.82,
+      "text": "And what do I get for two weeks of this?"
+    }
+  ],
+  "suggestions": [
+    "Customer wants internet service restored.",
+    "Customer intends to switch providers due to ongoing issues.",
+    "Investigate the root cause of the problem immediately \u2013 check network logs and equipment status.",
+    "Provide Mike Ross with a detailed explanation of the escalation process and timeline for resolution."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.277
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.397
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.252
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.3
+    }
+  ],
+  "response_time_score": 96.2,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "If this isn't fixed today, I'm cancelling and switching to a competitor.",
+      "agent_text": "I really don't want to lose you. Tell me what's going on and I'll do my best."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 8,
+      "slow": false,
+      "client_text": "My internet has been unreliable for two weeks and nobody fixes it.",
+      "agent_text": "Two weeks is unacceptable, I'm sorry. Let me verify the account and look at the history."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Mike Ross.",
+      "agent_text": "Thank you, Mike. I can see three prior tickets on this."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And still nothing has changed.",
+      "agent_text": "I understand your frustration. I'm escalating this to our network team as a priority fault."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I've heard that before.",
+      "agent_text": "This time I'm attaching the full history so they can't restart from scratch."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 5,
+      "slow": false,
+      "client_text": "And what do I get for two weeks of this?",
+      "agent_text": "I'll credit you for the affected period as a start."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "That's the least you can do.",
+      "agent_text": "You're right, and I'll personally follow up on the ticket."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Fine, but this is your last chance before I leave.",
+      "agent_text": "Understood. Here's the reference, and the credit is applied. I'll be in touch with an update."
+    }
+  ],
+  "accuracy_overall": 11.1,
+  "accuracy": [
+    {
+      "client_question": "If this isn't fixed today, I'm cancelling and switching to a competitor.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "strong",
+      "agent_answer": "I really don't want to lose you. Tell me what's going on and I'll do my best.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything",
+        "commit to a clear resolution or escalation this time"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "My internet has been unreliable for two weeks and nobody fixes it.",
+      "matched_question": "My internet keeps dropping out every few minutes.",
+      "confidence": "strong",
+      "agent_answer": "Two weeks is unacceptable, I'm sorry. Let me verify the account and look at the history.",
+      "ideal_answer": "That sounds frustrating, sorry about that. Let me run a stability test on your line to see where the drops are coming from. If it's the router or the line on our side, I'll reset it remotely or arrange a replacement at no cost.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a line or connection stability test",
+        "check whether it is the router or the line",
+        "offer a concrete next step (reset, replacement, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "And still nothing has changed.",
+      "matched_question": "This is the third time I've called about the same issue.",
+      "confidence": "weak",
+      "agent_answer": "I understand your frustration. I'm escalating this to our network team as a priority fault.",
+      "ideal_answer": "I'm sorry you've had to call this many times, that's not good enough. Let me pull up your history so you don't have to repeat yourself, and I'll either resolve it now or escalate it with a reference so it's seen through to the end.",
+      "covered": [
+        "commit to a clear resolution or escalation this time"
+      ],
+      "missed": [
+        "acknowledge the repeated contact and apologise",
+        "take ownership instead of asking them to repeat everything"
+      ],
+      "accuracy": 33.3
+    }
+  ]
+}

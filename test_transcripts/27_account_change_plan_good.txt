@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet support, this is Adam, how can I help?
+[00:05] Client: I'd like to move to a cheaper plan, money's a bit tight.
+[00:12] Agent: Absolutely, let me find one that still fits your needs. Verifying your account first.
+[00:21] Client: It's Beth Cole.
+[00:25] Agent: Thanks, Beth. How do you mainly use your internet, streaming, work, gaming?
+[00:33] Client: Mostly streaming and browsing.
+[00:38] Agent: In that case, the mid-tier plan will be plenty and it's cheaper.
+[00:46] Client: How much cheaper?
+[00:50] Agent: It saves you about fifteen dollars a month versus your current plan.
+[00:57] Client: That sounds good.
+[01:00] Agent: Will your speed be enough for streaming? Yes, it comfortably handles HD.
+[01:08] Client: Great, let's do it.
+[01:11] Agent: I'll switch you to the mid-tier plan from your next billing cycle.
+[01:18] Client: Will anything change today?
+[01:22] Agent: No, your service stays the same until the new cycle starts.
+[01:29] Client: Perfect.
+[01:31] Agent: Done, and I've emailed you the confirmation. Anything else I can help with?
+[01:38] Client: No, that's everything, thanks.

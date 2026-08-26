@@ -1,0 +1,218 @@
+{
+  "final": 68.7,
+  "agent": 100.0,
+  "conversation": 69.6,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 15,
+    "agent": 8,
+    "client": 7
+  },
+  "token_usage": {
+    "input": 1467,
+    "output": 338,
+    "total": 1805,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 267,
+        "output": 65
+      },
+      {
+        "label": "scorecard",
+        "input": 902,
+        "output": 216
+      },
+      {
+        "label": "suggestions",
+        "input": 298,
+        "output": 57
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Greg Payne contacted HomeNet to confirm the status of his payment for this month. The agent verified that his account was fully paid and confirmed there were no late fees. After confirming the payment, the agent provided Greg with an email receipt as requested. The call concluded successfully after addressing Greg\u2019s request for a record receipt.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a polite closing."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly addressed Greg by name."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged Greg\u2019s question about payment status, showing understanding."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "\u2013 The agent maintained a professional tone throughout the conversation."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "The agent restated Greg's concern in their own words."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Greg\u2019s name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked a clarifying question about payment status."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "\u2013 The agent clearly stated the resolution (payment received)."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "The agent provided a clear solution to the customer's issue."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively without interruption."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent confirmed Greg\u2019s payment was processed and receipt sent."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "Payment has been received this month.",
+    "No late fees or issues were found.",
+    "Confirm the payment date is accurate in your records.",
+    "Offer to send a confirmation email with details of the payment."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.194
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.257
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.269
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.376
+    }
+  ],
+  "response_time_score": 95.7,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Just checking, has my payment been received this month?",
+      "agent_text": "Happy to confirm that for you. Let me verify your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Greg Payne.",
+      "agent_text": "Thanks, Greg. Let me pull up your billing."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 10,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "Yes, your payment posted this morning, so you're fully paid up."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Great, no late fees or anything?",
+      "agent_text": "None at all, the account is in good standing."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "Perfect, that's all I needed.",
+      "agent_text": "Would you like me to email you a receipt for your records?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Yes, please.",
+      "agent_text": "Sent. Is there anything else I can help you with?"
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's everything, thank you.",
+      "agent_text": "You're welcome, Greg, have a great day."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "Just checking, has my payment been received this month?",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "strong",
+      "agent_answer": "Happy to confirm that for you. Let me verify your account first.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Great, no late fees or anything?",
+      "matched_question": "Do I have to pay for a technician to fix your equipment?",
+      "confidence": "weak",
+      "agent_answer": "None at all, the account is in good standing.",
+      "ideal_answer": "No \u2014 if the fault is with the router you rent from us, there's no charge for the repair or the technician visit. I'll arrange it for you.",
+      "covered": [],
+      "missed": [
+        "confirm there is no charge for company-equipment faults",
+        "offer to arrange the repair or technician"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

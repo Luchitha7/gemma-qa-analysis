@@ -1,0 +1,219 @@
+{
+  "final": 68.0,
+  "agent": 100.0,
+  "conversation": 60.3,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1621,
+    "output": 395,
+    "total": 2016,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 314,
+        "output": 71
+      },
+      {
+        "label": "scorecard",
+        "input": 962,
+        "output": 263
+      },
+      {
+        "label": "suggestions",
+        "input": 345,
+        "output": 61
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "David Lund called to report his internet connection is completely dead and experiencing an outage affecting his postcode (3145). The agent confirmed the issue was localized to this area and provided an estimated restoration time of approximately ninety minutes. They then sent him a text message with service updates and credited the downtime, concluding the call as everything was fine for David.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm and professional tone despite the customer\u2019s initial complaint."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions like \u201cIs this affecting your internet speed?\u201d to understand the impact of the outage."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "The agent took responsibility for resolving the issue."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.84,
+      "text": "Is there an outage? My connection is completely dead."
+    }
+  ],
+  "suggestions": [
+    "Confirmation of an ongoing service disruption.",
+    "Information about the estimated restoration time.",
+    "Verify David\u2019s equipment is functioning correctly.",
+    "Confirm the text message will be sent and credit applied."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.247
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.298
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.244
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.414
+    }
+  ],
+  "response_time_score": 98.8,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Is there an outage? My connection is completely dead.",
+      "agent_text": "Let me check that for you straight away."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thanks.",
+      "agent_text": "Can I take your name and postcode to check the right area?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "David Lund, postcode 3145.",
+      "agent_text": "Thank you, David. Yes, there is a reported outage affecting your postcode."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Okay, at least it's not just me.",
+      "agent_text": "Exactly. The estimated restore time is about ninety minutes."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Is there anything I need to do?",
+      "agent_text": "Nothing at all, our team is handling it. Your equipment is fine."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Good to know.",
+      "agent_text": "I'll send you a text as soon as service is back, and I'll credit the downtime."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 3,
+      "slow": false,
+      "client_text": "That's kind, thank you.",
+      "agent_text": "Here's the outage reference if you need it. Anything else I can help with?"
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's everything.",
+      "agent_text": "Thanks for your patience, David, have a good day."
+    }
+  ],
+  "accuracy_overall": 0.0,
+  "accuracy": [
+    {
+      "client_question": "Is there an outage? My connection is completely dead.",
+      "matched_question": "My internet has been completely down since this morning.",
+      "confidence": "strong",
+      "agent_answer": "Let me check that for you straight away.",
+      "ideal_answer": "I'm sorry to hear that. Let me check for an outage in your area and run a line test on your router. If it's a hardware fault with our rented equipment, I'll arrange a replacement or a technician at no cost to you.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "check for an outage in the area",
+        "run a line test or diagnostic on the router",
+        "arrange a fix or technician at no cost if it is company equipment"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

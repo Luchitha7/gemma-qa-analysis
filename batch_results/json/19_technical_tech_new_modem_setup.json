@@ -1,0 +1,240 @@
+{
+  "final": 72.7,
+  "agent": 100.0,
+  "conversation": 62.7,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 20,
+    "agent": 10,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1784,
+    "output": 425,
+    "total": 2209,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 367,
+        "output": 60
+      },
+      {
+        "label": "scorecard",
+        "input": 1019,
+        "output": 297
+      },
+      {
+        "label": "suggestions",
+        "input": 398,
+        "output": 68
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Tanya Brooks called to request assistance with installing a new modem after it arrived but was not connected. The agent guided her through the initial setup process by connecting the coax cable and powering on the device. After confirming proper operation, the agent successfully activated the modem, allowing Tanya to test its functionality.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a calm tone throughout the call, avoiding interruptions and offering helpful suggestions without being condescending."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "The agent asked clarifying questions like \"Have you unboxed the modem and the cables?\" to understand the issue better."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.79,
+      "text": "My new modem arrived but I don't know how to install it."
+    }
+  ],
+  "suggestions": [
+    "The client successfully installed the new modem.",
+    "It\u2019s working now and is online.",
+    "Ask about any specific issues Tanya experienced during installation (e.g., signal strength).",
+    "Offer to walk her through troubleshooting if she has further questions after activation."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.204
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.391
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.258
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.324
+    }
+  ],
+  "response_time_score": 95.0,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 7,
+      "slow": false,
+      "client_text": "My new modem arrived but I don't know how to install it.",
+      "agent_text": "No worries, I'll guide you through the whole thing. Let me verify your account first."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's Tanya Brooks.",
+      "agent_text": "Thanks, Tanya. Have you unboxed the modem and the cables?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Yes, everything's out.",
+      "agent_text": "Great. First, connect the coax cable to the port labelled 'cable' on the back."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Okay, done.",
+      "agent_text": "Now plug in the power adapter and switch it on."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "It's on, lights are flashing.",
+      "agent_text": "That's normal while it starts up. Wait for the online light to go solid."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 3,
+      "slow": false,
+      "client_text": "It just went solid.",
+      "agent_text": "Perfect. Now I'll activate it from our side, give me a moment."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 12,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "You should be online now. Try opening a website for me."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 5,
+      "slow": false,
+      "client_text": "It's working, that was easier than I expected.",
+      "agent_text": "I'm glad. Please recycle the old modem or return it with the label in the box."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Will do. Thank you so much.",
+      "agent_text": "You're welcome, Tanya. Anything else I can help with?"
+    }
+  ],
+  "accuracy_overall": 16.7,
+  "accuracy": [
+    {
+      "client_question": "My new modem arrived but I don't know how to install it.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "strong",
+      "agent_answer": "No worries, I'll guide you through the whole thing. Let me verify your account first.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "It's on, lights are flashing.",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "That's normal while it starts up. Wait for the online light to go solid.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [
+        "explain what the red light means"
+      ],
+      "missed": [
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 33.3
+    }
+  ]
+}

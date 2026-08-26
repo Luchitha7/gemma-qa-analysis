@@ -1,0 +1,289 @@
+{
+  "final": 66.7,
+  "agent": 86.4,
+  "conversation": 45.6,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 21,
+    "agent": 11,
+    "client": 10
+  },
+  "token_usage": {
+    "input": 1884,
+    "output": 446,
+    "total": 2330,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 381,
+        "output": 58
+      },
+      {
+        "label": "scorecard",
+        "input": 1091,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 412,
+        "output": 68
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Helen Ward canceled her HomeNet service due to concerns about its cost and speed. The agent initiated the cancellation process by verifying account details and confirming the billing end date without an early exit fee. They then provided a prepaid label for return, and Helen confirmed she was satisfied with the resolution.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the company name and their own name promptly and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PARTIAL",
+      "reason": "\u2013 While they acknowledged the customer\u2019s name, it felt slightly robotic; could have been more genuinely empathetic."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "The agent responded to the client's frustration with understanding (\"I understand\"). They also validated their decision (\"That's completely your choice\") which is a good start."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PARTIAL",
+      "reason": "\u2013 The agent maintained a polite tone throughout, avoiding interruptions and using respectful language (\u201cI\u2019m sorry to see you go\u201d). [RoBERTa flagged 1 harsh agent line(s)]"
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "The agent restated the customer\u2019s concern (\"\u2026it\u2019s too expensive and the speed isn't great.\") effectively."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "They confirmed the client\u2019s name and postcode, a crucial step in verifying their account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked clarifying questions about the specific issues (\u201cCould you tell me more about what\u2019s prompting the cancellation?\u201d) to understand the root cause of the problem."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "They clearly stated the billing end date and no early exit fee, providing transparency."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PARTIAL",
+      "reason": "\u2013 While they offered a prepaid label, it wasn't fully explained how that would work or if there were any associated costs beyond the initial label."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for processing the cancellation, even though the customer was determined to leave."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 2,
+      "speaker": "Client",
+      "sentiment": -0.88,
+      "text": "I want to cancel my service."
+    },
+    {
+      "turn": 3,
+      "speaker": "Agent",
+      "sentiment": -0.77,
+      "text": "I'm sorry to hear that. May I ask what's prompting the cancellation?"
+    },
+    {
+      "turn": 4,
+      "speaker": "Client",
+      "sentiment": -0.92,
+      "text": "It's too expensive and the speed isn't great."
+    }
+  ],
+  "suggestions": [
+    "To cancel their home phone service.",
+    "They are dissatisfied with the price and speed of the current plan.",
+    "Offer a loyalty discount to potentially lower the bill.",
+    "Send a prepaid label for easy return of the router."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.244
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.238
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.279
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.399
+    }
+  ],
+  "response_time_score": 99.0,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 4,
+      "slow": false,
+      "client_text": "I want to cancel my service.",
+      "agent_text": "I'm sorry to hear that. May I ask what's prompting the cancellation?"
+    },
+    {
+      "agent_turn": 5,
+      "delay": 6,
+      "slow": false,
+      "client_text": "It's too expensive and the speed isn't great.",
+      "agent_text": "I understand. Before you decide, could I look at a better plan for you?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I've pretty much made up my mind.",
+      "agent_text": "That's completely your choice, I won't pressure you."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Good.",
+      "agent_text": "Let me just verify the account. Your name and postcode, please?"
+    },
+    {
+      "agent_turn": 11,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Helen Ward, postcode 2011.",
+      "agent_text": "Thank you. I can process the cancellation. How much notice do I need to give you on the billing?"
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "What are the terms?",
+      "agent_text": "Your billing ends at the close of this cycle, with no early exit fee."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "And the router?",
+      "agent_text": "I'll email you a prepaid label to send it back at no cost."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "Just to check once more, a loyalty discount could lower your bill if price is the issue."
+    },
+    {
+      "agent_turn": 19,
+      "delay": 5,
+      "slow": false,
+      "client_text": "No, I've decided, please cancel.",
+      "agent_text": "Done. Your service will end at the cycle close."
+    },
+    {
+      "agent_turn": 21,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Thank you.",
+      "agent_text": "I'm sorry to see you go, and thank you for being with us. Take care."
+    }
+  ],
+  "accuracy_overall": 18.8,
+  "accuracy": [
+    {
+      "client_question": "I want to cancel my service.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "strong",
+      "agent_answer": "I'm sorry to hear that. May I ask what's prompting the cancellation?",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [
+        "agree to help with the cancellation",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "missed": [
+        "verify the customer's identity"
+      ],
+      "accuracy": 75.0
+    },
+    {
+      "client_question": "It's too expensive and the speed isn't great.",
+      "matched_question": "My internet is really slow lately.",
+      "confidence": "strong",
+      "agent_answer": "I understand. Before you decide, could I look at a better plan for you?",
+      "ideal_answer": "I'm sorry the speed has dropped. Let me run a line and speed test now to see what you're actually getting. If it's below your plan, I'll reset the line from our side or arrange a technician to fix it.",
+      "covered": [],
+      "missed": [
+        "acknowledge the problem",
+        "run a speed or line test",
+        "offer a concrete next step (fix, reset, or technician)"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "And the router?",
+      "matched_question": "The internet light on my router is flashing red.",
+      "confidence": "weak",
+      "agent_answer": "I'll email you a prepaid label to send it back at no cost.",
+      "ideal_answer": "A flashing red light usually means no connection is reaching the router. I'll run a remote diagnostic and check the line from our side. If the router is faulty, we'll replace it free of charge since it's HomeNet equipment.",
+      "covered": [],
+      "missed": [
+        "explain what the red light means",
+        "run a remote diagnostic or check the line",
+        "replace the router free of charge if it is faulty company equipment"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "No, I've decided, please cancel.",
+      "matched_question": "I want to cancel my subscription and close my account.",
+      "confidence": "strong",
+      "agent_answer": "Done. Your service will end at the cycle close.",
+      "ideal_answer": "I can help you cancel. I'll verify your identity, explain any final charges, and confirm the cancellation date. If you'd prefer, I can also note the reason so we can improve. There's no fee to cancel.",
+      "covered": [],
+      "missed": [
+        "agree to help with the cancellation",
+        "verify the customer's identity",
+        "explain any final charges and the cancellation date",
+        "confirm there is no fee to cancel"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

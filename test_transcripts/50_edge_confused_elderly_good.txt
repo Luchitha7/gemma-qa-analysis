@@ -1,0 +1,21 @@
+[00:00] Agent: HomeNet support, this is Alan, how can I help you today?
+[00:06] Client: I'm not very good with these things, my internet box has a light I don't understand.
+[00:15] Agent: That's completely fine, we'll take it slowly together, no rush at all.
+[00:23] Client: Thank you, that's kind.
+[00:27] Agent: Can you tell me which colour the light is?
+[00:33] Client: It's orange and blinking.
+[00:38] Agent: Thank you. An orange blinking light usually means it's still trying to connect.
+[00:46] Client: Is that bad?
+[00:50] Agent: Not at all, it often sorts itself out. Let's give it a couple of minutes.
+[00:58] Client: Alright, I'll wait with you.
+[01:03] Agent: While we wait, is the box plugged in firmly at both ends?
+[01:11] Client: Let me check. Yes, both ends are in.
+[01:17] Agent: Perfect, that's exactly what we want.
+[01:22] Client: Oh, the light just changed.
+[01:26] Agent: Wonderful, what colour is it now?
+[01:31] Client: It's white now.
+[01:34] Agent: That means you're connected. You did that perfectly.
+[01:41] Client: Thank you so much for your patience.
+[01:45] Agent: It was my pleasure. Is there anything else I can help you with?
+[01:52] Client: No, that's everything.
+[01:55] Agent: Take care and have a lovely day.

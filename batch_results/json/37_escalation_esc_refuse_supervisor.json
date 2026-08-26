@@ -1,0 +1,288 @@
+{
+  "final": 59.9,
+  "agent": 100.0,
+  "conversation": 33.4,
+  "band": "NEEDS IMPROVEMENT",
+  "parsed": {
+    "turns": 17,
+    "agent": 9,
+    "client": 8
+  },
+  "token_usage": {
+    "input": 1614,
+    "output": 460,
+    "total": 2074,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 277,
+        "output": 76
+      },
+      {
+        "label": "scorecard",
+        "input": 1029,
+        "output": 320
+      },
+      {
+        "label": "suggestions",
+        "input": 308,
+        "output": 64
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "The client called seeking assistance with an unresolved complaint regarding their account. The agent repeatedly refused to transfer the call, stating it was impossible and providing no alternative solution. After repeated requests for a manager, the client escalated the issue by demanding information about the company\u2019s procedures. Ultimately, the conversation concluded with the client requesting their name and reference number as part of the escalation process.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent acknowledged the customer\u2019s name promptly, offering a post-call survey as part of the call flow."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Probing",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Active Listening",
+      "rating": "UNRATED",
+      "reason": ""
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "UNRATED",
+      "reason": ""
+    }
+  ],
+  "intense": [
+    {
+      "turn": 4,
+      "speaker": "Client",
+      "sentiment": -0.82,
+      "text": "That can't be right, let me speak to someone above you."
+    },
+    {
+      "turn": 9,
+      "speaker": "Agent",
+      "sentiment": -0.78,
+      "text": "Not for this kind of call."
+    },
+    {
+      "turn": 11,
+      "speaker": "Agent",
+      "sentiment": -0.8,
+      "text": "I'm telling you it's not possible."
+    },
+    {
+      "turn": 12,
+      "speaker": "Client",
+      "sentiment": -0.81,
+      "text": "This is outrageous, I've been a customer for years."
+    },
+    {
+      "turn": 16,
+      "speaker": "Client",
+      "sentiment": -0.9,
+      "text": "You're being completely unhelpful."
+    }
+  ],
+  "suggestions": [
+    "To speak with a manager.",
+    "To escalate the complaint.",
+    "Check call history for previous complaints.",
+    "Offer to document the issue further.",
+    "Escalate to supervisor or customer service team lead"
+  ],
+  "compliance_score": 50.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "BROKEN",
+      "evidence": "I've told you what I can do.",
+      "closeness": 0.476
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.273
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "BROKEN",
+      "evidence": "There's no one else you can speak to.",
+      "closeness": 0.95
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.38
+    }
+  ],
+  "response_time_score": 98.1,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I want to speak to your manager, right now.",
+      "agent_text": "Supervisors don't take these calls."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 7,
+      "slow": false,
+      "client_text": "That can't be right, let me speak to someone above you.",
+      "agent_text": "Asking for a manager won't change anything."
+    },
+    {
+      "agent_turn": 7,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I'm entitled to escalate this complaint.",
+      "agent_text": "There's no one else you can speak to."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 5,
+      "slow": false,
+      "client_text": "Every company has supervisors.",
+      "agent_text": "Not for this kind of call."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So you're just refusing?",
+      "agent_text": "I'm telling you it's not possible."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 6,
+      "slow": false,
+      "client_text": "This is outrageous, I've been a customer for years.",
+      "agent_text": "That doesn't change the process."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 5,
+      "slow": false,
+      "client_text": "I want your name and a reference number.",
+      "agent_text": "I don't have to give you that."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 4,
+      "slow": false,
+      "client_text": "You're being completely unhelpful.",
+      "agent_text": "I've told you what I can do."
+    }
+  ],
+  "accuracy_overall": 16.7,
+  "accuracy": [
+    {
+      "client_question": "I want to speak to your manager, right now.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "strong",
+      "agent_answer": "Supervisors don't take these calls.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [
+        "transfer to a supervisor"
+      ],
+      "missed": [
+        "agree to the request politely",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "I'm entitled to escalate this complaint.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "weak",
+      "agent_answer": "There's no one else you can speak to.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [],
+      "missed": [
+        "agree to the request politely",
+        "transfer to a supervisor",
+        "offer a callback if the wait is long"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "Every company has supervisors.",
+      "matched_question": "I want to speak to a supervisor.",
+      "confidence": "strong",
+      "agent_answer": "Not for this kind of call.",
+      "ideal_answer": "Of course, I understand. I'll transfer you to a supervisor. If the wait is long, I can also arrange a callback so you don't have to hold.",
+      "covered": [
+        "offer a callback if the wait is long"
+      ],
+      "missed": [
+        "agree to the request politely",
+        "transfer to a supervisor"
+      ],
+      "accuracy": 33.3
+    },
+    {
+      "client_question": "This is outrageous, I've been a customer for years.",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "That doesn't change the process.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    }
+  ]
+}

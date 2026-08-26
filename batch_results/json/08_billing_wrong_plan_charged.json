@@ -1,0 +1,235 @@
+{
+  "final": 77.9,
+  "agent": 100.0,
+  "conversation": 56.9,
+  "band": "OKAY",
+  "parsed": {
+    "turns": 19,
+    "agent": 10,
+    "client": 9
+  },
+  "token_usage": {
+    "input": 1761,
+    "output": 423,
+    "total": 2184,
+    "calls": [
+      {
+        "label": "summary",
+        "input": 365,
+        "output": 78
+      },
+      {
+        "label": "scorecard",
+        "input": 1000,
+        "output": 273
+      },
+      {
+        "label": "suggestions",
+        "input": 396,
+        "output": 72
+      }
+    ]
+  },
+  "warning": "",
+  "summary": "Peter Shaw contacted HomeNet to report an incorrect billing charge for his account due to him being subscribed to the premium plan when he initially signed up for the basic plan. The agent immediately switched his account back to the basic plan and issued a refund of three months\u2019 worth of overcharged fees. Peter received confirmation via email detailing this change, and no further assistance was required from the agent.",
+  "ratings": [
+    {
+      "name": "Branding and Survey",
+      "rating": "PASS",
+      "reason": "The agent used the correct greeting and offered a post-call survey."
+    },
+    {
+      "name": "Personalized the Call",
+      "rating": "PASS",
+      "reason": "\u2013 The agent correctly identified the customer\u2019s name (Peter Shaw) and address."
+    },
+    {
+      "name": "Empathy and Acknowledgment",
+      "rating": "PASS",
+      "reason": "\u2013 The agent acknowledged the customer's frustration with the billing discrepancy, stating their apology."
+    },
+    {
+      "name": "Rapport and Professionalism",
+      "rating": "PASS",
+      "reason": "The agent maintained a professional tone throughout the conversation, avoiding interruptions or defensive language."
+    },
+    {
+      "name": "Paraphrasing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent restated the customer\u2019s concern about being overcharged in simple terms."
+    },
+    {
+      "name": "Verified Customer",
+      "rating": "PASS",
+      "reason": "\u2013 The agent validated Peter Shaw's name and account details."
+    },
+    {
+      "name": "Probing",
+      "rating": "PASS",
+      "reason": "\u2013 The agent asked clarifying questions like \"So it's a mistake on your end?\" to understand the root cause of the issue."
+    },
+    {
+      "name": "Set Proper Expectations",
+      "rating": "PASS",
+      "reason": "The agent clearly explained the refund process, including timelines for processing."
+    },
+    {
+      "name": "Provided the Solution",
+      "rating": "PASS",
+      "reason": "\u2013 The agent immediately offered a solution (refunding the overcharged amount)."
+    },
+    {
+      "name": "Took Ownership",
+      "rating": "PASS",
+      "reason": "\u2013 The agent took responsibility for resolving the issue and didn\u2019t deflect blame."
+    },
+    {
+      "name": "Active Listening",
+      "rating": "PASS",
+      "reason": "\u2013 The agent listened attentively to Peter Shaw's explanation without interrupting or offering unsolicited advice."
+    },
+    {
+      "name": "Confirmed Resolution",
+      "rating": "PASS",
+      "reason": "The agent confirmed that the refund was processed successfully."
+    }
+  ],
+  "intense": [],
+  "suggestions": [
+    "The client was billed for a premium plan when they signed up for the basic one.",
+    "They\u2019ve been refunded three months of overage charges.",
+    "Confirm the account details are correct to avoid future issues.",
+    "Offer further assistance with any questions about the new plan."
+  ],
+  "compliance_score": 100.0,
+  "compliance": [
+    {
+      "name": "Discourtesy",
+      "rule": "Never be discourteous: no profanity, bashing, impatience, or sarcasm toward the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.216
+    },
+    {
+      "name": "Customer Blame",
+      "rule": "Never blame the customer",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.305
+    },
+    {
+      "name": "Escalation",
+      "rule": "Escalate to a supervisor when the customer asks",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.318
+    },
+    {
+      "name": "Call Avoidance",
+      "rule": "Do not avoid the call: never refuse to help or push the customer away without a valid reason",
+      "status": "OK",
+      "evidence": "",
+      "closeness": 0.382
+    }
+  ],
+  "response_time_score": 93.3,
+  "response_times": [
+    {
+      "agent_turn": 3,
+      "delay": 8,
+      "slow": false,
+      "client_text": "I'm being billed for the premium plan but I only signed up for the basic one.",
+      "agent_text": "I'm sorry about the confusion, let me verify and get to the bottom of it."
+    },
+    {
+      "agent_turn": 5,
+      "delay": 2,
+      "slow": false,
+      "client_text": "Okay.",
+      "agent_text": "Could you confirm your name and the address on the account?"
+    },
+    {
+      "agent_turn": 7,
+      "delay": 6,
+      "slow": false,
+      "client_text": "Peter Shaw, 8 Maple Avenue.",
+      "agent_text": "Thank you, Peter. Let me compare your order to what's being billed."
+    },
+    {
+      "agent_turn": 9,
+      "delay": 13,
+      "slow": true,
+      "client_text": "Sure.",
+      "agent_text": "You're right. Your original order was the basic plan, but the account shows premium."
+    },
+    {
+      "agent_turn": 11,
+      "delay": 4,
+      "slow": false,
+      "client_text": "So it's a mistake on your end.",
+      "agent_text": "It is, and I apologise. I'll switch you back to basic effective immediately."
+    },
+    {
+      "agent_turn": 13,
+      "delay": 4,
+      "slow": false,
+      "client_text": "And the extra I've paid?",
+      "agent_text": "I'll refund the difference for every month you were overcharged."
+    },
+    {
+      "agent_turn": 15,
+      "delay": 4,
+      "slow": false,
+      "client_text": "How many months was that?",
+      "agent_text": "Three months, and I've calculated the total. The refund will process in 3 to 5 business days."
+    },
+    {
+      "agent_turn": 17,
+      "delay": 3,
+      "slow": false,
+      "client_text": "Excellent, thank you.",
+      "agent_text": "You'll get a confirmation email with the plan change and refund. Anything else I can help with?"
+    },
+    {
+      "agent_turn": 19,
+      "delay": 3,
+      "slow": false,
+      "client_text": "No, that's perfect.",
+      "agent_text": "Thank you, Peter, have a great day."
+    }
+  ],
+  "accuracy_overall": 37.5,
+  "accuracy": [
+    {
+      "client_question": "I'm being billed for the premium plan but I only signed up for the basic one.",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "strong",
+      "agent_answer": "I'm sorry about the confusion, let me verify and get to the bottom of it.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [],
+      "missed": [
+        "apologise or acknowledge the problem",
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "accuracy": 0.0
+    },
+    {
+      "client_question": "And the extra I've paid?",
+      "matched_question": "I was charged twice for my subscription this month.",
+      "confidence": "weak",
+      "agent_answer": "I'll refund the difference for every month you were overcharged.",
+      "ideal_answer": "I'm sorry about that. I can see the duplicate charge and I'll refund the extra payment now \u2014 it will show on your account in 3 to 5 business days. I'll also raise a ticket so it doesn't happen again.",
+      "covered": [
+        "confirm the duplicate charge on the account",
+        "refund the extra charge",
+        "give a timeframe for the refund"
+      ],
+      "missed": [
+        "apologise or acknowledge the problem"
+      ],
+      "accuracy": 75.0
+    }
+  ]
+}

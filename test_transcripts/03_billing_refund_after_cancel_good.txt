@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet support, this is Sara, how can I help?
+[00:05] Client: I cancelled last week but I was still charged. I'd like a refund.
+[00:11] Agent: I'm sorry about that, let me look into it for you right away.
+[00:18] Client: Thanks.
+[00:20] Agent: Can I confirm your name and account number to verify the account?
+[00:27] Client: Emma Ford, account 55210.
+[00:33] Agent: Thank you, Emma. I can see your cancellation was processed on the fifth.
+[00:41] Client: Yes, that's right.
+[00:44] Agent: And there's a charge dated the seventh, after your cancellation, so that shouldn't have gone out.
+[00:53] Client: Exactly.
+[00:55] Agent: I'll refund that charge in full now. It'll be back in 3 to 5 business days.
+[01:04] Client: Great. Do I need to return the router?
+[01:09] Agent: Yes, I'll email you a prepaid return label so it costs you nothing.
+[01:17] Client: Perfect.
+[01:19] Agent: You'll get the refund confirmation and the label in one email. Anything else I can help with?
+[01:28] Client: No, that covers it. Thank you.
+[01:31] Agent: You're welcome, take care and have a good day.

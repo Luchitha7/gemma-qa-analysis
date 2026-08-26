@@ -1,0 +1,18 @@
+[00:00] Agent: HomeNet, this is Farah.
+[00:04] Client: My HomeNet TV box just shows 'no signal'.
+[00:10] Agent: Let me help. Is the box powered on?
+[00:15] Client: Yes, the light on the front is on.
+[00:20] Agent: Try switching the TV to a different input.
+[00:26] Client: I already did that before calling.
+[00:31] Agent: Okay. Let me send a refresh signal to the box.
+[00:38] Client: Alright.
+[00:55] Agent: Still sending, please hold on.
+[01:12] Client: Is anything happening?
+[01:16] Agent: The box should reboot now, give it two minutes.
+[01:23] Client: Two minutes for a refresh?
+[01:27] Agent: Yes, it reloads the software.
+[01:32] Client: Okay, it's showing the logo now.
+[01:37] Agent: Good, that means it's coming back. If it still fails, I'll book a technician.
+[01:45] Client: It's loading the channels now.
+[01:49] Agent: Great. Let me know if it drops again and we'll escalate.
+[01:56] Client: Okay, thanks.

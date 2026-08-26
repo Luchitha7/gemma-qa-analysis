@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet.
+[00:03] Client: My router stopped working overnight.
+[00:08] Agent: You probably did something to it.
+[00:13] Client: I didn't touch it at all.
+[00:18] Agent: These don't just break, so it's your fault somehow.
+[00:24] Client: It's your rented equipment.
+[00:29] Agent: You must have set it up incorrectly.
+[00:34] Client: A technician set it up, not me.
+[00:40] Agent: Then you moved something.
+[00:44] Client: I really didn't.
+[00:48] Agent: Well, the system won't just fail on its own.
+[00:54] Client: So what are you going to do about it?
+[01:00] Agent: You'll probably have to pay for a replacement.
+[01:06] Client: For your faulty equipment?
+[01:10] Agent: If you broke it, yes.
+[01:14] Client: This is absurd, I want this escalated.
+[01:20] Agent: There's nothing to escalate.

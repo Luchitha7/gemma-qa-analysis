@@ -1,0 +1,17 @@
+[00:00] Agent: HomeNet support, this is Priyanka, how can I help you today?
+[00:06] Client: I'm calling to close my father's account, he passed away recently.
+[00:13] Agent: I'm so sorry for your loss. I'll make this as gentle and simple as I can.
+[00:22] Client: Thank you, I appreciate that.
+[00:26] Agent: There's no rush. When you're ready, could you tell me the name on the account?
+[00:34] Client: It's Robert Shaw.
+[00:38] Agent: Thank you. I've found the account. I'll close it with no cancellation fees.
+[00:47] Client: That's kind.
+[00:50] Agent: I may need a document later to finalise, but you don't need to do anything today.
+[00:58] Client: Okay, that's a relief.
+[01:02] Agent: I'll email you a return label for the equipment whenever you're able to send it, no deadline.
+[01:11] Client: Thank you for being so understanding.
+[01:15] Agent: Of course. Is there anything else I can help you with, or anyone I can note to contact?
+[01:24] Client: No, that covers it.
+[01:27] Agent: I've closed the account and sent the confirmation. Please take care of yourself.
+[01:35] Client: Thank you very much.
+[01:38] Agent: You're welcome. My condolences again.
