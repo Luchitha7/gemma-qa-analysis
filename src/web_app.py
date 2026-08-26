@@ -12,7 +12,10 @@ here, it's just a web front-end over the parts we already built.
 Requires Ollama running ('brew services start ollama') and the venv active.
 """
 
+import os
 import re
+
+import env_loader
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse, Response
@@ -237,7 +240,10 @@ def analyze_call(payload: TranscriptIn):
     if not transcript:
         return {"error": "No transcript lines found. Use 'Agent: ...' and "
                          "'Client: ...' on separate lines."}
-    return run_pipeline(transcript, times)
+    try:
+        return run_pipeline(transcript, times)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=str(exc))
 
 
 def score_job(transcript_text):
@@ -941,4 +947,6 @@ def _sample_json():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.environ.get("APP_HOST", "0.0.0.0")
+    port = int(os.environ.get("APP_PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)

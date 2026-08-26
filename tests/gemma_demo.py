@@ -12,12 +12,14 @@ import logging
 import subprocess
 import warnings
 
+import env_loader
+
 warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
 from transformers import AutoTokenizer, pipeline
 
-MODEL = "cardiffnlp/twitter-roberta-base-sentiment-latest"
+MODEL = os.environ.get("ROBERTA_MODEL", "cardiffnlp/twitter-roberta-base-sentiment-latest")
 
 print("\nLoading the RoBERTa model (one-time)...")
 classifier = pipeline(task="sentiment-analysis", model=MODEL, top_k=None)
@@ -35,8 +37,9 @@ def roberta_label(text):
 
 
 def gemma(prompt, timeout=60):
+    gemma_model = os.environ.get("GEMMA_MODEL", "gemma3:4b")
     out = subprocess.run(
-        ["ollama", "run", "gemma3:1b", prompt],
+        ["ollama", "run", gemma_model, prompt],
         capture_output=True, text=True, timeout=timeout,
     )
     return out.stdout.strip()

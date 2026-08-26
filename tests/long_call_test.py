@@ -1,11 +1,16 @@
+import os
 import re
 import subprocess
 
+import env_loader
+
 from transformers import pipeline
+
+MODEL = os.environ.get("ROBERTA_MODEL", "cardiffnlp/twitter-roberta-base-sentiment-latest")
 
 classifier = pipeline(
     task="sentiment-analysis",
-    model="cardiffnlp/twitter-roberta-base-sentiment-latest",
+    model=MODEL,
     top_k=None,
 )
 
@@ -69,9 +74,10 @@ def roberta_score(text):
 
 
 def gemma_score(text):
+    gemma_model = os.environ.get("GEMMA_MODEL", "gemma3:4b")
     prompt = GEMMA_PROMPT_TEMPLATE.format(line=text)
     result = subprocess.run(
-        ["ollama", "run", "gemma3:1b", prompt],
+        ["ollama", "run", gemma_model, prompt],
         capture_output=True,
         text=True,
         timeout=60,

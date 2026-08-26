@@ -17,10 +17,12 @@ That fallback means the system can never end up with no weights.
 import json
 import os
 
+import env_loader
+
 from qa_agent import FINAL_WEIGHTS as DEFAULT_WEIGHTS
 
-# The override file sits next to this script.
-WEIGHTS_FILE = os.path.join(os.path.dirname(__file__), "weights.json")
+# The override file path from env or defaults to next to this script.
+WEIGHTS_FILE = os.environ.get("WEIGHTS_FILE_PATH") or os.path.join(os.path.dirname(__file__), "weights.json")
 
 
 def load_weights():
