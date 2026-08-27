@@ -407,26 +407,11 @@ def clear_evaluations(tenant_id: Optional[str] = None, db: Session = Depends(get
     return {"status": "cleared", "deleted_count": count, "tenant_id": tenant_id}
 
 
-SAMPLE = """[00:00] Agent: Thank you for calling HomeNet support, how can I help you today?
-[00:06] Client: I was charged twice for my subscription this month and I want it fixed.
-[00:09] Agent: I'm sorry to hear that. Let me pull up your account and take a look.
-[00:14] Client: This is the second time this has happened, it's really frustrating.
-[00:31] Agent: I completely understand, that's not acceptable. I can see the duplicate charge now.
-[00:36] Client: Okay, so what happens now?
-[00:39] Agent: I've refunded the extra charge and it will show up in 3 to 5 business days.
-[00:43] Client: Alright, thank you.
-[01:09] Agent: Of course. Is there anything else I can help you with?"""
-
-
-.replace("%SAMPLE%", _sample_json())
-
-
-def _sample_json():
-    import json
-    return json.dumps(SAMPLE)
-
-
 if __name__ == "__main__":
     import uvicorn
+    from dotenv import load_dotenv
+    load_dotenv()
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("SERVER_HOST", "0.0.0.0")
+    port = int(os.getenv("SERVER_PORT", "8000"))
+    uvicorn.run(app, host=host, port=port)
