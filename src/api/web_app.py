@@ -1,54 +1,24 @@
-"""WEB VERSION of the QA analysis.
+﻿"""WEB VERSION of the Multi-Tenant QA analysis.
 
-Paste a call transcript in the browser, click Analyze, and get the full styled
-QA report (final score, agent scorecard, summary, tense moments, suggestions).
-
-It reuses the exact same pipeline as qa_report.py -- nothing new is analysed
-here, it's just a web front-end over the parts we already built.
-
-    python web_app.py
-    # then open http://localhost:8000
-
-Requires Ollama running ('brew services start ollama') and the venv active.
+Run with: uvicorn src.api.web_app:app --host 0.0.0.0 --port 8000
 """
 
 import os
 import sys
-import re
 
-# Bootstrapping sys.path for modular folder structure
 _ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 _SRC = os.path.join(_ROOT, "src")
-_TESTS = os.path.join(_ROOT, "tests")
-for _path in [_ROOT, _SRC, _TESTS]:
+for _path in [_ROOT, _SRC]:
     if _path not in sys.path:
         sys.path.insert(0, _path)
 
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Depends
+from fastapi import FastAPI, HTTPException, UploadFile, File, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse, Response
 from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
+from typing import Optional
 from sqlalchemy.orm import Session
+import json
 
-from src.api import job_queue
-from src.core.gemma_client import gemma, reset_token_usage, get_token_usage
-from src.services.qa_intensity import analyze
-from src.services.qa_agent import (
-    RATING_SCORES, agent_harsh_lines, apply_tone_penalty, build_prompt,
-    conversation_score, final_qa_score, parse_ratings,
-)
-from src.services.qa_summary import SUMMARY_PROMPT
-from src.services.qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
-from src.rag.rag_accuracy import check_accuracy
-from src.rag.rag_compliance import check_compliance
-from src.services.response_time import (
-    leading_time_seconds, response_delays, response_time_score,
-)
-from src.core.weights_config import load_weights, save_weights
-from src.core.report_pdf import build_report
-
-# Multi-Tenant & RAG Modules
 from src.db.database import get_db, init_db
 from src.db.models import Tenant, Document, CriteriaConfig, EvaluationReport
 from src.rag.pdf_parser import convert_pdf_bytes_to_markdown
@@ -58,7 +28,6 @@ from src.services.dynamic_evaluator import evaluate_interaction, preview_evaluat
 
 app = FastAPI(title="Multi-Tenant QA Service API")
 
-# Enable CORS for Vite frontend
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -67,329 +36,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize Database tables on startup
 @app.on_event("startup")
 def on_startup():
     init_db()
-
 
 class TenantCreate(BaseModel):
     id: str
     name: str
     description: Optional[str] = ""
 
-
 class EvaluateRequest(BaseModel):
     transcript: str
     channel: Optional[str] = "Call"
     agent_name: Optional[str] = "Agent"
     custom_prompt: Optional[str] = None
-
-
-class TranscriptIn(BaseModel):
-    transcript: str
-
-
-# Different transcripts name the two sides differently. Map them to a
-# consistent "Agent" / "Client" so the rest of the pipeline works the same.
-AGENT_LABELS = {"agent", "ai", "bot", "assistant", "rep", "representative",
-                "support", "operator", "advisor"}
-CLIENT_LABELS = {"client", "customer", "caller", "user", "member", "subscriber"}
-
-# Leading timestamp like "[00:15]", "[00:15:03]" or "(00:15)".
-TIMESTAMP_RE = re.compile(r"^[\[\(]\s*\d{1,2}:\d{2}(?::\d{2})?\s*[\]\)]\s*")
-# A whole line that is just a bracketed note, e.g. "[Latency: 1.8s ...]".
-NOTE_LINE_RE = re.compile(r"^[\[\(].*[\]\)]$")
-# A leading stage-direction inside the text, e.g. "[Frustrated] No!".
-STAGE_DIR_RE = re.compile(r"^[\[\(][^\]\)]*[\]\)]\s*")
-
-
-def normalize_speaker(name):
-    """Map a raw speaker label to 'Agent'/'Client', or keep it if unknown."""
-    key = name.strip().lower()
-    if key in AGENT_LABELS:
-        return "Agent"
-    if key in CLIENT_LABELS:
-        return "Client"
-    return name.strip()
-
-
-def parse_transcript(raw):
-    """Turn pasted text into [(speaker, text), ...].
-
-    Handles several common transcript styles:
-      - plain 'Agent: hello' / 'Client: hi'
-      - timestamped 'Client: hi', '[00:15] Client: hi', '(00:15) AI: hi'
-      - bot labels ('AI', 'Bot', 'Assistant') and 'Customer'/'Caller' etc.
-    It drops note-only lines like '[Latency: 1.8s ...]' and strips leading
-    stage directions like '[Frustrated]'. A line with no recognised speaker is
-    attached to the previous turn (so a wrapped sentence still works).
-    """
-    turns = []
-    times = []               # seconds (or None) for each turn, kept aligned
-    for line in raw.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-
-        # read a leading timestamp (if any) BEFORE we strip it off
-        t = leading_time_seconds(line)
-        line = TIMESTAMP_RE.sub("", line).strip()
-        if not line:
-            continue
-
-        # a line that is only a bracketed note (e.g. "[Latency: ...]") is skipped
-        if NOTE_LINE_RE.match(line):
-            continue
-
-        if ":" in line:
-            speaker, text = line.split(":", 1)
-            speaker, text = speaker.strip(), text.strip()
-            text = STAGE_DIR_RE.sub("", text).strip()  # drop "[Frustrated]" etc.
-            if speaker and len(speaker) <= 20 and text:
-                turns.append((normalize_speaker(speaker), text))
-                times.append(t)
-                continue
-
-        # no clear speaker -> tack onto the previous turn
-        if turns:
-            prev_speaker, prev_text = turns[-1]
-            turns[-1] = (prev_speaker, f"{prev_text} {line}".strip())
-    return turns, times
-
-
-def band(score):
-    if score >= 80:
-        return "GOOD"
-    if score >= 60:
-        return "OKAY"
-    return "NEEDS IMPROVEMENT"
-
-
-def format_transcript(transcript):
-    return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
-
-
-def run_pipeline(transcript, times=None):
-    """Same steps as qa_report.py, returned as a dict for the web page."""
-    transcript_text = format_transcript(transcript)
-    if times is None:
-        times = [None] * len(transcript)
-
-    # RoBERTa: sentiment + tense moments
-    rows = analyze(transcript)
-    intense = [r for r in rows if r["intense"]]
-
-    # Gemma: three small calls. Reset the token tally first so we can measure
-    # exactly how many tokens this one report used.
-    reset_token_usage()
-    harsh = agent_harsh_lines(rows)
-    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text),
-                    label="summary")
-    ratings = apply_tone_penalty(
-        parse_ratings(gemma(build_prompt(transcript_text, intense, harsh),
-                            label="scorecard")), harsh)
-    suggestions = clean_suggestions(
-        gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text),
-              label="suggestions"))
-    token_usage = get_token_usage()
-
-    # RAG: how accurate were the agent's answers vs the ideal answers?
-    accuracy_results, accuracy_overall = check_accuracy(transcript)
-    # RAG: did the agent break any compliance rules? (token-free)
-    compliance_results, compliance_score = check_compliance(transcript)
-    # Timestamps: how fast did the agent reply? (token-free)
-    delays = response_delays(transcript, times)
-    rt_score = response_time_score(delays)
-
-    # Scores. Load the current weights (the saved file if present, otherwise
-    # the code defaults) so a change made from the frontend takes effect here.
-    weights = load_weights()
-    rated = [RATING_SCORES[r["rating"]] for r in ratings if r["rating"]]
-    agent = round(sum(rated) / len(rated), 1) if rated else 0.0
-    conv = conversation_score(rows)
-    final = final_qa_score(agent, conv, accuracy_overall,
-                           compliance_score, rt_score, weights=weights)
-
-    # How the transcript was read (so a mis-parse can't hide behind a score).
-    agent_lines = sum(1 for s, _ in transcript if s.lower() == "agent")
-    client_lines = sum(1 for s, _ in transcript if s.lower() == "client")
-    warning = ""
-    if client_lines == 0:
-        warning = ("No client lines were detected, so the conversation score is "
-                   "a neutral default — the final score may not be reliable. "
-                   "Check the transcript uses 'Client:' (or Customer/Caller).")
-
-    return {
-        "final": final,
-        "agent": agent,
-        "conversation": conv,
-        "band": band(final),
-        "parsed": {"turns": len(transcript),
-                   "agent": agent_lines, "client": client_lines},
-        "token_usage": token_usage,
-        "warning": warning,
-        "summary": summary,
-        "ratings": [
-            {
-                "name": r["name"],
-                "rating": r["rating"] or "UNRATED",
-                "reason": r["reason"],
-            }
-            for r in ratings
-        ],
-        "intense": [
-            {
-                "turn": r["turn"],
-                "speaker": r["speaker"],
-                "sentiment": r["sentiment"],
-                "text": r["text"],
-            }
-            for r in intense
-        ],
-        "suggestions": suggestions,
-        "compliance_score": compliance_score,
-        "compliance": compliance_results,
-        "response_time_score": rt_score,
-        "response_times": [
-            {
-                "agent_turn": d["agent_turn"],
-                "delay": d["delay"],
-                "slow": d["slow"],
-                "client_text": d["client_text"],
-            }
-            for d in delays
-        ],
-        "accuracy_overall": accuracy_overall,
-        "accuracy": [
-            {
-                "client_question": r["client_question"],
-                "matched_question": r["matched_question"],
-                "confidence": r["confidence"],
-                "agent_answer": r["agent_answer"],
-                "ideal_answer": r["ideal_answer"],
-                "covered": r["covered"],
-                "missed": r["missed"],
-                "accuracy": round(r["accuracy"] * 100, 1),
-            }
-            for r in accuracy_results
-        ],
-    }
-
-
-@app.post("/analyze")
-def analyze_call(payload: TranscriptIn):
-    transcript, times = parse_transcript(payload.transcript)
-    if not transcript:
-        return {"error": "No transcript lines found. Use 'Agent: ...' and "
-                         "'Client: ...' on separate lines."}
-    return run_pipeline(transcript, times)
-
-
-def score_job(transcript_text):
-    """Score one transcript. Run by the queue's workers, not by a request.
-
-    Raises on a bad transcript so the job is marked 'error' with the reason,
-    instead of returning a normal-looking result.
-    """
-    transcript, times = parse_transcript(transcript_text)
-    if not transcript:
-        raise ValueError("No transcript lines found. Use 'Agent: ...' and "
-                         "'Client: ...' on separate lines.")
-    return run_pipeline(transcript, times)
-
-
-# Start the fixed pool of workers that drain the queue. Done once, at import.
-job_queue.start_workers(score_job)
-
-
-@app.post("/jobs")
-def submit_job(payload: TranscriptIn):
-    """Queue a transcript for scoring and return its job id immediately.
-
-    This is the safe way to score at scale: the request is accepted and lined
-    up instead of hitting the model straight away, so a burst of requests can
-    never overload the machine. Poll GET /jobs/{id} for the result.
-
-    If the system is already at capacity, the request is turned away with a
-    503 and a Retry-After header rather than being queued, so the app never
-    builds up a huge backlog. The caller should wait and try again.
-    """
-    ok, info = job_queue.submit(payload.transcript)
-    if not ok:
-        return JSONResponse(
-            status_code=503,
-            headers={"Retry-After": str(info["retry_after"])},
-            content={
-                "status": "busy",
-                "message": "The scorer is at capacity. Please retry shortly.",
-                "processing": info["processing"],
-                "waiting": info["waiting"],
-                "capacity": info["capacity"],
-                "retry_after_seconds": info["retry_after"],
-            },
-        )
-    return info
-
-
-@app.get("/jobs/{job_id}")
-def job_status(job_id: str):
-    """Fetch a job by id: its status, and the result once it is done."""
-    job = job_queue.get(job_id)
-    if job is None:
-        raise HTTPException(status_code=404, detail="No job with that id.")
-    return job
-
-
-@app.get("/jobs")
-def list_jobs():
-    """The whole queue at a glance: how many are waiting, running, and done."""
-    return job_queue.snapshot()
-
-
-@app.get("/weights")
-def get_weights():
-    """Return the weights currently in effect (saved file, or defaults)."""
-    return load_weights()
-
-
-@app.post("/weights")
-def set_weights(payload: dict):
-    """Save weights sent from the frontend and return what was stored.
-
-    The body is the key-value pairs, e.g.:
-        {"agent": 0.45, "accuracy": 0.20, "compliance": 0.20,
-         "conversation": 0.10, "response_time": 0.05}
-    save_weights() keeps only known numeric keys, so a bad payload can't
-    corrupt the file. Every future call to /analyze then uses these.
-    """
-    saved = save_weights(payload)
-    return {"status": "saved", "weights": saved}
-
-
-@app.post("/report")
-def report(payload: dict):
-    """Return a one-call QA report as a downloadable PDF.
-
-    Accepts either a raw transcript (which is scored first) or an already
-    computed /analyze result (which is just rendered). The frontend sends the
-    result it already has, so no call is scored twice.
-    """
-    if "final" not in payload and "transcript" in payload:
-        transcript, times = parse_transcript(payload["transcript"])
-        if not transcript:
-            return {"error": "No transcript lines found. Use 'Agent: ...' and "
-                             "'Client: ...' on separate lines."}
-        payload = run_pipeline(transcript, times)
-
-    pdf = build_report(payload)
-    return Response(
-        content=pdf,
-        media_type="application/pdf",
-        headers={"Content-Disposition":
-                 "attachment; filename=call_qa_report.pdf"},
-    )
-
 
 # ============================================================================
 # MULTI-TENANT & RAG API ENDPOINTS
@@ -957,7 +617,7 @@ def index():
                 <button class="btn primary" id="saveWeightsBtn" onclick="saveWeights()">Save Weights</button>
                 <button class="btn ghost" onclick="loadWeights()">Reload</button>
               </div>
-              <div class="hint" id="weightsStatus">Loading current weights…</div>
+              <div class="hint" id="weightsStatus">Loading current weightsâ€¦</div>
             </div>
 
             <div class="side-block" id="tenseBlock" style="display:none">
@@ -967,7 +627,7 @@ def index():
           </div>
 
           <div class="right">
-            <div id="placeholder" class="placeholder">Run an analysis to see the quality report — final score, agent scorecard, compliance check, answer accuracy, response time, and suggestions.</div>
+            <div id="placeholder" class="placeholder">Run an analysis to see the quality report â€” final score, agent scorecard, compliance check, answer accuracy, response time, and suggestions.</div>
 
             <div id="results">
               <div class="score-block">
@@ -1020,7 +680,7 @@ def index():
         // The backend stores weights as fractions (0.45); we show them as whole
         // percentages (45) because that's how people read them. We convert on
         // the way in and out. The scorer rescales anyway, so they need not total
-        // exactly 100 — but we show the running total so it's easy to keep tidy.
+        // exactly 100 â€” but we show the running total so it's easy to keep tidy.
         const WEIGHT_KEYS = ['agent','accuracy','compliance','conversation','response_time'];
 
         function updateTotal() {
@@ -1053,7 +713,7 @@ def index():
             payload[k] = (parseFloat(document.getElementById('w_'+k).value) || 0) / 100;
           });
           btn.disabled = true;
-          st.textContent = 'Saving…';
+          st.textContent = 'Savingâ€¦';
           try {
             const res = await fetch('/weights', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
             await res.json();
@@ -1077,7 +737,7 @@ def index():
           const status = document.getElementById('status');
           rbtn.disabled = true;
           const original = rbtn.textContent;
-          rbtn.textContent = 'Preparing…';
+          rbtn.textContent = 'Preparingâ€¦';
           try {
             const res = await fetch('/report', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(lastResult) });
             if (!res.ok) { status.textContent = 'Could not build the report.'; return; }
@@ -1098,7 +758,7 @@ def index():
           const status = document.getElementById('status');
           if (!transcript) { status.textContent = 'Please paste a transcript first.'; return; }
           btn.disabled = true;
-          status.innerHTML = '<span class="spinner"></span> Analyzing…';
+          status.innerHTML = '<span class="spinner"></span> Analyzingâ€¦';
           try {
             const res = await fetch('/analyze', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ transcript }) });
             const data = await res.json();
@@ -1154,9 +814,9 @@ def index():
             acc.innerHTML = '<div class="placeholder">No client questions matched the knowledge base, so accuracy could not be checked.</div>';
           } else {
             acc.innerHTML = d.accuracy.map(function(a){
-              var covered = (a.covered||[]).map(function(p){return '<div class="kp ok">✓ '+esc(p)+'</div>';}).join('');
-              var missed = (a.missed||[]).map(function(p){return '<div class="kp no">✗ '+esc(p)+'</div>';}).join('');
-              return '<div class="acc-item"><div class="acc-q">'+esc(a.client_question)+'</div><div class="acc-meta">matched: '+esc(a.matched_question)+' · '+esc(a.confidence)+' · '+a.accuracy+'/100</div><div class="acc-boxes"><div class="acc-box"><div class="box-label">Analyst Transcript</div><div class="box-text">"'+esc(a.agent_answer)+'"</div></div><div class="acc-box ideal"><div class="box-label">Ideal Answer</div><div class="box-text">"'+esc(a.ideal_answer)+'"</div></div></div>'+covered+missed+'</div>';
+              var covered = (a.covered||[]).map(function(p){return '<div class="kp ok">âœ“ '+esc(p)+'</div>';}).join('');
+              var missed = (a.missed||[]).map(function(p){return '<div class="kp no">âœ— '+esc(p)+'</div>';}).join('');
+              return '<div class="acc-item"><div class="acc-q">'+esc(a.client_question)+'</div><div class="acc-meta">matched: '+esc(a.matched_question)+' Â· '+esc(a.confidence)+' Â· '+a.accuracy+'/100</div><div class="acc-boxes"><div class="acc-box"><div class="box-label">Analyst Transcript</div><div class="box-text">"'+esc(a.agent_answer)+'"</div></div><div class="acc-box ideal"><div class="box-label">Ideal Answer</div><div class="box-text">"'+esc(a.ideal_answer)+'"</div></div></div>'+covered+missed+'</div>';
             }).join('');
           }
 
@@ -1166,10 +826,10 @@ def index():
             tok.innerHTML = '<div class="placeholder">No token data available.</div>';
           } else {
             var rows = (u.calls||[]).map(function(c){
-              return '<div class="row-line"><div class="rl-text">'+esc(c.label)+'</div><div class="rl-sub">'+c.input+' in · '+c.output+' out · '+(c.input+c.output)+' total</div></div>';
+              return '<div class="row-line"><div class="rl-text">'+esc(c.label)+'</div><div class="rl-sub">'+c.input+' in Â· '+c.output+' out Â· '+(c.input+c.output)+' total</div></div>';
             }).join('');
-            rows += '<div class="row-line"><div class="rl-text">Total</div><div class="rl-sub">'+u.input+' in · '+u.output+' out · <strong>'+u.total+' tokens</strong></div></div>';
-            tok.innerHTML = rows + '<div class="acc-meta">Gemma only — sentiment and rule/accuracy checks run locally with no tokens.</div>';
+            rows += '<div class="row-line"><div class="rl-text">Total</div><div class="rl-sub">'+u.input+' in Â· '+u.output+' out Â· <strong>'+u.total+' tokens</strong></div></div>';
+            tok.innerHTML = rows + '<div class="acc-meta">Gemma only â€” sentiment and rule/accuracy checks run locally with no tokens.</div>';
           }
 
           var tenseBlock = document.getElementById('tenseBlock');
