@@ -1,4 +1,4 @@
-"""PART 3 (built first): RoBERTa flags the intense moments in a call.
+﻿"""PART 3 (built first): RoBERTa flags the intense moments in a call.
 
 RoBERTa scores each line's sentiment. We use that to find where the call got
 tense/heated (strong negative emotion) so a later step can hand ONLY those
@@ -31,7 +31,6 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 
 from transformers import pipeline
 
-from tests.sample_call import TRANSCRIPT
 
 CONFIDENCE_THRESHOLD = float(os.getenv("SENTIMENT_CONFIDENCE_THRESHOLD", "0.6"))
 INTENSITY_THRESHOLD = float(os.getenv("SENTIMENT_INTENSITY_THRESHOLD", "-0.7"))

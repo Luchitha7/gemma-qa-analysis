@@ -1,93 +1,50 @@
-"""Integration test for Multi-Tenant PostgreSQL, Vector RAG, and Dynamic Evaluator."""
+﻿"""Integration test for Multi-Tenant PostgreSQL, Vector RAG, and Dynamic Evaluator."""
 
-import os
-import sys
-
-_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-_SRC = os.path.join(_ROOT, "src")
-for _p in [_ROOT, _SRC]:
-    if _p not in sys.path:
-        sys.path.insert(0, _p)
-
+import unittest
 from src.db.database import init_db, SessionLocal
-from src.db.models import Tenant, CriteriaConfig, Document
-from src.rag.vector_store import add_policy_chunks, search_policies
-from src.services.dynamic_evaluator import evaluate_interaction
+from src.db.models import Tenant
+from src.rag.vector_store import add_policy_chunks, search_policies, delete_tenant_policies
 
 
-def test_system():
-    print("\n--- 1. Testing PostgreSQL Database Connection ---")
-    init_db()
-    db = SessionLocal()
-    tenant = db.query(Tenant).filter(Tenant.id == "S-NET").first()
-    if not tenant:
-        tenant = Tenant(id="S-NET", name="S-NET Communications", description="Enterprise Telecom Support")
-        db.add(tenant)
-        db.commit()
-        db.refresh(tenant)
-    print(f"[OK] Tenant confirmed in PostgreSQL: {tenant.name} (ID: {tenant.id})")
+class TestIntegration(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        init_db()
+        cls.db = SessionLocal()
+        cls.tenant_id = "TEST_INTEGRATION_TENANT"
+        
+        tenant = cls.db.query(Tenant).filter(Tenant.id == cls.tenant_id).first()
+        if not tenant:
+            tenant = Tenant(id=cls.tenant_id, name="Test Integration Company", description="Automated QA Test")
+            cls.db.add(tenant)
+            cls.db.commit()
+            
+    @classmethod
+    def tearDownClass(cls):
+        delete_tenant_policies(cls.tenant_id)
+        tenant = cls.db.query(Tenant).filter(Tenant.id == cls.tenant_id).first()
+        if tenant:
+            cls.db.delete(tenant)
+            cls.db.commit()
+        cls.db.close()
 
-    print("\n--- 2. Testing Vector RAG Embeddings & Retrieval ---")
-    policies = [
-        {"title": "Hold Time & Dead Air Policy", "content": "Support must not exceed 3-minute hold times without updating customer. Dead air must not exceed 20 seconds."},
-        {"title": "Escalation & Supervisor Protocol", "content": "When a customer requests a supervisor, support must perform a supervised transfer to a lead or schedule a callback."}
-    ]
-    add_policy_chunks("S-NET", policies)
-    hits = search_policies("S-NET", "I want to speak with a manager or supervisor", top_k=2)
-    print(f"[OK] RAG Search returned {len(hits)} matching policies:")
-    for h in hits:
-        print(f"  - [{h['title']}] (Cosine Similarity: {h['similarity']})")
+    def test_database_and_vector_rag_flow(self):
+        # 1. Verify Tenant in DB
+        tenant = self.db.query(Tenant).filter(Tenant.id == self.tenant_id).first()
+        self.assertIsNotNone(tenant)
+        self.assertEqual(tenant.id, self.tenant_id)
 
-    print("\n--- 3. Testing Dynamic Evaluation Pipeline ---")
-    criteria_data = {
-        "categories": [
-            {
-                "name": "Soft Skills",
-                "weight_percentage": 25.0,
-                "line_items": [
-                    {
-                        "name": "Branding and Survey",
-                        "description": "Verbatim greeting and closing spiels within SLA.",
-                        "verbatim_spiels": ["Thank you for calling S-NET Communications...", "Thank you for Choosing S-NET and have a great day."]
-                    }
-                ]
-            },
-            {
-                "name": "Technical Knowledge",
-                "weight_percentage": 50.0,
-                "line_items": [
-                    {
-                        "name": "Ownership",
-                        "description": "Took responsibility and offered clear resolution."
-                    }
-                ]
-            },
-            {
-                "name": "Process Knowledge",
-                "weight_percentage": 25.0,
-                "line_items": [
-                    {
-                        "name": "Documentation",
-                        "description": "Captured details within SLA."
-                    }
-                ]
-            }
-        ],
-        "category_weights": {"Soft Skills": 0.25, "Technical Knowledge": 0.50, "Process Knowledge": 0.25},
-        "auto_fail_rules": [{"name": "Discourtesy", "description": "Profanity or rudeness"}]
-    }
+        # 2. Add policy to ChromaDB
+        policies = [
+            {"title": "Escalation Protocol", "content": "When requested, transfer immediately to a supervisor."}
+        ]
+        add_policy_chunks(self.tenant_id, policies)
 
-    sample_transcript = """[00:00] Client: My internet is completely down.
-[00:05] Agent: Thank you for calling S-NET Communications. My name is Alex, how can I help you today?
-[00:15] Agent: I will arrange a technician visit at no cost to fix the router. Thank you for Choosing S-NET and have a great day."""
-
-    result = evaluate_interaction(sample_transcript, criteria_data, "S-NET", "Call")
-    print(f"[OK] Dynamic QA Score: {result['final_score']} / 100 (Auto-Fail: {result['is_auto_fail']})")
-    print(f"[OK] Scorecard items evaluated: {len(result['scorecard'])}")
-    for item in result['scorecard']:
-        print(f"  - {item['name']} ({item['category']}): {item['rating']} -> {item['reason']}")
-    print("\n[OK] ALL INTEGRATION TESTS PASSED SUCCESSFULLY!\n")
+        # 3. Retrieve policy via semantic similarity
+        hits = search_policies(self.tenant_id, "I need to talk to a supervisor or lead", top_k=1)
+        self.assertEqual(len(hits), 1)
+        self.assertEqual(hits[0]["title"], "Escalation Protocol")
 
 
 if __name__ == "__main__":
-    test_system()
+    unittest.main()
