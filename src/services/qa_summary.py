@@ -1,8 +1,6 @@
-"""PART 2: Gemma writes a plain summary of the whole call.
+﻿"""PART 2: Gemma writes a plain summary of the whole call.
 
 One small Gemma request -- just the summary, nothing else (keeps tokens low).
-
-    python qa_summary.py
 """
 
 import os
@@ -16,28 +14,14 @@ for _path in [_ROOT, _SRC, _TESTS]:
         sys.path.insert(0, _path)
 
 from src.core.gemma_client import gemma
-from tests.sample_call import TRANSCRIPT
 
+def load_summary_prompt():
+    prompt_path = os.getenv("PROMPT_SUMMARY_PATH", "resources/prompts/summary_prompt.txt")
+    full_path = os.path.join(_ROOT, prompt_path)
+    with open(full_path, "r", encoding="utf-8") as f:
+        return f.read()
 
 def format_transcript(transcript):
     return "\n".join(f"{speaker}: {text}" for speaker, text in transcript)
 
-
-SUMMARY_PROMPT = """You are a call quality analyst. Read this customer service call transcript and write a short, plain summary of what happened. Keep it to 3-4 sentences. Cover: why the client called, what the agent did, and how it ended. Do not add opinions or scores.
-
-Transcript:
-{transcript}
-"""
-
-
-if __name__ == "__main__":
-    transcript = format_transcript(TRANSCRIPT)
-
-    print("\n" + "=" * 78)
-    print("PART 2  —  CALL SUMMARY (Gemma)")
-    print("=" * 78)
-    print("\nAsking Gemma to summarize the call...\n")
-
-    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript))
-    print(summary)
-    print()
+SUMMARY_PROMPT = load_summary_prompt()

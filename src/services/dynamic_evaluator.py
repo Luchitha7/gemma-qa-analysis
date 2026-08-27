@@ -251,39 +251,23 @@ def build_dynamic_prompt(
         f"- Turn {m.get('turn')}: {m.get('text')}" for m in harsh_lines
     ) or "- (none)"
 
-    return f"""You are a STRICT Call Quality Assurance Auditor evaluating a {channel} interaction.
-Your task is to judge the AGENT against each specific evaluation line item according to company weights and policies.
-
-COMPANY EVALUATION CATEGORIES & WEIGHTS:
-{weights_str}
-
-COMPANY AUTO-FAIL ZERO-TOLERANCE CIRCUIT BREAKERS (Instant 0 Score):
-{auto_fail_str}
-
-RATING CRITERIA:
-- PASS: Agent met all requirements, was polite, helpful, and followed required spiels/policies.
-- PARTIAL: Agent was partially compliant, missed a spiel minorly, or showed minor delays.
-- FAIL: Agent was rude, unhelpful, failed policy, or refused to help.
-
-COMPANY POLICY CONTEXT (Retrieved from Knowledge Base):
-{policies_str}
-
-EVALUATION LINE ITEMS TO RATE (Grouped by Category & Weight):
-{criteria_str}
-
-FLAGGED TENSE MOMENTS:
-{intense_str}
-
-HARSH/NEGATIVE AGENT LINES (Weigh heavily for tone):
-{harsh_str}
-
-TRANSCRIPT:
-{transcript_text}
-
-OUTPUT FORMAT INSTRUCTIONS:
-Reply with ONE line per line item in this exact format:
-Line Item Name: PASS/PARTIAL/FAIL - Short specific audit reason.
-"""
+    import os
+    _ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+    prompt_path = os.getenv("PROMPT_DYNAMIC_EVALUATION_PATH", "resources/prompts/dynamic_evaluation_prompt.txt")
+    full_path = os.path.join(_ROOT, prompt_path)
+    with open(full_path, "r", encoding="utf-8") as f:
+        template = f.read()
+        
+    return template.format(
+        channel=channel,
+        weights_str=weights_str,
+        auto_fail_str=auto_fail_str,
+        policies_str=policies_str,
+        criteria_str=criteria_str,
+        intense_str=intense_str,
+        harsh_str=harsh_str,
+        transcript_text=transcript_text
+    )
 
 
 def parse_dynamic_ratings(reply: str, categories: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

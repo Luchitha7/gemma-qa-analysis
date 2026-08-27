@@ -68,26 +68,3 @@ def analyze(transcript):
     return rows
 
 
-if __name__ == "__main__":
-    rows = analyze(TRANSCRIPT)
-
-    print("\n" + "=" * 84)
-    print("FULL CALL  (RoBERTa sentiment per line, intense moments marked with >>)")
-    print("=" * 84)
-    print(f"{'':2} {'#':>2}  {'score':>6}  {'who':<7} line")
-    print("-" * 84)
-    for r in rows:
-        flag = ">>" if r["intense"] else "  "
-        print(f"{flag} {r['turn']:>2}  {r['sentiment']:>6.2f}  {r['speaker']:<7} {r['text'][:52]}")
-
-    intense = [r for r in rows if r["intense"]]
-
-    print("\n" + "=" * 84)
-    print(f"INTENSE MOMENTS  ({len(intense)} of {len(rows)} lines)")
-    print("=" * 84)
-    if not intense:
-        print("No strongly negative moments detected.")
-    for r in intense:
-        print(f"  Turn {r['turn']} ({r['speaker']}, sentiment {r['sentiment']:+.2f}): {r['text']}")
-
-    print()

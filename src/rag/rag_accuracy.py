@@ -98,23 +98,3 @@ def check_accuracy(transcript):
     return results, overall
 
 
-if __name__ == "__main__":
-    results, overall = check_accuracy(TRANSCRIPT)
-
-    print("\n" + "=" * 78)
-    print("ANSWER ACCURACY  (did the agent cover the key points from the RAG?)")
-    print("=" * 78)
-    if overall is None:
-        print("\nNo client questions matched the knowledge base.")
-    else:
-        print(f"\nOVERALL ANSWER ACCURACY: {overall} / 100\n")
-        for r in results:
-            print(f"  Client asked : {r['client_question']}")
-            print(f"  Matched      : {r['matched_question']} ({r['confidence']})")
-            print(f"  Accuracy     : {round(r['accuracy'] * 100, 1)} / 100")
-            if r["covered"]:
-                print(f"  Covered      : {', '.join(r['covered'])}")
-            if r["missed"]:
-                print(f"  Missed       : {', '.join(r['missed'])}")
-            print("-" * 78)
-    print()
