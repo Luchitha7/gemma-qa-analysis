@@ -9,3 +9,4 @@ weights.json
 
 # Local editor / preview tool config, not project source.
 .claude/
+.env
