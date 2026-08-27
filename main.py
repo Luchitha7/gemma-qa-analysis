@@ -3,7 +3,6 @@
 import os
 import sys
 
-# Ensure src/ and tests/ are in the python path for clean import resolution
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 SRC_DIR = os.path.join(ROOT_DIR, "src")
 TESTS_DIR = os.path.join(ROOT_DIR, "tests")
@@ -19,7 +18,7 @@ if __name__ == "__main__":
     load_dotenv()
     
     host = os.getenv("SERVER_HOST", "0.0.0.0")
-    port = int(os.getenv("SERVER_PORT", "8000"))
+    port = int(os.getenv("SERVER_PORT"))
     
     print(f"Starting Gemma QA Analysis Web Server on http://{host}:{port}...")
     from api.web_app import app
