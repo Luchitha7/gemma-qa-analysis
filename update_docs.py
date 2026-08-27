@@ -1,4 +1,4 @@
-# SignalQA Multi-Tenant API Reference & Samples
+﻿content = """# SignalQA Multi-Tenant API Reference & Samples
 
 This document outlines the REST API for the **Multi-Tenant RAG QA Pipeline**. The backend runs on FastAPI.
 
@@ -90,7 +90,7 @@ Executes a dynamic QA audit using Gemma 3 4B, RoBERTa sentiment analysis, and Ch
 **Request:**
 `json
 {
-  "transcript": "[00:00] Agent: Thank you for calling S-NET support, my name is Alex. How can I help?\n[00:06] Client: I was charged twice for my subscription this month and I want it fixed.\n[00:09] Agent: I'm sorry to hear that. Let me pull up your account.",
+  "transcript": "[00:00] Agent: Thank you for calling S-NET support, my name is Alex. How can I help?\\n[00:06] Client: I was charged twice for my subscription this month and I want it fixed.\\n[00:09] Agent: I'm sorry to hear that. Let me pull up your account.",
   "channel": "Call",
   "agent_name": "Alex"
 }
@@ -161,3 +161,8 @@ Retrieves the historical log of QA audits stored in PostgreSQL.
   }
 ]
 `
+"""
+import os
+os.makedirs("docs", exist_ok=True)
+with open("docs/api_samples.md", "w", encoding="utf-8") as f:
+    f.write(content)
