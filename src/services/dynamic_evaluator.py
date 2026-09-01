@@ -15,7 +15,7 @@ from src.services.response_time import (
     leading_time_seconds, response_delays, response_time_score,
 )
 
-RATING_SCORES = {"PASS": 100, "PARTIAL": 50, "FAIL": 0}
+RATING_SCORES = {"PASS": 100,  "FAIL": 0}
 
 
 def preview_evaluation_prompt(
