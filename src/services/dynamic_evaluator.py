@@ -8,7 +8,7 @@ import re
 from typing import Dict, Any, List, Optional
 from src.core.gemma_client import gemma
 from src.services.qa_intensity import analyze, INTENSITY_THRESHOLD
-from src.services.qa_summary import SUMMARY_PROMPT
+from src.services.qa_summary import SUMMARY_PROMPT, generate_scalable_summary
 from src.services.qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
 from src.rag.vector_store import search_policies
 from src.services.response_time import (
@@ -47,10 +47,9 @@ def preview_evaluation_prompt(
         if r.get("speaker", "").lower() == "agent" and r.get("sentiment", 0) <= INTENSITY_THRESHOLD
     ]
 
-    # 3. Vector RAG Policy Search
-    client_queries = [txt for spk, txt in turns if spk.lower() in {"client", "customer", "caller"}]
-    combined_query = " ".join(client_queries[:3]) if client_queries else transcript_text[:300]
-    matched_policies = search_policies(tenant_id, combined_query, top_k=3)
+    # 3. Vector RAG Policy Search via LLM Summary
+    summary = generate_scalable_summary(transcript_text)
+    matched_policies = search_policies(tenant_id, summary, top_k=3)
 
     # 4. Extract Criteria Line Items and Weights
     categories = criteria_data.get("categories", [])
@@ -129,10 +128,9 @@ def evaluate_interaction(
         if r.get("speaker", "").lower() == "agent" and r.get("sentiment", 0) <= INTENSITY_THRESHOLD
     ]
 
-    # 3. Vector RAG Policy Search
-    client_queries = [txt for spk, txt in turns if spk.lower() in {"client", "customer", "caller"}]
-    combined_query = " ".join(client_queries[:3]) if client_queries else transcript_text[:300]
-    matched_policies = search_policies(tenant_id, combined_query, top_k=3)
+    # 3. Vector RAG Policy Search via LLM Summary
+    summary = generate_scalable_summary(transcript_text)
+    matched_policies = search_policies(tenant_id, summary, top_k=3)
 
     # 4. Extract Criteria Line Items and Weights
     categories = criteria_data.get("categories", [])
@@ -174,8 +172,7 @@ def evaluate_interaction(
     # 8. Mathematical Scoring Engine
     category_scores, blended_score = calculate_category_scores(ratings, category_weights, is_auto_fail)
 
-    # 9. Summary & Suggestions
-    summary = gemma(SUMMARY_PROMPT.format(transcript=transcript_text), label="summary")
+    # 9. Suggestions
     suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text), label="suggestions"))
 
     return {
@@ -271,7 +268,7 @@ def build_dynamic_prompt(
 
 
 def parse_dynamic_ratings(reply: str, categories: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Parse PASS/PARTIAL/FAIL ratings from LLM output."""
+    """Parse PASS/FAIL ratings from LLM output."""
     ratings = []
     for cat in categories:
         cat_name = cat.get("name", "Category")
@@ -283,13 +280,13 @@ def parse_dynamic_ratings(reply: str, categories: List[Dict[str, Any]]) -> List[
             # Search in reply
             for line in reply.splitlines():
                 if name.lower() in line.lower() or name.split()[0].lower() in line.lower():
-                    match = re.search(r"\b(PASS|PARTIAL|FAIL)\b", line, re.IGNORECASE)
+                    match = re.search(r"\b(PASS|FAIL)\b", line, re.IGNORECASE)
                     if match:
                         rating = match.group(1).upper()
                         reason = line.split(match.group(0), 1)[-1].lstrip(" -:").strip()
                         break
 
-            score = RATING_SCORES.get(rating, 50)
+            score = RATING_SCORES.get(rating, 0)
             ratings.append({
                 "category": cat_name,
                 "name": name,
