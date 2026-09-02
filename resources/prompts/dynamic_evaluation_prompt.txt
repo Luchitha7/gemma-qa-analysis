@@ -17,15 +17,11 @@ COMPANY POLICY CONTEXT (Retrieved from Knowledge Base):
 EVALUATION LINE ITEMS TO RATE (Grouped by Category & Weight):
 {criteria_str}
 
-FLAGGED TENSE MOMENTS:
-{intense_str}
-
-HARSH/NEGATIVE AGENT LINES (Weigh heavily for tone):
-{harsh_str}
-
 TRANSCRIPT:
 {transcript_text}
 
 OUTPUT FORMAT INSTRUCTIONS:
-Reply with ONE line per line item in this exact format:
+First, list any highly intense or tense moments (frustration, hostility) under the heading "INTENSE MOMENTS". If none, write "None".
+Second, list any harsh or negative statements made by the agent under the heading "HARSH AGENT LINES". If none, write "None".
+Finally, under the heading "SCORECARD", reply with ONE line per line item in this exact format:
 Line Item Name: PASS/FAIL - Short specific audit reason.

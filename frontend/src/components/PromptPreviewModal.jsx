@@ -34,7 +34,7 @@ export default function PromptPreviewModal({
               </span>
             </div>
             <p className="text-xs text-slate-500 mt-0.5">
-              Review and approve the exact prompt built from your company guideline, RAG policies, and RoBERTa tone markers.
+              Review and approve the exact prompt built from your company guideline and RAG policies.
             </p>
           </div>
           <button
@@ -53,9 +53,6 @@ export default function PromptPreviewModal({
             </span>
             <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700 font-semibold flex items-center gap-1.5">
               <Sparkles size={13} className="text-indigo-600" /> Line Items: {previewData.line_items_count || 0}
-            </span>
-            <span className="bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700 font-semibold flex items-center gap-1.5">
-              <ShieldAlert size={13} className="text-rose-600" /> Tense Turns Flagged: {previewData.intense_moments ? previewData.intense_moments.length : 0}
             </span>
           </div>
 

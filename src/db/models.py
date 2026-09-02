@@ -58,7 +58,7 @@ class EvaluationReport(Base):
     final_score = Column(Float, nullable=False)
     is_auto_fail = Column(Boolean, default=False)
     scorecard_json = Column(JSON, nullable=True)  # [{name, rating, score, reason}]
-    sentiment_json = Column(JSON, nullable=True)  # RoBERTa sentiment line scores & tense moments
+    sentiment_json = Column(JSON, nullable=True)  # LLM flagged tense moments and harsh lines
     rag_matches_json = Column(JSON, nullable=True)  # Retrieved policy chunks and accuracy
     summary = Column(Text, nullable=True)
     suggestions = Column(Text, nullable=True)

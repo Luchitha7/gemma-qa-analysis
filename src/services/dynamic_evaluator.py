@@ -1,13 +1,12 @@
 """Dynamic Multi-Tenant QA Evaluator Module.
 
-Combines RoBERTa sentiment analysis, ChromaDB policy RAG retrieval, and
-Gemma 3 4B reasoning against dynamic company criteria schemas.
+Combines ChromaDB policy RAG retrieval and Gemma 3 4B reasoning 
+against dynamic company criteria schemas.
 """
 
 import re
 from typing import Dict, Any, List, Optional
 from src.core.gemma_client import gemma
-from src.services.qa_intensity import analyze, INTENSITY_THRESHOLD
 from src.services.qa_summary import SUMMARY_PROMPT, generate_scalable_summary
 from src.services.qa_suggestions import SUGGESTIONS_PROMPT, clean_suggestions
 from src.rag.vector_store import search_policies
@@ -39,19 +38,11 @@ def preview_evaluation_prompt(
     if not turns:
         turns = [("Agent", transcript_text)]
 
-    # 2. RoBERTa Tone & Intensity Analysis
-    sentiment_rows = analyze(turns)
-    intense_moments = [r for r in sentiment_rows if r.get("intense")]
-    harsh_agent_lines = [
-        r for r in sentiment_rows
-        if r.get("speaker", "").lower() == "agent" and r.get("sentiment", 0) <= INTENSITY_THRESHOLD
-    ]
-
-    # 3. Vector RAG Policy Search via LLM Summary
+    # 2. Vector RAG Policy Search via LLM Summary
     summary = generate_scalable_summary(transcript_text)
     matched_policies = search_policies(tenant_id, summary, top_k=3)
 
-    # 4. Extract Criteria Line Items and Weights
+    # 3. Extract Criteria Line Items and Weights
     categories = criteria_data.get("categories", [])
     category_weights = criteria_data.get("category_weights", {})
     auto_fail_rules = criteria_data.get("auto_fail_rules", [])
@@ -70,22 +61,18 @@ def preview_evaluation_prompt(
         ]
         category_weights = {"General Handling": 1.0}
 
-    # 5. Build Dynamic Scorecard Prompt
+    # 4. Build Dynamic Scorecard Prompt
     scorecard_prompt = build_dynamic_prompt(
         transcript_text=transcript_text,
         categories=categories,
         auto_fail_rules=auto_fail_rules,
         matched_policies=matched_policies,
-        intense_moments=intense_moments,
-        harsh_lines=harsh_agent_lines,
         channel=channel
     )
 
     return {
         "prompt": scorecard_prompt,
         "matched_policies": matched_policies,
-        "intense_moments": intense_moments,
-        "harsh_agent_lines": harsh_agent_lines,
         "categories_count": len(categories),
         "line_items_count": sum(len(c.get("line_items", [])) for c in categories),
         "channel": channel,
@@ -120,19 +107,11 @@ def evaluate_interaction(
         turns = [("Agent", transcript_text)]
         parsed_times = [None]
 
-    # 2. RoBERTa Tone & Intensity Analysis
-    sentiment_rows = analyze(turns)
-    intense_moments = [r for r in sentiment_rows if r.get("intense")]
-    harsh_agent_lines = [
-        r for r in sentiment_rows
-        if r.get("speaker", "").lower() == "agent" and r.get("sentiment", 0) <= INTENSITY_THRESHOLD
-    ]
-
-    # 3. Vector RAG Policy Search via LLM Summary
+    # 2. Vector RAG Policy Search via LLM Summary
     summary = generate_scalable_summary(transcript_text)
     matched_policies = search_policies(tenant_id, summary, top_k=3)
 
-    # 4. Extract Criteria Line Items and Weights
+    # 3. Extract Criteria Line Items and Weights
     categories = criteria_data.get("categories", [])
     category_weights = criteria_data.get("category_weights", {})
     auto_fail_rules = criteria_data.get("auto_fail_rules", [])
@@ -151,28 +130,27 @@ def evaluate_interaction(
         ]
         category_weights = {"General Handling": 1.0}
 
-    # 5. Use custom_prompt if supplied by user approval, otherwise build it
+    # 4. Use custom_prompt if supplied by user approval, otherwise build it
     scorecard_prompt = custom_prompt if custom_prompt else build_dynamic_prompt(
         transcript_text=transcript_text,
         categories=categories,
         auto_fail_rules=auto_fail_rules,
         matched_policies=matched_policies,
-        intense_moments=intense_moments,
-        harsh_lines=harsh_agent_lines,
         channel=channel
     )
 
-    # 6. Gemma LLM Evaluation
+    # 5. Gemma LLM Evaluation
     llm_reply = gemma(scorecard_prompt, label="dynamic_scorecard")
     ratings = parse_dynamic_ratings(llm_reply, categories)
+    intense_moments, harsh_agent_lines = parse_llm_intensity(llm_reply)
 
-    # 7. Check Auto-Fail Triggers
+    # 6. Check Auto-Fail Triggers
     is_auto_fail, auto_fail_reason = check_auto_fail(transcript_text, harsh_agent_lines, auto_fail_rules)
 
-    # 8. Mathematical Scoring Engine
+    # 7. Mathematical Scoring Engine
     category_scores, blended_score = calculate_category_scores(ratings, category_weights, is_auto_fail)
 
-    # 9. Suggestions
+    # 8. Suggestions
     suggestions = clean_suggestions(gemma(SUGGESTIONS_PROMPT.format(transcript=transcript_text), label="suggestions"))
 
     return {
@@ -182,7 +160,7 @@ def evaluate_interaction(
         "category_scores": category_scores,
         "scorecard": ratings,
         "sentiment_analysis": {
-            "rows": sentiment_rows,
+            "rows": [],
             "intense_moments": intense_moments,
             "harsh_agent_lines": harsh_agent_lines
         },
@@ -191,14 +169,41 @@ def evaluate_interaction(
         "suggestions": suggestions
     }
 
+def parse_llm_intensity(reply: str) -> (List[Dict[str, Any]], List[Dict[str, Any]]):
+    """Parse intense moments and harsh lines from the LLM scorecard reply."""
+    intense_moments = []
+    harsh_lines = []
+    
+    current_section = None
+    for line in reply.splitlines():
+        clean_line = line.strip()
+        upper_line = clean_line.upper()
+        
+        if "INTENSE MOMENTS" in upper_line:
+            current_section = "intense"
+            continue
+        elif "HARSH AGENT LINES" in upper_line:
+            current_section = "harsh"
+            continue
+        elif "SCORECARD" in upper_line or "PASS" in upper_line or "FAIL" in upper_line:
+            if "SCORECARD" in upper_line:
+                current_section = None
+        
+        if not clean_line or clean_line.lower() == "none" or clean_line == "- none" or clean_line == "-":
+            continue
+            
+        if current_section == "intense" and len(clean_line) > 5:
+            intense_moments.append({"turn": "?", "speaker": "?", "text": clean_line.lstrip("-* "), "sentiment": -1.0, "intense": True})
+        elif current_section == "harsh" and len(clean_line) > 5:
+            harsh_lines.append({"turn": "?", "speaker": "Agent", "text": clean_line.lstrip("-* "), "sentiment": -1.0, "intense": True})
+            
+    return intense_moments, harsh_lines
 
 def build_dynamic_prompt(
     transcript_text: str,
     categories: List[Dict[str, Any]],
     auto_fail_rules: List[Dict[str, Any]],
     matched_policies: List[Dict[str, Any]],
-    intense_moments: List[Dict[str, Any]],
-    harsh_lines: List[Dict[str, Any]],
     channel: str
 ) -> str:
     """Construct dynamic LLM prompt tailored to tenant criteria with explicit weights and sanitized formatting."""
@@ -240,14 +245,6 @@ def build_dynamic_prompt(
         for p in matched_policies
     ) or "• No specific policy override found."
 
-    intense_str = "\n".join(
-        f"- Turn {m.get('turn')} ({m.get('speaker')}): {m.get('text')}" for m in intense_moments
-    ) or "- (none flagged)"
-
-    harsh_str = "\n".join(
-        f"- Turn {m.get('turn')}: {m.get('text')}" for m in harsh_lines
-    ) or "- (none)"
-
     import os
     _ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     prompt_path = os.getenv("PROMPT_DYNAMIC_EVALUATION_PATH", "resources/prompts/dynamic_evaluation_prompt.txt")
@@ -261,8 +258,6 @@ def build_dynamic_prompt(
         auto_fail_str=auto_fail_str,
         policies_str=policies_str,
         criteria_str=criteria_str,
-        intense_str=intense_str,
-        harsh_str=harsh_str,
         transcript_text=transcript_text
     )
 

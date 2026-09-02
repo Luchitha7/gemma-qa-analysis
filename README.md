@@ -1,7 +1,7 @@
 # 🚀 Multi-Tenant Automated QA Intelligence Platform
 
 > **Production-grade AI-powered Quality Assurance platform for enterprise contact centers.**  
-> Automatically ingests company guideline PDFs into lossless Markdown, dynamically extracts custom criteria weights and auto-fail rules, indexes operational policies into ChromaDB Vector RAG, and audits omni-channel customer interactions (Calls, Emails, Chats) using **Gemma 3 4B** and **RoBERTa Sentiment Analysis**.
+> Automatically ingests company guideline PDFs into lossless Markdown, dynamically extracts custom criteria weights and auto-fail rules, indexes operational policies into ChromaDB Vector RAG, and audits omni-channel customer interactions (Calls, Emails, Chats) using **Gemma 3 4B** and **
 
 ---
 
@@ -39,7 +39,7 @@ The system follows a modular microservice architecture separating document proce
 2. **Criteria & Policy Extraction**: Gemma 3 4B parses weights, criteria categories, verbatim scripts, and auto-fail rules into structured JSON.
 3. **Vector Indexing**: Operational policies are chunked and indexed into ChromaDB with `all-MiniLM-L6-v2` dense embeddings.
 4. **Interaction Analysis**:
-   - **RoBERTa** evaluates sentiment intensity and flags negative agent/customer spikes.
+   - ** and flags negative agent/customer spikes.
    - **ChromaDB RAG** fetches relevant policy context for the specific interaction scenario.
    - **Gemma 3 4B** evaluates agent compliance against extracted criteria and policy evidence.
 5. **Deterministic Scorecard**: Final scores are calculated via strict weighted formulas with instant zero-tolerance auto-fail enforcement.
@@ -52,7 +52,7 @@ The system follows a modular microservice architecture separating document proce
 - **Lossless PDF-to-Markdown Ingestion**: Ingests complex multi-page guidelines while preserving tables, percentages, and formatting.
 - **Dynamic Rule Extraction (Zero Hardcoding)**: Automatically extracts scoring weights (e.g., 30%/45%/25%), line items, scripts, and auto-fail circuit breakers directly from guidelines.
 - **Vector Policy Knowledge Base (ChromaDB)**: Performs semantic search over SLAs, hold policies, verification protocols, and CRM requirements.
-- **RoBERTa Sentiment & Intensity Analysis**: Detects high-tension exchanges, customer frustration, and harsh agent responses to justify tone deductions.
+- ** Analysis**: Detects high-tension exchanges, customer frustration, and harsh agent responses to justify tone deductions.
 - **Dynamic Prompt Builder & UI Preview**: Allows QA auditors to inspect, edit, or copy the generated LLM prompt before triggering evaluation.
 - **Deterministic Mathematical Scorecard**:
   $$\text{Final Score} = \sum (\text{Category Score} \times \text{Weight})$$
@@ -68,7 +68,7 @@ The system follows a modular microservice architecture separating document proce
 | **Backend API** | FastAPI, Uvicorn, Pydantic |
 | **Frontend UI** | React, Vite, TailwindCSS, Lucide Icons |
 | **LLM Inference** | Ollama (`gemma3:4b`) |
-| **Sentiment Analysis** | Hugging Face Transformers (`cardiffnlp/twitter-roberta-base-sentiment-latest`), PyTorch |
+| **Sentiment Analysis** | Hugging Face Transformers (`cardiffnlp/twitter-
 | **Vector Database & RAG** | ChromaDB, Sentence-Transformers (`all-MiniLM-L6-v2`) |
 | **Relational Database** | PostgreSQL 17, SQLAlchemy, Psycopg2 |
 | **Document Processing** | PyMuPDF (fitz), PyPDF, ReportLab |
@@ -107,7 +107,7 @@ gemma-qa-analysis/
 │   │   └── vector_store.py          # ChromaDB vector store client
 │   └── services/
 │       ├── dynamic_evaluator.py     # Evaluation orchestrator & scorecard calculator
-│       ├── qa_intensity.py          # RoBERTa sentiment intensity analyzer
+│       ├── qa_intensity.py          #  analyzer
 │       ├── qa_summary.py            # Interaction executive summarization
 │       ├── qa_suggestions.py        # Coaching recommendations generator
 │       └── response_time.py         # Transcript timestamp and latency analyzer
@@ -195,7 +195,7 @@ Key configuration parameters in `.env`:
 | `GEMMA_MODEL` | `gemma3:4b` | Gemma LLM model identifier |
 | `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | Sentence-Transformers embedding model |
 | `CHROMA_PERSIST_DIR` | `vector_data` | Directory for persistent vector storage |
-| `SENTIMENT_MODEL` | `cardiffnlp/twitter-roberta-base-sentiment-latest` | RoBERTa sentiment model |
+| `SENTIMENT_MODEL` | `cardiffnlp/twitter-
 | `SERVER_PORT` | `8000` | FastAPI server port |
 
 ---
